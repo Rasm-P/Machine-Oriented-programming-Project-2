@@ -23,7 +23,16 @@ int main () {
                           '7', '8', '9', 'T', 'J', 'Q', 'K'};
     char faceStr [4] = {'C', 'D', 'H', 'K'};
 
+    node* ushuffledDeck = malloc(sizeof(node));
+    insertCardDeck(ushuffledDeck);
 
+    node* C1 = malloc(sizeof(node));
+    node* C2 = malloc(sizeof(node));
+    node* C3 = malloc(sizeof(node));
+    node* C4 = malloc(sizeof(node));
+    node* C5 = malloc(sizeof(node));
+    node* C6 = malloc(sizeof(node));
+    node* C7 = malloc(sizeof(node));
 
 
     return 0;
