@@ -14,6 +14,8 @@ typedef struct node {
 }node;
 
 void insertElement(node** root, char suit, char face, int hidden);
+void insertCardDeck(node* cardDeck);
+
 
 int main () {
 
