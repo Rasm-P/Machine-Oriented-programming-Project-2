@@ -13,6 +13,8 @@ typedef struct node {
 
 }node;
 
+void insertElement(node** root, char suit, char face, int hidden);
+
 int main () {
 
     char suitStr [13] = { 'A', '2', '3', '4', '5', '6',
@@ -20,5 +22,26 @@ int main () {
     char faceStr [4] = {'C', 'D', 'H', 'K'};
 
 
+
+
     return 0;
+}
+
+
+void insertElement(node** root, char suit, char face, int hidden) {
+
+    node* newNode = malloc(sizeof(node));
+    newNode -> next = NULL;
+    newNode -> suit = suit;
+    newNode -> face = face;
+    newNode -> hidden = hidden;
+
+    node* current = *root;
+    while (current -> next != NULL) {
+
+        current = current -> next;
+    }
+
+    current -> next = newNode;
+
 }
