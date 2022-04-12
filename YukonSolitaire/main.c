@@ -59,7 +59,7 @@ void insertElement(node** root, char suit, char face, int hidden) {
 
 }
 
-insertCardDeck(node* cardDeck) {
+void insertCardDeck(node* cardDeck) {
 
 char suitStr[13] = {'A' ,'2', '3', '4', '5', '6', '7', '8', '9',
                     'T', 'J', 'Q', 'K'};
