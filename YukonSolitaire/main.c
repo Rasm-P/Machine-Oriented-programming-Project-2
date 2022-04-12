@@ -76,6 +76,17 @@ void insertBlocks(char suitStr[], char faceStr[], node* C1, node* C2, node* C3, 
     int k = 51;
     int i = 0;
 
+    while ( i < 52 ) {
+        insertElement( &C1, suitStr [i % 13], faceStr [i % 4], 0);
+        i++;
+
+        if (i > k) {
+            break;
+        }
+
+
+    }
+
 
 
 
