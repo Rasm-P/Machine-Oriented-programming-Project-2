@@ -1,3 +1,14 @@
 # ninja log v5
-0	25	1649775118902899698	CMakeFiles/Machine_Oriented_programming_Project_2.dir/YukonSolitaire/main.c.o	9c3e2001d9ce21d9
 25	46	1649775118922899697	Machine_Oriented_programming_Project_2	48f6aff15b8663a0
+0	243	6715585524996394	CMakeFiles/Machine_Oriented_programming_Project_2.dir/YukonSolitaire/main.c.obj	a2eb824010a4f0fc
+244	526	6715585527816390	Machine_Oriented_programming_Project_2.exe	38c7c502fcc563e4
+2	127	6715594365695782	CMakeFiles/Machine_Oriented_programming_Project_2.dir/YukonSolitaire/main.c.obj	a2eb824010a4f0fc
+128	275	6715594367125752	Machine_Oriented_programming_Project_2.exe	38c7c502fcc563e4
+2	100	6715595545883272	CMakeFiles/Machine_Oriented_programming_Project_2.dir/YukonSolitaire/main.c.obj	a2eb824010a4f0fc
+101	233	6715595547173577	Machine_Oriented_programming_Project_2.exe	38c7c502fcc563e4
+2	93	6715595664029686	CMakeFiles/Machine_Oriented_programming_Project_2.dir/YukonSolitaire/main.c.obj	a2eb824010a4f0fc
+94	219	6715595665229678	Machine_Oriented_programming_Project_2.exe	38c7c502fcc563e4
+2	93	6715596088307384	CMakeFiles/Machine_Oriented_programming_Project_2.dir/YukonSolitaire/main.c.obj	a2eb824010a4f0fc
+93	237	6715596089657370	Machine_Oriented_programming_Project_2.exe	38c7c502fcc563e4
+1	89	6715596520162013	CMakeFiles/Machine_Oriented_programming_Project_2.dir/YukonSolitaire/main.c.obj	a2eb824010a4f0fc
+90	220	6715596521401999	Machine_Oriented_programming_Project_2.exe	38c7c502fcc563e4

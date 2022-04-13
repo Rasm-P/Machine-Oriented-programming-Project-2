@@ -188,7 +188,7 @@ void insertBlocks(char suitStr[], char faceStr[], node* C1, node* C2, node* C3, 
             break;
         }
         insertElement(&C7, suitStr [i % 13], faceStr [i % 4], 0);
-        i++
+        i++;
 
         if (i > k) {
             break;
