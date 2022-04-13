@@ -37,30 +37,6 @@ int main () {
 
     insertBlocks(suitStr, faceStr, C1, C2, C3, C4, C5, C6, C7);
 
-    char userInput [20] = {0};
-    char exit [] = "QQ";
-    char brackets [] = "LD";
-    char wrongCommand [] = "Command does not exist!";
-    char correctCommand [] = "OK";
-
-    int hasNext = 0;
-    while (hasNext == 0) {
-        char message [30];
-
-        if (userInput[0] != 0) {
-            printf("\nLast Command: %s\n", userInput);
-            printf("Message: %s\n", message);
-
-        } else {
-            printf("\nLast Command:\n");
-            printf("Message:\n");
-        }
-
-        printf("INPUT >");
-        scanf("%s", userInput);
-        printf("\n");
-    }
-
     return 0;
 }
 
@@ -140,11 +116,22 @@ void insertBlocks(char suitStr[], char faceStr[], node* C1, node* C2, node* C3, 
             break;
         }
         insertElement(&C7, suitStr [i % 13], faceStr [i % 4], 0);
-        i++
+        i++;
 
         if (i > k) {
             break;
         }
+    }
+
+
+}
+
+void displayCardDeck(node* cardDeck) {
+
+    printf("C1\tC2\tC3\tC4\tC5\tC6\tC7\n\n");
+
+    if (cardDeck == NULL) {
+        return;
     }
 
 
