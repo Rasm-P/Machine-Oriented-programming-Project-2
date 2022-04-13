@@ -35,6 +35,8 @@ int main () {
     node* C6 = malloc(sizeof(node));
     node* C7 = malloc(sizeof(node));
 
+    insertBlocks(suitStr, faceStr, C1, C2, C3, C4, C5, C6, C7);
+
 
 
     return 0;
