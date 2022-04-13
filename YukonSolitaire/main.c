@@ -37,6 +37,12 @@ int main () {
 
     insertBlocks(suitStr, faceStr, C1, C2, C3, C4, C5, C6, C7);
 
+    char userInput [20] = {0};
+    char exit [] = "QQ";
+    char brackets [] = "LD";
+    char wrongCommand [] = "Command does not exist!";
+    char correctCommand [] = "OK";
+
 
 
     return 0;
@@ -124,9 +130,6 @@ void insertBlocks(char suitStr[], char faceStr[], node* C1, node* C2, node* C3, 
             break;
         }
     }
-
-
-
 
 
 }
