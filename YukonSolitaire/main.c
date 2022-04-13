@@ -43,7 +43,23 @@ int main () {
     char wrongCommand [] = "Command does not exist!";
     char correctCommand [] = "OK";
 
+    int hasNext = 0;
+    while (hasNext == 0) {
+        char message [30];
 
+        if (userInput[0] != 0) {
+            printf("\nLast Command: %s\n", userInput);
+            printf("Message: %s\n", message);
+
+        } else {
+            printf("\nLast Command:\n");
+            printf("Message:\n");
+        }
+
+        printf("INPUT >");
+        scanf("%s", userInput);
+        printf("\n");
+    }
 
     return 0;
 }
