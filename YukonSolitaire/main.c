@@ -1,6 +1,5 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <string.h>
 #include <stdbool.h>
 #define MAX_STRING 20
 #define LIMIT 10000
@@ -23,18 +22,26 @@ int main() {
     char faceStr [4] = {'C', 'D', 'H', 'K'};
 
     node* ushuffledDeck = malloc(sizeof(node));
+    ushuffledDeck -> next = NULL;
     insertCardDeck(ushuffledDeck);
 
     node* C1 = malloc(sizeof(node));
+    C1 -> next = NULL;
     node* C2 = malloc(sizeof(node));
+    C2 -> next = NULL;
     node* C3 = malloc(sizeof(node));
+    C3 -> next = NULL;
     node* C4 = malloc(sizeof(node));
+    C4 -> next = NULL;
     node* C5 = malloc(sizeof(node));
+    C5 -> next = NULL;
     node* C6 = malloc(sizeof(node));
+    C6 -> next = NULL;
     node* C7 = malloc(sizeof(node));
+    C7 -> next = NULL;
 
     insertBlocks(suitStr, faceStr, C1, C2, C3, C4, C5, C6, C7);
-  
+
 
     bool isRunning = true;
     char lastCommand[MAX_STRING] = {0};
@@ -123,7 +130,6 @@ void insertElement(node** root, char suit, char face, int hidden) {
 
     node* current = *root;
     while (current -> next != NULL) {
-
         current = current -> next;
     }
 
@@ -133,14 +139,14 @@ void insertElement(node** root, char suit, char face, int hidden) {
 
 void insertCardDeck(node* cardDeck) {
 
-char suitStr[13] = {'A' ,'2', '3', '4', '5', '6', '7', '8', '9',
-                    'T', 'J', 'Q', 'K'};
-char faceStr[4] = {'C', 'D', 'H', 'S'};
+    char suitStr[13] = {'A' ,'2', '3', '4', '5', '6', '7', '8', '9',
+                        'T', 'J', 'Q', 'K'};
+    char faceStr[4] = {'C', 'D', 'H', 'S'};
 
-for(int i = 0; i < 52; ++i) {
+    for(int i = 0; i < 52; ++i) {
 
-insertElement( &cardDeck, suitStr[i%13], faceStr[i%4], 0);
-}
+        insertElement( &cardDeck, suitStr[i%13], faceStr[i%4], 0);
+    }
 
 }
 
