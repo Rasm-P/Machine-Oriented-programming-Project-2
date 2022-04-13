@@ -84,8 +84,43 @@ void insertBlocks(char suitStr[], char faceStr[], node* C1, node* C2, node* C3, 
         if (i > k) {
             break;
         }
+        insertElement( &C2, suitStr [ i % 13], faceStr [i % 4], 0);
+        i++;
 
+        if (i > k) {
+            break;
+        }
+        insertElement(&C3, suitStr [i % 13], faceStr [i % 4], 0);
+        i++;
 
+        if (i > k) {
+            break;
+
+        }
+        insertElement(&C4, suitStr [i % 13], faceStr [i % 4], 0);
+        i++;
+
+        if (i > k )  {
+            break;
+        }
+        insertElement(&C5, suitStr [i % 13], faceStr [i % 4], 0);
+        i++;
+
+        if (i > k) {
+            break;
+        }
+        insertElement(&C6, suitStr[i % 13], faceStr [i % 4], 0);
+        i++;
+
+        if (i > k) {
+            break;
+        }
+        insertElement(&C7, suitStr [i % 13], faceStr [i % 4], 0);
+        i++
+
+        if (i > k) {
+            break;
+        }
     }
 
 
