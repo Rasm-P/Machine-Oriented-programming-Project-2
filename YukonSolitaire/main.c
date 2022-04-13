@@ -1,46 +1,203 @@
+#include <stdlib.h>
 #include <stdio.h>
-#include  <stdlib.h>
+#include <stdbool.h>
+#define MAX_STRING 20
+#define LIMIT 10000
 
-
-struct node {
-    int value;
-
+typedef struct node {
+    char suit;
+    char face;
+    int hidden;
     struct node* next;
+}node;
 
-};
-
-typedef struct node node_t;
-
-
-void printlist(node_t *head) {
-
-    node_t *temporary = head;
-
-    while (temporary != NULL) {
-
-        printf("%d - ", temporary->value);
-        temporary = temporary->next;
-    }
-    printf("\n");
-}
+int LD(char lastCommand[]);
+void insertElement(node** root, char suit, char face, int hidden);
+void insertCardDeck(node* cardDeck);
+void insertBlocks(char suitStr[], char faceStr[], node* C1, node* C2, node* C3, node* C4, node* C5, node* C6, node* C7);
 
 int main() {
+    char suitStr [13] = { 'A', '2', '3', '4', '5', '6',
+                          '7', '8', '9', 'T', 'J', 'Q', 'K'};
+    char faceStr [4] = {'C', 'D', 'H', 'K'};
 
-    node_t n1, n2, n3;
-    node_t *head;
+    node* ushuffledDeck = malloc(sizeof(node));
+    ushuffledDeck -> next = NULL;
+    insertCardDeck(ushuffledDeck);
 
-    n1.value  = 20;
-    n2.value = 21;
-    n3.value  =22;
+    node* C1 = malloc(sizeof(node));
+    C1 -> next = NULL;
+    node* C2 = malloc(sizeof(node));
+    C2 -> next = NULL;
+    node* C3 = malloc(sizeof(node));
+    C3 -> next = NULL;
+    node* C4 = malloc(sizeof(node));
+    C4 -> next = NULL;
+    node* C5 = malloc(sizeof(node));
+    C5 -> next = NULL;
+    node* C6 = malloc(sizeof(node));
+    C6 -> next = NULL;
+    node* C7 = malloc(sizeof(node));
+    C7 -> next = NULL;
+
+    insertBlocks(suitStr, faceStr, C1, C2, C3, C4, C5, C6, C7);
 
 
-    //linking the nodes up in a list
-    head = &n3;
-    n3.next = &n2;
-    n2.next = &n1;
-    n1.next = NULL;
+    bool isRunning = true;
+    char lastCommand[MAX_STRING] = {0};
+    int result;
+    char resultMessage[MAX_STRING];
 
-    printlist(head);
+    while (isRunning) {
+        if (lastCommand[0] == 'L' && lastCommand[1] == 'D') {
+            result = LD(lastCommand);
+        } else if (lastCommand[0] == 'S' && lastCommand[1] == 'W') {
+            printf("TO DO!\n");
+        } else if (lastCommand[0] == 'S' && lastCommand[1] == 'L') {
+            printf("TO DO!\n");
+        } else if (lastCommand[0] == 'S' && lastCommand[1] == 'R') {
+            printf("TO DO!\n");
+        } else if (lastCommand[0] == 'S' && lastCommand[1] == 'D') {
+            printf("TO DO!\n");
+        } else if (lastCommand[0] == 'Q' && lastCommand[1] == 'Q') {
+            printf("TO DO!\n");
+            break; //replace
+        } else if (lastCommand[0] == 'P') {
+            printf("TO DO!\n");
+        } else if (lastCommand[0] == 'Q') {
+            printf("TO DO!\n");
+        } else if (lastCommand[0] != 0){
+            //Game moves
+            printf("TO DO!\n");
+        }
 
+        if (lastCommand[0] != 0) {
+            printf("LAST command: %s\n", lastCommand);
+            if (result == 0) {
+                printf("Message: OK\n");
+            } else {
+                printf("Message: %s\n", resultMessage);
+            }
+        }
+        printf("INPUT > :");
+        scanf("%s", lastCommand);
+    }
     return 0;
+}
+
+int LD(char lastCommand[]) {
+    if (lastCommand[2] == '<') {
+        char optionalParameter[MAX_STRING];
+        int j = 0;
+        for (int i = 3; i < MAX_STRING; i++) {
+            if (lastCommand[i] == '>') {
+                break;
+            }
+            optionalParameter[j] = lastCommand[i];
+            j++;
+        }
+        optionalParameter[j] = '\0';
+        printf("%s\n",optionalParameter);
+
+        FILE * infile;
+        infile = fopen(optionalParameter, "r");
+        if (infile != NULL) {
+            char data[LIMIT];
+            int i = 0;
+            while((fscanf(infile, "%s",&data[i]) != EOF) && i < LIMIT) {
+                i++;
+            }
+            fclose(infile);
+            printf("%S\n",data); //Still needs work
+        } else {
+            printf("Filename could not be found!\n");
+            return -1;
+        }
+    } else {
+        printf("TO DO!\n");
+    }
+    return 0;
+}
+
+
+void insertElement(node** root, char suit, char face, int hidden) {
+
+    node* newNode = malloc(sizeof(node));
+    newNode -> next = NULL;
+    newNode -> suit = suit;
+    newNode -> face = face;
+    newNode -> hidden = hidden;
+
+    node* current = *root;
+    while (current -> next != NULL) {
+        current = current -> next;
+    }
+
+    current -> next = newNode;
+
+}
+
+void insertCardDeck(node* cardDeck) {
+
+    char suitStr[13] = {'A' ,'2', '3', '4', '5', '6', '7', '8', '9',
+                        'T', 'J', 'Q', 'K'};
+    char faceStr[4] = {'C', 'D', 'H', 'S'};
+
+    for(int i = 0; i < 52; ++i) {
+
+        insertElement( &cardDeck, suitStr[i%13], faceStr[i%4], 0);
+    }
+
+}
+
+void insertBlocks(char suitStr[], char faceStr[], node* C1, node* C2, node* C3, node* C4, node* C5, node* C6, node* C7) {
+
+    int k = 51;
+    int i = 0;
+
+    while ( i < 52 ) {
+        insertElement( &C1, suitStr [i % 13], faceStr [i % 4], 0);
+        i++;
+
+        if (i > k) {
+            break;
+        }
+        insertElement( &C2, suitStr [ i % 13], faceStr [i % 4], 0);
+        i++;
+
+        if (i > k) {
+            break;
+        }
+        insertElement(&C3, suitStr [i % 13], faceStr [i % 4], 0);
+        i++;
+
+        if (i > k) {
+            break;
+
+        }
+        insertElement(&C4, suitStr [i % 13], faceStr [i % 4], 0);
+        i++;
+
+        if (i > k )  {
+            break;
+        }
+        insertElement(&C5, suitStr [i % 13], faceStr [i % 4], 0);
+        i++;
+
+        if (i > k) {
+            break;
+        }
+        insertElement(&C6, suitStr[i % 13], faceStr [i % 4], 0);
+        i++;
+
+        if (i > k) {
+            break;
+        }
+        insertElement(&C7, suitStr [i % 13], faceStr [i % 4], 0);
+        i++;
+
+        if (i > k) {
+            break;
+        }
+    }
 }
