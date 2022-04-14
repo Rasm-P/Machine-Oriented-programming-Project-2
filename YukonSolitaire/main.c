@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
-#define MAX_STRING 20
+#define MAX_STRING 30
 #define LIMIT 10000
 
 typedef struct node {
@@ -12,6 +12,7 @@ typedef struct node {
 }node;
 
 int LD(char lastCommand[]);
+int SD(char lastCommand[],  node *root);
 void insertElement(node** root, char suit, char face, int hidden);
 void insertCardDeck(node* cardDeck);
 void insertBlocks(char suitStr[], char faceStr[], node* C1, node* C2, node* C3, node* C4, node* C5, node* C6, node* C7);
@@ -58,7 +59,7 @@ int main() {
         } else if (lastCommand[0] == 'S' && lastCommand[1] == 'R') {
             printf("TO DO!\n");
         } else if (lastCommand[0] == 'S' && lastCommand[1] == 'D') {
-            printf("TO DO!\n");
+            result = SD(lastCommand, ushuffledDeck);
         } else if (lastCommand[0] == 'Q' && lastCommand[1] == 'Q') {
             printf("TO DO!\n");
             break; //replace
@@ -97,9 +98,7 @@ int LD(char lastCommand[]) {
             j++;
         }
         optionalParameter[j] = '\0';
-        printf("%s\n",optionalParameter);
-
-        FILE * infile;
+        FILE *infile;
         infile = fopen(optionalParameter, "r");
         if (infile != NULL) {
             char data[LIMIT];
@@ -119,6 +118,36 @@ int LD(char lastCommand[]) {
     return 0;
 }
 
+int SD(char lastCommand[], node *root) {
+    FILE *outfile;
+    if (lastCommand[2] == '<') {
+        char optionalParameter[MAX_STRING];
+        int j = 0;
+        for (int i = 3; i < MAX_STRING; i++) {
+            if (lastCommand[i] == '>') {
+                break;
+            }
+            optionalParameter[j] = lastCommand[i];
+            j++;
+        }
+        optionalParameter[j] = '\0';
+        outfile = fopen(optionalParameter, "w");
+    } else {
+        outfile = fopen("cards.txt", "w");
+    }
+    if (outfile != NULL) {
+        node* current = root;
+        while (current -> next != NULL) {
+            fprintf(outfile, "%c%c%d.\n",current->suit,current->face,current->hidden);
+            current = current -> next;
+        }
+        fflush(outfile);
+    } else {
+        printf("Something went wrong with the save file!\n");
+        return -1;
+    }
+    return 0;
+}
 
 void insertElement(node** root, char suit, char face, int hidden) {
 
