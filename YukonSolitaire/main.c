@@ -12,7 +12,7 @@ typedef struct node {
 }node;
 
 int LD(char lastCommand[]);
-int SD(char lastCommand[],  node *root);
+int SD(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, node *C6, node *C7, node *foundation1, node *foundation2, node *foundation3, node *foundation4) ;
 void insertElement(node** root, char suit, char face, int hidden);
 void insertCardDeck(node* cardDeck);
 void insertBlocks(char suitStr[], char faceStr[], node* C1, node* C2, node* C3, node* C4, node* C5, node* C6, node* C7);
@@ -41,6 +41,15 @@ int main() {
     node* C7 = malloc(sizeof(node));
     C7 -> next = NULL;
 
+    node* foundation1 = malloc(sizeof(node));
+    foundation1 -> next = NULL;
+    node* foundation2 = malloc(sizeof(node));
+    foundation2 -> next = NULL;
+    node* foundation3 = malloc(sizeof(node));
+    foundation3 -> next = NULL;
+    node* foundation4 = malloc(sizeof(node));
+    foundation4 -> next = NULL;
+
     insertBlocks(suitStr, faceStr, C1, C2, C3, C4, C5, C6, C7);
 
 
@@ -59,7 +68,7 @@ int main() {
         } else if (lastCommand[0] == 'S' && lastCommand[1] == 'R') {
             printf("TO DO!\n");
         } else if (lastCommand[0] == 'S' && lastCommand[1] == 'D') {
-            result = SD(lastCommand, ushuffledDeck);
+            result = SD(lastCommand, C1,C2,C3,C4,C5,C6,C7,foundation1,foundation2,foundation3,foundation4);
         } else if (lastCommand[0] == 'Q' && lastCommand[1] == 'Q') {
             printf("TO DO!\n");
             break; //replace
@@ -118,7 +127,7 @@ int LD(char lastCommand[]) {
     return 0;
 }
 
-int SD(char lastCommand[], node *root) {
+int SD(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, node *C6, node *C7, node *foundation1, node *foundation2, node *foundation3, node *foundation4) {
     FILE *outfile;
     if (lastCommand[2] == '<') {
         char optionalParameter[MAX_STRING];
@@ -136,8 +145,69 @@ int SD(char lastCommand[], node *root) {
         outfile = fopen("cards.txt", "w");
     }
     if (outfile != NULL) {
-        node* current = root;
-        while (current -> next != NULL) {
+        node* current;
+        current = C1 -> next;
+        while (current != NULL && current -> next != NULL) {
+            fprintf(outfile, "%c%c%d.\n",current->suit,current->face,current->hidden);
+            current = current -> next;
+        }
+        fprintf(outfile,"-\n");
+        current = C2 -> next;
+        while (current != NULL && current -> next != NULL) {
+            fprintf(outfile, "%c%c%d.\n",current->suit,current->face,current->hidden);
+            current = current -> next;
+        }
+        fprintf(outfile,"-\n");
+        current = C3 -> next;
+        while (current != NULL && current -> next != NULL) {
+            fprintf(outfile, "%c%c%d.\n",current->suit,current->face,current->hidden);
+            current = current -> next;
+        }
+        fprintf(outfile,"-\n");
+        current = C4 -> next;
+        while (current != NULL && current -> next != NULL) {
+            fprintf(outfile, "%c%c%d.\n",current->suit,current->face,current->hidden);
+            current = current -> next;
+        }
+        fprintf(outfile,"-\n");
+        current = C5 -> next;
+        while (current != NULL && current -> next != NULL) {
+            fprintf(outfile, "%c%c%d.\n",current->suit,current->face,current->hidden);
+            current = current -> next;
+        }
+        fprintf(outfile,"-\n");
+        current = C6 -> next;
+        while (current != NULL && current -> next != NULL) {
+            fprintf(outfile, "%c%c%d.\n",current->suit,current->face,current->hidden);
+            current = current -> next;
+        }
+        fprintf(outfile,"-\n");
+        current = C7 -> next;
+        while (current != NULL && current -> next != NULL) {
+            fprintf(outfile, "%c%c%d.\n",current->suit,current->face,current->hidden);
+            current = current -> next;
+        }
+        fprintf(outfile,"-\n");
+        current = foundation1 -> next;
+        while (current != NULL && current -> next != NULL) {
+            fprintf(outfile, "%c%c%d.\n",current->suit,current->face,current->hidden);
+            current = current -> next;
+        }
+        fprintf(outfile,"-\n");
+        current = foundation2 -> next;
+        while (current != NULL && current -> next != NULL) {
+            fprintf(outfile, "%c%c%d.\n",current->suit,current->face,current->hidden);
+            current = current -> next;
+        }
+        fprintf(outfile,"-\n");
+        current = foundation3 -> next;
+        while (current != NULL && current -> next != NULL) {
+            fprintf(outfile, "%c%c%d.\n",current->suit,current->face,current->hidden);
+            current = current -> next;
+        }
+        fprintf(outfile,"-\n");
+        current = foundation4 -> next;
+        while (current != NULL && current -> next != NULL) {
             fprintf(outfile, "%c%c%d.\n",current->suit,current->face,current->hidden);
             current = current -> next;
         }
