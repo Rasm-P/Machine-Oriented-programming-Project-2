@@ -234,14 +234,12 @@ void insertElement(node** root, char suit, char face, int hidden) {
 }
 
 void insertCardDeck(node* cardDeck) {
-
-    char suitStr[13] = {'A' ,'2', '3', '4', '5', '6', '7', '8', '9',
-                        'T', 'J', 'Q', 'K'};
-    char faceStr[4] = {'C', 'D', 'H', 'S'};
-
+    int j = 0;
     for(int i = 0; i < 52; ++i) {
-
-        insertElement( &cardDeck, suitStr[i%13], faceStr[i%4], 0);
+        if (i != 0 && i % 13 == 0) {
+            j++;
+        }
+        insertElement( &cardDeck, suitStr[i%13], faceStr[j], 0);
     }
 
 }
