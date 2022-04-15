@@ -15,8 +15,8 @@ char suitStr [13] = { 'A', '2', '3', '4', '5', '6',
                       '7', '8', '9', 'T', 'J', 'Q', 'K'};
 char faceStr [4] = {'C', 'D', 'H', 'S'};
 
-int LD(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, node *C6, node *C7, node *foundation1, node *foundation2, node *foundation3, node *foundation4);
-int SD(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, node *C6, node *C7, node *foundation1, node *foundation2, node *foundation3, node *foundation4) ;
+int LD(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, node *C6, node *C7, node *foundation1, node *foundation2, node *foundation3, node *foundation4, char **resultMessage);
+int SD(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, node *C6, node *C7, node *foundation1, node *foundation2, node *foundation3, node *foundation4, char **resultMessage) ;
 void insertElement(node** root, char suit, char face, int hidden);
 void insertCardDeck(node* cardDeck);
 void insertBlocks(char suitStr[], char faceStr[], node* C1, node* C2, node* C3, node* C4, node* C5, node* C6, node* C7);
@@ -53,11 +53,11 @@ int main() {
     bool isRunning = true;
     char lastCommand[MAX_STRING] = {0};
     int result;
-    char resultMessage[MAX_STRING];
+    char *resultMessage = (char*) malloc(sizeof(char) * MAX_STRING);
 
     while (isRunning) {
         if (lastCommand[0] == 'L' && lastCommand[1] == 'D') {
-            result = LD(lastCommand, C1,C2,C3,C4,C5,C6,C7,foundation1,foundation2,foundation3,foundation4);
+            result = LD(lastCommand, C1,C2,C3,C4,C5,C6,C7,foundation1,foundation2,foundation3,foundation4, &resultMessage);
         } else if (lastCommand[0] == 'S' && lastCommand[1] == 'W') {
             printf("TO DO!\n");
         } else if (lastCommand[0] == 'S' && lastCommand[1] == 'L') {
@@ -65,7 +65,7 @@ int main() {
         } else if (lastCommand[0] == 'S' && lastCommand[1] == 'R') {
             printf("TO DO!\n");
         } else if (lastCommand[0] == 'S' && lastCommand[1] == 'D') {
-            result = SD(lastCommand, C1,C2,C3,C4,C5,C6,C7,foundation1,foundation2,foundation3,foundation4);
+            result = SD(lastCommand, C1,C2,C3,C4,C5,C6,C7,foundation1,foundation2,foundation3,foundation4, &resultMessage);
         } else if (lastCommand[0] == 'Q' && lastCommand[1] == 'Q') {
             printf("TO DO!\n");
             break; //replace
@@ -92,7 +92,7 @@ int main() {
     return 0;
 }
 
-int LD(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, node *C6, node *C7, node *foundation1, node *foundation2, node *foundation3, node *foundation4) {
+int LD(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, node *C6, node *C7, node *foundation1, node *foundation2, node *foundation3, node *foundation4, char **resultMessage) {
     if (lastCommand[2] == '<') {
         char optionalParameter[MAX_STRING];
         int j = 0;
@@ -115,7 +115,7 @@ int LD(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, nod
             fclose(infile);
             printf("%S\n",data); //Still needs work
         } else {
-            printf("Filename could not be found!\n");
+            *resultMessage = "Filename could not be found!";
             return -1;
         }
     } else {
@@ -124,7 +124,7 @@ int LD(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, nod
     return 0;
 }
 
-int SD(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, node *C6, node *C7, node *foundation1, node *foundation2, node *foundation3, node *foundation4) {
+int SD(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, node *C6, node *C7, node *foundation1, node *foundation2, node *foundation3, node *foundation4, char **resultMessage) {
     FILE *outfile;
     if (lastCommand[2] == '<') {
         char optionalParameter[MAX_STRING];
@@ -210,7 +210,7 @@ int SD(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, nod
         }
         fflush(outfile);
     } else {
-        printf("Something went wrong with the save file!\n");
+        *resultMessage = "Something went wrong with the save file!";
         return -1;
     }
     return 0;
