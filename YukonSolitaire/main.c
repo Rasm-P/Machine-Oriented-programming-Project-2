@@ -17,6 +17,7 @@ void insertElement(node** root, char suit, char face, int hidden);
 void insertCardDeck(node* cardDeck);
 void insertBlocks(char suitStr[], char faceStr[], node* C1, node* C2, node* C3, node* C4, node* C5, node* C6, node* C7);
 void displayCardDeck(node* cardDeck);
+void print_list(node* head);
 
 
 int main () {
@@ -156,5 +157,10 @@ void displayCardDeck(node* cardDeck) {
     printf("\n");
     }
 
+    void print_list(node* head) {
+    node* current = head;
+    int count = 0;
+
+}
 
 
