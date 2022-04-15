@@ -147,7 +147,13 @@ void displayCardDeck(node* cardDeck) {
                 num++;
 
             }
+            if (counter % 7 == 0 && counter != 0) {
+                printf("\n");
+            }
+            current = current ->next;
+            counter++;
         }
+    printf("\n");
     }
 
 
