@@ -106,13 +106,52 @@ int LD(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, nod
         FILE *infile;
         infile = fopen(optionalParameter, "r");
         if (infile != NULL) {
-            char line[3];
+            char line[5];
+            int i = 0;
+            node* current1 = C1;
             while (fgets(line, sizeof(line), infile)) {
-                printf("%s", line);
-                
-
-
-
+                if (line[0] == '-') {
+                    i++;
+                    switch (i) {
+                        case 1:
+                            current1 = C2;
+                            break;
+                        case 2:
+                            current1 = C3;
+                            break;
+                        case 3:
+                            current1 = C4;
+                            break;
+                        case 4:
+                            current1 = C5;
+                            break;
+                        case 5:
+                            current1 = C6;
+                            break;
+                        case 6:
+                            current1 = C7;
+                            break;
+                        case 7:
+                            current1 = foundation1;
+                            break;
+                        case 8:
+                            current1 = foundation2;
+                            break;
+                        case 9:
+                            current1 = foundation3;
+                            break;
+                        case 10:
+                            current1 = foundation4;
+                            break;
+                    }
+                    continue;
+                }
+                current1 -> next = malloc(sizeof(node));
+                current1 = current1 -> next;
+                current1 -> next = NULL;
+                current1 -> suit = line[0];
+                current1 -> face = line[1];
+                current1 -> hidden = line[2]-'0';
             }
             fclose(infile);
         } else {
@@ -210,6 +249,7 @@ int SD(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, nod
             current = current -> next;
         }
         fflush(outfile);
+        fclose(outfile);
     } else {
         *resultMessage = "Something went wrong with the save file!";
         return -1;
