@@ -1,3 +1,0 @@
-/home/andrew/CLionProjects/Machine-Oriented-programming-Project-2.newClone/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/andrew/CLionProjects/Machine-Oriented-programming-Project-2.newClone/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/andrew/CLionProjects/Machine-Oriented-programming-Project-2.newClone/cmake-build-debug/CMakeFiles/Machine_Oriented_programming_Project_2.dir
