@@ -19,6 +19,8 @@ int SD(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, nod
 void insertElement(node** root, char suit, char face, int hidden);
 void insertCardDeck(node* cardDeck);
 void insertBlocks(char suitStr[], char faceStr[], node* C1, node* C2, node* C3, node* C4, node* C5, node* C6, node* C7);
+void displayCardDeck(node* cardDeck);
+void print_list(node* head);
 
 int main() {
     node* ushuffledDeck = malloc(sizeof(node));
@@ -349,5 +351,47 @@ void insertBlocks(char suitStr[], char faceStr[], node* C1, node* C2, node* C3, 
         } else if (i % 13 == 0) {
             j++;
         }
+    }
+}
+
+void displayCardDeck(node* cardDeck) {
+
+    printf("C1\tC2\tC3\tC4\tC5\tC6\tC7\n\n");
+
+    if (cardDeck == NULL) {
+        return;
+    }
+
+    int counter = 1;
+    int num = 0;
+    node* current = cardDeck;
+    current = current ->next;
+    while (current != NULL) {
+            printf("%c%c\t", current -> suit, current ->face);
+            if ((counter-7) % 14 == 0) {
+
+                printf("\t\t\t%c%c\t%c%d", '[', ']', 'F', num);
+                num++;
+
+            }
+            if (counter % 7 == 0 && counter != 0) {
+                printf("\n");
+            }
+            current = current ->next;
+            counter++;
+        }
+    printf("\n");
+    }
+
+
+
+    void print_list(node* head) {
+    node* current = head;
+    int count = 0;
+
+    while (current != NULL) {
+        printf("%c%c%c\n", current -> suit, current -> face, current -> hidden);
+        current = current -> next;
+        count++;
     }
 }
