@@ -405,5 +405,14 @@ void displayEmptyBrackets(){
     for (int i = 1; i < 53; i++) {
 
         printf ("%c%c\t", '[', ']');
+        if ((i-7) % 14 == 0) {
+
+            printf ("\t\t\t%c%c\t%c%d", '[', ']', 'F', num);
+            num++;
+        }
+
+        if(i % 7 == 0 && i != 0) {
+            printf("\n");
+        }
     }
 }
