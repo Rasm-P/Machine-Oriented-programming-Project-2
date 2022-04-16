@@ -21,6 +21,7 @@ void insertCardDeck(node* cardDeck);
 void insertBlocks(char suitStr[], char faceStr[], node* C1, node* C2, node* C3, node* C4, node* C5, node* C6, node* C7);
 void displayCardDeck(node* cardDeck);
 void print_list(node* head);
+void displayEmptyBrackets();
 
 int main() {
     node* ushuffledDeck = malloc(sizeof(node));
@@ -89,6 +90,7 @@ int main() {
         }
         printf("INPUT > :");
         scanf("%s", lastCommand);
+
     }
     return 0;
 }
@@ -393,5 +395,15 @@ void displayCardDeck(node* cardDeck) {
         printf("%c%c%c\n", current -> suit, current -> face, current -> hidden);
         current = current -> next;
         count++;
+    }
+}
+
+void displayEmptyBrackets(){
+    printf("C1\tC2\tC3\tC4\tC5\tC6\tC7\n\n");
+
+    int num = 1;
+    for (int i = 1; i < 53; i++) {
+
+        printf ("%c%c\t", '[', ']');
     }
 }
