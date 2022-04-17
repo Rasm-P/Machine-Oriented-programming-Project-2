@@ -62,6 +62,21 @@ int main() {
         scanf("%s", userInput);
         printf("\n");
 
+        if (strcmp(userInput, LD) == 0) {
+            displayCardDeck(unshuffledDeck);
+            stpcpy(message, correctCommand);
+
+        } else if (strcmp(userInput, exit) == 0) {
+            hasNext = 1;
+            stpcpy(message, correctCommand);
+
+        } else if(strcmp(userInput, brackets) == 0) {
+            displayEmptyBrackets();
+            stpcpy(message, correctCommand);
+            printf("\n");
+
+        } else stpcpy(message, wrongCommand);
+
     }
     return 0;
 }
