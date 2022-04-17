@@ -24,72 +24,32 @@ void print_list(node* head);
 void displayEmptyBrackets();
 
 int main() {
-    node* ushuffledDeck = malloc(sizeof(node));
-    ushuffledDeck -> next = NULL;
-    insertCardDeck(ushuffledDeck);
+    char suitStr[13] = {'A' ,'2', '3', '4', '5', '6', '7', '8', '9',
+                        'T', 'J', 'Q', 'K'};
+    char faceStr[4] = {'C', 'D', 'H', 'S'};
+
+    node* unshuffledDeck = malloc(sizeof(node));
+    insertCardDeck(unshuffledDeck);
 
     node* C1 = malloc(sizeof(node));
-    C1 -> next = NULL;
     node* C2 = malloc(sizeof(node));
-    C2 -> next = NULL;
     node* C3 = malloc(sizeof(node));
-    C3 -> next = NULL;
     node* C4 = malloc(sizeof(node));
-    C4 -> next = NULL;
     node* C5 = malloc(sizeof(node));
-    C5 -> next = NULL;
     node* C6 = malloc(sizeof(node));
-    C6 -> next = NULL;
     node* C7 = malloc(sizeof(node));
-    C7 -> next = NULL;
 
-    node* foundation1 = malloc(sizeof(node));
-    foundation1 -> next = NULL;
-    node* foundation2 = malloc(sizeof(node));
-    foundation2 -> next = NULL;
-    node* foundation3 = malloc(sizeof(node));
-    foundation3 -> next = NULL;
-    node* foundation4 = malloc(sizeof(node));
-    foundation4 -> next = NULL;
+    insertBlocks(suitStr, faceStr, C1, C2, C3, C4, C5, C6, C7);
 
-    bool isRunning = true;
-    char lastCommand[MAX_STRING] = {0};
-    int result;
-    char *resultMessage = (char*) malloc(sizeof(char) * MAX_STRING);
+    char userInput[20] = {0};
+    char exit[] = "QQ";
+    char brackets[] = "LD";
+    char wrongCommand[] = "Your command does not exist!";
+    char correctCommand[] = "OK";
 
-    while (isRunning) {
-        if (lastCommand[0] == 'L' && lastCommand[1] == 'D') {
-            result = LD(lastCommand, C1,C2,C3,C4,C5,C6,C7,foundation1,foundation2,foundation3,foundation4, &resultMessage);
-        } else if (lastCommand[0] == 'S' && lastCommand[1] == 'W') {
-            printf("TO DO!\n");
-        } else if (lastCommand[0] == 'S' && lastCommand[1] == 'L') {
-            printf("TO DO!\n");
-        } else if (lastCommand[0] == 'S' && lastCommand[1] == 'R') {
-            printf("TO DO!\n");
-        } else if (lastCommand[0] == 'S' && lastCommand[1] == 'D') {
-            result = SD(lastCommand, C1,C2,C3,C4,C5,C6,C7,foundation1,foundation2,foundation3,foundation4, &resultMessage);
-        } else if (lastCommand[0] == 'Q' && lastCommand[1] == 'Q') {
-            printf("TO DO!\n");
-            break; //replace
-        } else if (lastCommand[0] == 'P') {
-            printf("TO DO!\n");
-        } else if (lastCommand[0] == 'Q') {
-            printf("TO DO!\n");
-        } else if (lastCommand[0] != 0){
-            //Game moves
-            printf("TO DO!\n");
-        }
-
-        if (lastCommand[0] != 0) {
-            printf("LAST command: %s\n", lastCommand);
-            if (result == 0) {
-                printf("Message: OK\n");
-            } else {
-                printf("Message: %s\n", resultMessage);
-            }
-        }
-        printf("INPUT > :");
-        scanf("%s", lastCommand);
+    int hasNext = 0;
+    while (hasNext == 0) {
+        char message[30];
 
     }
     return 0;
