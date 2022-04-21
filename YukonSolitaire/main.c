@@ -22,6 +22,7 @@ void insertBlocks(char suitStr[], char faceStr[], node* C1, node* C2, node* C3, 
 void displayCardDeck(node* cardDeck);
 void print_list(node* head);
 void displayEmptyBrackets();
+void shuffleRandom(displayCardDeck, );
 
 int main() {
     char suitStr[13] = {'A' ,'2', '3', '4', '5', '6', '7', '8', '9',
@@ -43,6 +44,7 @@ int main() {
 
     char userInput[20] = {0};
     char exit[] = "QQ";
+    char sw[] = "SW";
     char brackets[] = "LD";
     char wrongCommand[] = "Your command does not exist!";
     char correctCommand[] = "OK";
@@ -66,7 +68,12 @@ int main() {
             displayCardDeck(unshuffledDeck);
             stpcpy(message, correctCommand);
 
-        } else if (strcmp(userInput, exit) == 0) {
+        }  else if (strcmp(userInput, sw) == 0) {
+            //displayBlocks(C1, C2, C3, C4, C5, C6, C7);
+            displayCardDeck(unshuffledDeck);
+            stpcpy(message, correctCommand);
+        }
+            else if (strcmp(userInput, exit) == 0) {
             hasNext = 1;
             stpcpy(message, correctCommand);
 
@@ -401,4 +408,12 @@ void displayEmptyBrackets(){
             printf("\n");
         }
     }
+}
+
+void shuffleRandom(displayCardDeck,) {
+
+
+
+
+
 }
