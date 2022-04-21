@@ -1,7 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
-#define MAX_STRING 30
+#define COMMAND_STRING 30
+#define MAX_STRING 120
 
 typedef struct node {
     char suit;
@@ -50,7 +51,7 @@ int main() {
     foundation4 -> next = NULL;
 
     bool isRunning = true;
-    char lastCommand[MAX_STRING] = {0};
+    char lastCommand[COMMAND_STRING] = {0};
     int result;
     char *resultMessage = (char*) malloc(sizeof(char) * MAX_STRING);
 
@@ -111,6 +112,7 @@ int LD(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, nod
             insertCardDeck(controlCardDeck);
 
             int lineCount = 0;
+            int cardCount = 0;
             char line[5];
             int i = 0;
             node* current = C1;
@@ -151,6 +153,8 @@ int LD(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, nod
                             break;
                     }
                     continue;
+                } else {
+                    cardCount++;
                 }
                 current -> next = malloc(sizeof(node));
                 current = current -> next;
@@ -162,28 +166,32 @@ int LD(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, nod
                 node* currentControl = controlCardDeck;
                 while (currentControl -> next != NULL) {
                     if (currentControl -> suit == current -> suit && currentControl -> face == current -> face) {
-                        if (controlCardDeck -> hidden == 0) {
-                            controlCardDeck -> hidden = 1;
+                        if (currentControl -> hidden == 0) {
+                            currentControl -> hidden = 1;
                             break;
                         } else {
-                            sprintf(*resultMessage, "Error in savefile at line %d! Card: %s%s is a duplicate.", lineCount, current -> suit, current -> face);
+                            sprintf(*resultMessage, "Error in savefile at line %d! Card: %c%c is a duplicate.", lineCount, current -> suit, current -> face);
+                            fclose(infile);
+                            //ToDO implement unload function to unload c1, c2....
                             return -1;
                         }
                     }
                     currentControl = currentControl -> next;
                 }
-                if (currentControl -> next == NULL) {
-                    sprintf(*resultMessage, "Error in savefile at line %d! Card: %s%s is of illegal format.", lineCount, current -> suit, current -> face);
+                if (currentControl -> next == NULL && currentControl -> suit != current -> suit && currentControl -> face != current -> face) {
+                    sprintf(*resultMessage, "Error in savefile at line %d! Card: %c%c is of illegal format.", lineCount, current -> suit, current -> face);
+                    fclose(infile);
+                    //ToDO implement unload function to unload c1, c2....
                     return -1;
                 }
-
             }
             fclose(infile);
-            if (lineCount != 52) {
+            if (cardCount != 52) {
                 node* currentControl = controlCardDeck;
                 while (currentControl -> next != NULL) {
                     if (currentControl -> hidden == 0) {
-                        sprintf(*resultMessage, "Error in savefile! There are not 52 cards as card: %s%s is missing.", current -> suit, current -> face);
+                        sprintf(*resultMessage, "Error in savefile! There are not 52 cards as card: %c%c is missing.", currentControl -> suit, currentControl -> face);
+                        //ToDO implement unload function to unload c1, c2....
                         return -1;
                     }
                     currentControl = currentControl -> next;
