@@ -106,54 +106,89 @@ int LD(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, nod
         FILE *infile;
         infile = fopen(optionalParameter, "r");
         if (infile != NULL) {
+            node* controlCardDeck = malloc(sizeof(node));
+            controlCardDeck -> next = NULL;
+            insertCardDeck(controlCardDeck);
+
+            int lineCount = 0;
             char line[5];
             int i = 0;
-            node* current1 = C1;
+            node* current = C1;
             while (fgets(line, sizeof(line), infile)) {
+                lineCount++;
                 if (line[0] == '-') {
                     i++;
                     switch (i) {
                         case 1:
-                            current1 = C2;
+                            current = C2;
                             break;
                         case 2:
-                            current1 = C3;
+                            current = C3;
                             break;
                         case 3:
-                            current1 = C4;
+                            current = C4;
                             break;
                         case 4:
-                            current1 = C5;
+                            current = C5;
                             break;
                         case 5:
-                            current1 = C6;
+                            current = C6;
                             break;
                         case 6:
-                            current1 = C7;
+                            current = C7;
                             break;
                         case 7:
-                            current1 = foundation1;
+                            current = foundation1;
                             break;
                         case 8:
-                            current1 = foundation2;
+                            current = foundation2;
                             break;
                         case 9:
-                            current1 = foundation3;
+                            current = foundation3;
                             break;
                         case 10:
-                            current1 = foundation4;
+                            current = foundation4;
                             break;
                     }
                     continue;
                 }
-                current1 -> next = malloc(sizeof(node));
-                current1 = current1 -> next;
-                current1 -> next = NULL;
-                current1 -> suit = line[0];
-                current1 -> face = line[1];
-                current1 -> hidden = line[2]-'0';
+                current -> next = malloc(sizeof(node));
+                current = current -> next;
+                current -> next = NULL;
+                current -> suit = line[0];
+                current -> face = line[1];
+                current -> hidden = line[2]-'0';
+
+                node* currentControl = controlCardDeck;
+                while (currentControl -> next != NULL) {
+                    if (currentControl -> suit == current -> suit && currentControl -> face == current -> face) {
+                        if (controlCardDeck -> hidden == 0) {
+                            controlCardDeck -> hidden = 1;
+                            break;
+                        } else {
+                            sprintf(*resultMessage, "Error in savefile at line %d! Card: %s%s is a duplicate.", lineCount, current -> suit, current -> face);
+                            return -1;
+                        }
+                    }
+                    currentControl = currentControl -> next;
+                }
+                if (currentControl -> next == NULL) {
+                    sprintf(*resultMessage, "Error in savefile at line %d! Card: %s%s is of illegal format.", lineCount, current -> suit, current -> face);
+                    return -1;
+                }
+
             }
             fclose(infile);
+            if (lineCount != 52) {
+                node* currentControl = controlCardDeck;
+                while (currentControl -> next != NULL) {
+                    if (currentControl -> hidden == 0) {
+                        sprintf(*resultMessage, "Error in savefile! There are not 52 cards as card: %s%s is missing.", current -> suit, current -> face);
+                        return -1;
+                    }
+                    currentControl = currentControl -> next;
+                }
+            }
         } else {
             *resultMessage = "Error. File does not exist!";
             return -1;
