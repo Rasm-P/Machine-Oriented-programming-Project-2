@@ -18,9 +18,11 @@ int STARTUP = 1;
 
 int LD(char lastCommand[], node *cardDeck, char **resultMessage);
 int SD(char lastCommand[], node *cardDeck, char **resultMessage);
+int SW(node* cardDeck, char **resultMessage);
 void unloadCards(node* cards);
 void insertElement(node** root, char suit, char face, int hidden);
 void insertCardDeck(node* cardDeck);
+void displayEmptyBrackets(node* cardDeck);
 int L(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, node *C6, node *C7, node *foundation1, node *foundation2, node *foundation3, node *foundation4, char **resultMessage);
 int S(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, node *C6, node *C7, node *foundation1, node *foundation2, node *foundation3, node *foundation4, char **resultMessage);
 void insertBlocks(char suitStr[], char faceStr[], node* C1, node* C2, node* C3, node* C4, node* C5, node* C6, node* C7);
@@ -63,7 +65,7 @@ int main() {
             if (lastCommand[0] == 'L' && lastCommand[1] == 'D') {
                 result = LD(lastCommand, cardDeck, &resultMessage);
             } else if (lastCommand[0] == 'S' && lastCommand[1] == 'W') {
-                printf("TO DO!\n");
+                result = SW(cardDeck, &resultMessage);
             } else if (lastCommand[0] == 'S' && lastCommand[1] == 'L') {
                 printf("TO DO!\n");
             } else if (lastCommand[0] == 'S' && lastCommand[1] == 'R') {
@@ -77,7 +79,8 @@ int main() {
                 printf("TO DO!\n");
             } else if (lastCommand[0] == 'Q') {
                 printf("TO DO!\n");
-            } else if (lastCommand[0] != 0) {
+            } else {
+                result = 1;
                 resultMessage = "The chosen command does not exist in the STARTUP phase!";
             }
         } else {
@@ -101,6 +104,7 @@ int main() {
                 printf("Message: %s\n", resultMessage);
             }
         }
+        displayEmptyBrackets(cardDeck);
         printf("INPUT > :");
         scanf("%s", lastCommand);
     }
@@ -227,6 +231,19 @@ int SD(char lastCommand[], node *cardDeck, char **resultMessage) {
     return 0;
 }
 
+int SW(node* cardDeck, char **resultMessage) {
+    if (cardDeck -> next != NULL) {
+        while (cardDeck != NULL) {
+            cardDeck->hidden = 0;
+            cardDeck = cardDeck->next;
+        }
+        return 0;
+    } else {
+        *resultMessage = "Error! No deck of cards are loaded.";
+        return -1;
+    }
+}
+
 void unloadCards(node* cards) {
     node* temp;
     while(cards -> next != NULL) {
@@ -237,6 +254,49 @@ void unloadCards(node* cards) {
         temp = NULL;
     }
     cards = NULL;
+}
+
+void displayEmptyBrackets(node* cardDeck){
+    printf("\n\n");
+    printf("C1\tC2\tC3\tC4\tC5\tC6\tC7\n\n");
+
+    int num = 1;
+    if (cardDeck -> next == NULL) {
+        for (int i = 1; i < 53; i++) {
+            printf("  \t");
+            if ((i - 7) % 14 == 0) {
+
+                printf("\t\t\t%c%c\t%c%d", '[', ']', 'F', num);
+                num++;
+            }
+            if (i % 7 == 0 && i != 0) {
+                printf("\n");
+            }
+        }
+    } else {
+        int i = 1;
+        cardDeck = cardDeck -> next;
+        while (cardDeck != NULL) {
+            if (cardDeck -> hidden == 1) {
+                printf("%c%c\t", '[', ']');
+            } else {
+                printf("%c%c\t",cardDeck -> suit, cardDeck -> face);
+            }
+
+            if ((i - 7) % 14 == 0) {
+
+                printf("\t\t\t%c%c\t%c%d", '[', ']', 'F', num);
+                num++;
+            }
+            if (i % 7 == 0 && i != 0) {
+                printf("\n");
+            }
+            i++;
+            cardDeck = cardDeck -> next;
+        }
+    }
+
+    printf("\n\n");
 }
 
 int L(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, node *C6, node *C7, node *foundation1, node *foundation2, node *foundation3, node *foundation4, char **resultMessage) {
