@@ -26,6 +26,7 @@ void displayEmptyBrackets(node* cardDeck);
 int L(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, node *C6, node *C7, node *foundation1, node *foundation2, node *foundation3, node *foundation4, char **resultMessage);
 int S(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, node *C6, node *C7, node *foundation1, node *foundation2, node *foundation3, node *foundation4, char **resultMessage);
 void insertBlocks(char suitStr[], char faceStr[], node* C1, node* C2, node* C3, node* C4, node* C5, node* C6, node* C7);
+void shuffleCardsRandom(node* source, node* dist);
 
 int main() {
     node* cardDeck = malloc(sizeof(node));
@@ -601,3 +602,31 @@ void insertBlocks(char suitStr[], char faceStr[], node* C1, node* C2, node* C3, 
         }
     }
 }
+
+void shuffleCardsRandom(node* source, node* dist) {
+
+    char suit[52];
+    char face[52];
+    char hidden[52];
+
+    node* current = source;
+    current = current -> next;
+
+    int counter = 0;
+
+    while (current != NULL) {
+        suit[counter] = current -> suit;
+        face[counter] = current -> face;
+        hidden[counter] = current -> hidden;
+
+        counter++;
+        current = current -> next;
+    }
+
+    for (int i = 0; i < 52; ++i) {
+        insertElement( &dist, suit[i], face[i], hidden[i]);
+    }
+
+
+}
+
