@@ -20,6 +20,7 @@ int SD(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, nod
 void insertElement(node** root, char suit, char face, int hidden);
 void insertCardDeck(node* cardDeck);
 void insertBlocks(char suitStr[], char faceStr[], node* C1, node* C2, node* C3, node* C4, node* C5, node* C6, node* C7);
+void shuffleCardsRandom(node* source, node* dist);
 
 int main() {
     node* ushuffledDeck = malloc(sizeof(node));
@@ -394,3 +395,13 @@ void insertBlocks(char suitStr[], char faceStr[], node* C1, node* C2, node* C3, 
         }
     }
 }
+
+void shuffleCardsRandom(node* source, node* dist) {
+
+    char suit[52];
+    char face[52];
+    char hidden[52];
+
+
+}
+
