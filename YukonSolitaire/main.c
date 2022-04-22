@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
+#include <string.h>
 #define MAX_STRING 30
 
 typedef struct node {
@@ -22,7 +23,7 @@ void insertBlocks(char suitStr[], char faceStr[], node* C1, node* C2, node* C3, 
 void displayCardDeck(node* cardDeck);
 void print_list(node* head);
 void displayEmptyBrackets();
-void shuffleRandom(displayCardDeck, );
+
 
 int main() {
     char suitStr[13] = {'A' ,'2', '3', '4', '5', '6', '7', '8', '9',
@@ -408,12 +409,4 @@ void displayEmptyBrackets(){
             printf("\n");
         }
     }
-}
-
-void shuffleRandom(displayCardDeck,) {
-
-
-
-
-
 }
