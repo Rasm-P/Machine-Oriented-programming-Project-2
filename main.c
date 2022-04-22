@@ -1,7 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
-#define MAX_STRING 30
+#define COMMAND_STRING 30
+#define MAX_STRING 120
 
 typedef struct node {
     char suit;
@@ -19,8 +20,6 @@ int SD(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, nod
 void insertElement(node** root, char suit, char face, int hidden);
 void insertCardDeck(node* cardDeck);
 void insertBlocks(char suitStr[], char faceStr[], node* C1, node* C2, node* C3, node* C4, node* C5, node* C6, node* C7);
-void displayCardDeck(node* cardDeck);
-void print_list(node* head);
 
 int main() {
     node* ushuffledDeck = malloc(sizeof(node));
@@ -52,7 +51,7 @@ int main() {
     foundation4 -> next = NULL;
 
     bool isRunning = true;
-    char lastCommand[MAX_STRING] = {0};
+    char lastCommand[COMMAND_STRING] = {0};
     int result;
     char *resultMessage = (char*) malloc(sizeof(char) * MAX_STRING);
 
@@ -108,54 +107,96 @@ int LD(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, nod
         FILE *infile;
         infile = fopen(optionalParameter, "r");
         if (infile != NULL) {
+            node* controlCardDeck = malloc(sizeof(node));
+            controlCardDeck -> next = NULL;
+            insertCardDeck(controlCardDeck);
+
+            int lineCount = 0;
+            int cardCount = 0;
             char line[5];
             int i = 0;
-            node* current1 = C1;
+            node* current = C1;
             while (fgets(line, sizeof(line), infile)) {
+                lineCount++;
                 if (line[0] == '-') {
                     i++;
                     switch (i) {
                         case 1:
-                            current1 = C2;
+                            current = C2;
                             break;
                         case 2:
-                            current1 = C3;
+                            current = C3;
                             break;
                         case 3:
-                            current1 = C4;
+                            current = C4;
                             break;
                         case 4:
-                            current1 = C5;
+                            current = C5;
                             break;
                         case 5:
-                            current1 = C6;
+                            current = C6;
                             break;
                         case 6:
-                            current1 = C7;
+                            current = C7;
                             break;
                         case 7:
-                            current1 = foundation1;
+                            current = foundation1;
                             break;
                         case 8:
-                            current1 = foundation2;
+                            current = foundation2;
                             break;
                         case 9:
-                            current1 = foundation3;
+                            current = foundation3;
                             break;
                         case 10:
-                            current1 = foundation4;
+                            current = foundation4;
                             break;
                     }
                     continue;
+                } else {
+                    cardCount++;
                 }
-                current1 -> next = malloc(sizeof(node));
-                current1 = current1 -> next;
-                current1 -> next = NULL;
-                current1 -> suit = line[0];
-                current1 -> face = line[1];
-                current1 -> hidden = line[2]-'0';
+                current -> next = malloc(sizeof(node));
+                current = current -> next;
+                current -> next = NULL;
+                current -> suit = line[0];
+                current -> face = line[1];
+                current -> hidden = line[2]-'0';
+
+                node* currentControl = controlCardDeck;
+                while (currentControl -> next != NULL) {
+                    if (currentControl -> suit == current -> suit && currentControl -> face == current -> face) {
+                        if (currentControl -> hidden == 0) {
+                            currentControl -> hidden = 1;
+                            break;
+                        } else {
+                            sprintf(*resultMessage, "Error in savefile at line %d! Card: %c%c is a duplicate.", lineCount, current -> suit, current -> face);
+                            fclose(infile);
+                            //ToDO implement unload function to unload c1, c2....
+                            return -1;
+                        }
+                    }
+                    currentControl = currentControl -> next;
+                }
+                if (currentControl -> next == NULL && currentControl -> suit != current -> suit && currentControl -> face != current -> face) {
+                    sprintf(*resultMessage, "Error in savefile at line %d! Card: %c%c is of illegal format.", lineCount, current -> suit, current -> face);
+                    fclose(infile);
+                    //ToDO implement unload function to unload c1, c2....
+                    return -1;
+                }
             }
             fclose(infile);
+            if (cardCount != 52) {
+                node* currentControl = controlCardDeck;
+                while (currentControl -> next != NULL) {
+                    if (currentControl -> hidden == 0) {
+                        sprintf(*resultMessage, "Error in savefile! There are not 52 cards as card: %c%c is missing.", currentControl -> suit, currentControl -> face);
+                        //ToDO implement unload function to unload c1, c2....
+                        return -1;
+                    }
+                    currentControl = currentControl -> next;
+                }
+            }
         } else {
             *resultMessage = "Error. File does not exist!";
             return -1;
@@ -351,47 +392,5 @@ void insertBlocks(char suitStr[], char faceStr[], node* C1, node* C2, node* C3, 
         } else if (i % 13 == 0) {
             j++;
         }
-    }
-}
-
-void displayCardDeck(node* cardDeck) {
-
-    printf("C1\tC2\tC3\tC4\tC5\tC6\tC7\n\n");
-
-    if (cardDeck == NULL) {
-        return;
-    }
-
-    int counter = 1;
-    int num = 0;
-    node* current = cardDeck;
-    current = current ->next;
-    while (current != NULL) {
-        printf("%c%c\t", current -> suit, current ->face);
-        if ((counter-7) % 14 == 0) {
-
-            printf("\t\t\t%c%c\t%c%d", '[', ']', 'F', num);
-            num++;
-
-        }
-        if (counter % 7 == 0 && counter != 0) {
-            printf("\n");
-        }
-        current = current ->next;
-        counter++;
-    }
-    printf("\n");
-}
-
-
-
-void print_list(node* head) {
-    node* current = head;
-    int count = 0;
-
-    while (current != NULL) {
-        printf("%c%c%c\n", current -> suit, current -> face, current -> hidden);
-        current = current -> next;
-        count++;
     }
 }
