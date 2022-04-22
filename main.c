@@ -367,25 +367,25 @@ void displayCardDeck(node* cardDeck) {
     node* current = cardDeck;
     current = current ->next;
     while (current != NULL) {
-            printf("%c%c\t", current -> suit, current ->face);
-            if ((counter-7) % 14 == 0) {
+        printf("%c%c\t", current -> suit, current ->face);
+        if ((counter-7) % 14 == 0) {
 
-                printf("\t\t\t%c%c\t%c%d", '[', ']', 'F', num);
-                num++;
+            printf("\t\t\t%c%c\t%c%d", '[', ']', 'F', num);
+            num++;
 
-            }
-            if (counter % 7 == 0 && counter != 0) {
-                printf("\n");
-            }
-            current = current ->next;
-            counter++;
         }
-    printf("\n");
+        if (counter % 7 == 0 && counter != 0) {
+            printf("\n");
+        }
+        current = current ->next;
+        counter++;
     }
+    printf("\n");
+}
 
 
 
-    void print_list(node* head) {
+void print_list(node* head) {
     node* current = head;
     int count = 0;
 

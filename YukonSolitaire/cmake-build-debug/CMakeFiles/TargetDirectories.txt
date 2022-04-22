@@ -1,3 +1,0 @@
-C:/Users/rasmu/Documents/Github/Machine-Oriented-programming-Project-2/YukonSolitaire/cmake-build-debug/CMakeFiles/YukonSolitaire.dir
-C:/Users/rasmu/Documents/Github/Machine-Oriented-programming-Project-2/YukonSolitaire/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/rasmu/Documents/Github/Machine-Oriented-programming-Project-2/YukonSolitaire/cmake-build-debug/CMakeFiles/rebuild_cache.dir
