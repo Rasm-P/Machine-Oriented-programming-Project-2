@@ -176,7 +176,9 @@ int LD(char lastCommand[], node *cardDeck, char **resultMessage) {
                     if (currentControl -> hidden == 1) {
                         sprintf(*resultMessage, "Error in savefile! There are not 52 cards as card: %c%c is missing.", currentControl -> suit, currentControl -> face);
                         unloadCards(controlCardDeck);
-                        unloadCards(cardDeck -> next);
+                        if (cardDeck -> next != NULL) {
+                            unloadCards(cardDeck->next);
+                        }
                         cardDeck -> next = NULL;
                         return -1;
                     }
