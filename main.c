@@ -78,7 +78,7 @@ int main() {
             } else if (lastCommand[0] == 'Q') {
                 printf("TO DO!\n");
             } else if (lastCommand[0] != 0) {
-                *resultMessage = "The chosen command does not exist in the STARTUP phase!";
+                resultMessage = "The chosen command does not exist in the STARTUP phase!";
             }
         } else {
             if (lastCommand[0] == 'L' && lastCommand[1] == 'D') {
@@ -108,6 +108,10 @@ int main() {
 }
 
 int LD(char lastCommand[], node *cardDeck, char **resultMessage) {
+    if (cardDeck -> next != NULL) {
+        unloadCards(cardDeck -> next);
+        cardDeck -> next = NULL;
+    }
     if (lastCommand[2] == '<') {
         char optionalParameter[MAX_STRING];
         int j = 0;
@@ -127,8 +131,7 @@ int LD(char lastCommand[], node *cardDeck, char **resultMessage) {
             insertCardDeck(controlCardDeck);
 
             int lineCount = 0;
-            char line[5];
-            int i = 0;
+            char line[4];
             node* current = cardDeck;
             while (fgets(line, sizeof(line), infile)) {
                 lineCount++;
@@ -143,14 +146,15 @@ int LD(char lastCommand[], node *cardDeck, char **resultMessage) {
                 node* currentControl = controlCardDeck;
                 while (currentControl -> next != NULL) {
                     if (currentControl -> suit == current -> suit && currentControl -> face == current -> face) {
-                        if (currentControl -> hidden == 0) {
-                            currentControl -> hidden = 1;
+                        if (currentControl -> hidden == 1) {
+                            currentControl -> hidden = 0;
                             break;
                         } else {
                             sprintf(*resultMessage, "Error in savefile at line %d! Card: %c%c is a duplicate.", lineCount, current -> suit, current -> face);
                             fclose(infile);
                             unloadCards(controlCardDeck);
                             unloadCards(cardDeck -> next);
+                            cardDeck -> next = NULL;
                             return -1;
                         }
                     }
@@ -161,6 +165,7 @@ int LD(char lastCommand[], node *cardDeck, char **resultMessage) {
                     fclose(infile);
                     unloadCards(controlCardDeck);
                     unloadCards(cardDeck -> next);
+                    cardDeck -> next = NULL;
                     return -1;
                 }
             }
@@ -168,10 +173,11 @@ int LD(char lastCommand[], node *cardDeck, char **resultMessage) {
             if (lineCount != 52) {
                 node* currentControl = controlCardDeck;
                 while (currentControl -> next != NULL) {
-                    if (currentControl -> hidden == 0) {
+                    if (currentControl -> hidden == 1) {
                         sprintf(*resultMessage, "Error in savefile! There are not 52 cards as card: %c%c is missing.", currentControl -> suit, currentControl -> face);
                         unloadCards(controlCardDeck);
                         unloadCards(cardDeck -> next);
+                        cardDeck -> next = NULL;
                         return -1;
                     }
                     currentControl = currentControl -> next;
@@ -220,12 +226,15 @@ int SD(char lastCommand[], node *cardDeck, char **resultMessage) {
 }
 
 void unloadCards(node* cards) {
-    node* current = cards;
-    while(current -> next != NULL) {
-        node* temp = current -> next;
-        free(current);
-        current = temp;
+    node* temp;
+    while(cards -> next != NULL) {
+        temp = cards;
+        cards = cards -> next;
+        temp -> next = NULL;
+        free(temp);
+        temp = NULL;
     }
+    cards = NULL;
 }
 
 int L(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, node *C6, node *C7, node *foundation1, node *foundation2, node *foundation3, node *foundation4, char **resultMessage) {
@@ -459,7 +468,7 @@ void insertCardDeck(node* cardDeck) {
         if (i != 0 && i % 13 == 0) {
             j++;
         }
-        insertElement( &cardDeck, suitStr[i%13], faceStr[j], 0);
+        insertElement( &cardDeck, suitStr[i%13], faceStr[j], 1);
     }
 
 }
