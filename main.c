@@ -402,6 +402,24 @@ void shuffleCardsRandom(node* source, node* dist) {
     char face[52];
     char hidden[52];
 
+    node* current = source;
+    current = current -> next;
+
+    int counter = 0;
+
+    while (current != NULL) {
+        suit[counter] = current -> suit;
+        face[counter] = current -> face;
+        hidden[counter] = current -> hidden;
+
+        counter++;
+        current = current -> next;
+    }
+
+    for (int i = 0; i < 52; ++i) {
+        insertElement( &dist, suit[i], face[i], hidden[i]);
+    }
+
 
 }
 
