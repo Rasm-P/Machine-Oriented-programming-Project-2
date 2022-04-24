@@ -23,6 +23,7 @@ void QQ(node* cardDeck, node* C1, node* C2, node* C3, node* C4, node* C5, node* 
 void Q(int* STARTUP);
 int P(int* STARTUP, node* cardDeck, node* C1, node* C2, node* C3, node* C4, node* C5, node* C6, node* C7, node* foundation1, node* foundation2, node* foundation3, node* foundation4, char **resultMessage);
 void unloadCards(node* cards);
+void unloadFullCardDeck(node *C1, node *C2, node *C3, node *C4, node *C5, node *C6, node *C7, node *foundation1, node *foundation2, node *foundation3, node *foundation4);
 void insertElement(node** root, char suit, char face, int hidden);
 void insertCardDeck(node* cardDeck);
 void displayDeck(node* cardDeck, node *C1, node *C2, node *C3, node *C4, node *C5, node *C6, node *C7, node *foundation1, node *foundation2, node *foundation3, node *foundation4, int STARTUP);
@@ -254,19 +255,10 @@ int SW(node* cardDeck, char **resultMessage) {
 
 void QQ(node* cardDeck, node* C1, node* C2, node* C3, node* C4, node* C5, node* C6, node* C7, node* foundation1, node* foundation2, node* foundation3, node* foundation4){
     unloadCards(cardDeck);
-    unloadCards(C1);
-    unloadCards(C2);
-    unloadCards(C3);
-    unloadCards(C4);
-    unloadCards(C5);
-    unloadCards(C6);
-    unloadCards(C7);
-    unloadCards(foundation1);
-    unloadCards(foundation2);
-    unloadCards(foundation3);
-    unloadCards(foundation4);
+    unloadFullCardDeck(C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4);
     exit(0);
 }
+
 void Q(int* STARTUP){
     *STARTUP = 1;
 }
@@ -314,28 +306,50 @@ int P(int* STARTUP, node* cardDeck, node* C1, node* C2, node* C3, node* C4, node
             newDeck = newDeck->next;
             if (i == 0) {
                 C1->next = temp;
+                C1->next->hidden = 0;
                 C1->next->next = NULL;
             } else if ((i % 7 == 1) && i <= 36) {
                 C2->next = temp;
                 C2 = C2->next;
+                if (i>=8) {
+                    C2->hidden=0;
+                }
                 C2->next = NULL;
             } else if ((i % 7 == 2) && i <= 44) {
                 C3->next = temp;
                 C3 = C3->next;
+                if (i>=16) {
+                    C3->hidden=0;
+                }
                 C3->next = NULL;
             } else if ((i % 7 == 3) && i <= 52) {
                 C4->next = temp;
                 C4 = C4->next;
+                if (i>=24) {
+                    C4->hidden=0;
+                }
                 C4->next = NULL;
             } else if ((i % 7 == 4) && i <= 60) {
                 C5->next = temp;
                 C5 = C5->next;
+                if (i>=32) {
+                    C5->hidden=0;
+                }
                 C5->next = NULL;
             } else if ((i % 7 == 5) && i <= 68) {
                 C6->next = temp;
                 C6 = C6->next;
+                if (i>=40) {
+                    C6->hidden=0;
+                }
                 C6->next = NULL;
             } else if ((i % 7 == 6) && i <= 76) {
+                C7->next = temp;
+                C7 = C7->next;
+                if (i>=48) {
+                    C7->hidden=0;
+                }
+                C7->next = NULL;
                 if (i >= 6 && i < 41) {
                     i++;
                 } else if (i == 41) {
@@ -349,9 +363,6 @@ int P(int* STARTUP, node* cardDeck, node* C1, node* C2, node* C3, node* C4, node
                 } else if (i == 69) {
                     i = i + 6;
                 }
-                C7->next = temp;
-                C7 = C7->next;
-                C7->next = NULL;
             }
             i++;
         }
@@ -374,6 +385,31 @@ void unloadCards(node* cards) {
         }
         cards = NULL;
     }
+}
+
+void unloadFullCardDeck(node *C1, node *C2, node *C3, node *C4, node *C5, node *C6, node *C7, node *foundation1, node *foundation2, node *foundation3, node *foundation4) {
+    unloadCards(C1 -> next);
+    C1 -> next = NULL;
+    unloadCards(C2 -> next);
+    C2 -> next = NULL;
+    unloadCards(C3 -> next);
+    C3 -> next = NULL;
+    unloadCards(C4 -> next);
+    C4 -> next = NULL;
+    unloadCards(C5 -> next);
+    C5 -> next = NULL;
+    unloadCards(C6 -> next);
+    C6 -> next = NULL;
+    unloadCards(C7 -> next);
+    C7 -> next = NULL;
+    unloadCards(foundation1 -> next);
+    foundation1 -> next = NULL;
+    unloadCards(foundation2 -> next);
+    foundation2 -> next = NULL;
+    unloadCards(foundation3 -> next);
+    foundation3 -> next = NULL;
+    unloadCards(foundation4 -> next);
+    foundation4 -> next = NULL;
 }
 
 void displayDeck(node* cardDeck, node *C1, node *C2, node *C3, node *C4, node *C5, node *C6, node *C7, node *foundation1, node *foundation2, node *foundation3, node *foundation4, int STARTUP){
@@ -517,10 +553,10 @@ int L(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, node
         FILE *infile;
         infile = fopen(optionalParameter, "r");
         if (infile != NULL) {
+            unloadFullCardDeck(C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4);
             node* controlCardDeck = malloc(sizeof(node));
             controlCardDeck -> next = NULL;
             insertCardDeck(controlCardDeck);
-
             int lineCount = 0;
             int cardCount = 0;
             char line[5];
@@ -582,7 +618,8 @@ int L(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, node
                         } else {
                             sprintf(*resultMessage, "Error in savefile at line %d! Card: %c%c is a duplicate.", lineCount, current -> suit, current -> face);
                             fclose(infile);
-                            //ToDO implement unload function to unload c1, c2....
+                            unloadCards(controlCardDeck);
+                            unloadFullCardDeck(C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4);
                             return -1;
                         }
                     }
@@ -591,7 +628,8 @@ int L(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, node
                 if (currentControl -> next == NULL && currentControl -> suit != current -> suit && currentControl -> face != current -> face) {
                     sprintf(*resultMessage, "Error in savefile at line %d! Card: %c%c is of illegal format.", lineCount, current -> suit, current -> face);
                     fclose(infile);
-                    //ToDO implement unload function to unload c1, c2....
+                    unloadCards(controlCardDeck);
+                    unloadFullCardDeck(C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4);
                     return -1;
                 }
             }
@@ -601,7 +639,8 @@ int L(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, node
                 while (currentControl -> next != NULL) {
                     if (currentControl -> hidden == 0) {
                         sprintf(*resultMessage, "Error in savefile! There are not 52 cards as card: %c%c is missing.", currentControl -> suit, currentControl -> face);
-                        //ToDO implement unload function to unload c1, c2....
+                        unloadCards(controlCardDeck);
+                        unloadFullCardDeck(C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4);
                         return -1;
                     }
                     currentControl = currentControl -> next;
