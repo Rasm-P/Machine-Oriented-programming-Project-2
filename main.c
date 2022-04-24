@@ -25,7 +25,7 @@ int P(int* STARTUP, node* cardDeck, node* C1, node* C2, node* C3, node* C4, node
 void unloadCards(node* cards);
 void insertElement(node** root, char suit, char face, int hidden);
 void insertCardDeck(node* cardDeck);
-void displayEmptyBrackets(node* cardDeck);
+void displayDeck(node* cardDeck, node *C1, node *C2, node *C3, node *C4, node *C5, node *C6, node *C7, node *foundation1, node *foundation2, node *foundation3, node *foundation4, int STARTUP);
 int L(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, node *C6, node *C7, node *foundation1, node *foundation2, node *foundation3, node *foundation4, char **resultMessage);
 int S(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, node *C6, node *C7, node *foundation1, node *foundation2, node *foundation3, node *foundation4, char **resultMessage);
 void insertBlocks(char suitStr[], char faceStr[], node* C1, node* C2, node* C3, node* C4, node* C5, node* C6, node* C7);
@@ -112,7 +112,7 @@ int main() {
                 printf("Message: %s\n", resultMessage);
             }
         }
-        displayEmptyBrackets(cardDeck);
+        displayDeck(cardDeck, C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4, STARTUP);
         printf("INPUT > :");
         scanf("%s", lastCommand);
     }
@@ -376,7 +376,7 @@ void unloadCards(node* cards) {
     }
 }
 
-void displayEmptyBrackets(node* cardDeck){
+void displayDeck(node* cardDeck, node *C1, node *C2, node *C3, node *C4, node *C5, node *C6, node *C7, node *foundation1, node *foundation2, node *foundation3, node *foundation4, int STARTUP){
     printf("\n\n");
     printf("C1\tC2\tC3\tC4\tC5\tC6\tC7\n\n");
 
@@ -384,6 +384,89 @@ void displayEmptyBrackets(node* cardDeck){
     if (cardDeck -> next == NULL) {
         for (int i = 1; i < 53; i++) {
             printf("  \t");
+            if ((i - 7) % 14 == 0) {
+
+                printf("\t\t\t%c%c\t%c%d", '[', ']', 'F', num);
+                num++;
+            }
+            if (i % 7 == 0 && i != 0) {
+                printf("\n");
+            }
+        }
+    } else if (!STARTUP) {
+        for (int i = 1; i < 53; i++) {
+            switch ((i-1)%7) {
+                case 0:
+                    if (C1 != NULL) {
+                        C1 = C1->next;
+                    }
+                    if (C1 == NULL || C1 -> hidden == 1) {
+                        printf("%c%c\t", '[', ']');
+                    } else {
+                        printf("%c%c\t",C1 -> suit, C1 -> face);
+                    }
+                    break;
+                case 1:
+                    if (C2 != NULL) {
+                        C2 = C2->next;
+                    }
+                    if (C2 == NULL || C2 -> hidden == 1) {
+                        printf("%c%c\t", '[', ']');
+                    } else {
+                        printf("%c%c\t",C2 -> suit, C2 -> face);
+                    }
+                    break;
+                case 2:
+                    if (C3 != NULL) {
+                        C3 = C3->next;
+                    }
+                    if (C3 == NULL || C3 -> hidden == 1) {
+                        printf("%c%c\t", '[', ']');
+                    } else {
+                        printf("%c%c\t",C3 -> suit, C3 -> face);
+                    }
+                    break;
+                case 3:
+                    if (C4 != NULL) {
+                        C4 = C4->next;
+                    }
+                    if (C4 == NULL || C4 -> hidden == 1) {
+                        printf("%c%c\t", '[', ']');
+                    } else {
+                        printf("%c%c\t",C4 -> suit, C4 -> face);
+                    }
+                    break;
+                case 4:
+                    if (C5 != NULL) {
+                        C5 = C5->next;
+                    }
+                    if (C5 == NULL || C5 -> hidden == 1) {
+                        printf("%c%c\t", '[', ']');
+                    } else {
+                        printf("%c%c\t",C5 -> suit, C5 -> face);
+                    }
+                    break;
+                case 5:
+                    if (C6 != NULL) {
+                        C6 = C6->next;
+                    }
+                    if (C6 == NULL || C6 -> hidden == 1) {
+                        printf("%c%c\t", '[', ']');
+                    } else {
+                        printf("%c%c\t",C6 -> suit, C6 -> face);
+                    }
+                    break;
+                case 6:
+                    if (C7 != NULL) {
+                        C7 = C7->next;
+                    }
+                    if (C7 == NULL || C7 -> hidden == 1) {
+                        printf("%c%c\t", '[', ']');
+                    } else {
+                        printf("%c%c\t",C7 -> suit, C7 -> face);
+                    }
+                    break;
+            }
             if ((i - 7) % 14 == 0) {
 
                 printf("\t\t\t%c%c\t%c%d", '[', ']', 'F', num);
