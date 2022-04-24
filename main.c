@@ -639,6 +639,19 @@ void splitDeck(node* source, node* dist, int midValue) {
 
     node* sourceCurr = source;
     sourceCurr = sourceCurr -> next;
+    while (sourceCurr != NULL) {
+
+        if (counter >= midValue) {
+            insertElement(&secondNode, sourceCurr -> suit, sourceCurr -> face, sourceCurr -> hidden);
+
+        } else {
+
+            insertElement(&firstNode, sourceCurr -> suit, sourceCurr -> face, sourceCurr -> hidden);
+
+        }
+        sourceCurr = sourceCurr -> next;
+        counter++;
+    }
 
 }
 
