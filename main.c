@@ -19,6 +19,7 @@ int STARTUP = 1;
 int LD(char lastCommand[], node *cardDeck, char **resultMessage);
 int SD(char lastCommand[], node *cardDeck, char **resultMessage);
 int SW(node* cardDeck, char **resultMessage);
+void QQ(node* cardDeck, node* C1, node* C2, node* C3, node* C4, node* C5, node* C6, node* C7, node* foundation1, node* foundation2, node* foundation3, node* foundation4);
 void unloadCards(node* cards);
 void insertElement(node** root, char suit, char face, int hidden);
 void insertCardDeck(node* cardDeck);
@@ -73,28 +74,31 @@ int main() {
                 printf("TO DO!\n");
             } else if (lastCommand[0] == 'S' && lastCommand[1] == 'D') {
                 result = SD(lastCommand, cardDeck, &resultMessage);
-            } else if (lastCommand[0] == 'Q' && lastCommand[1] == 'Q') {
+            }  else if (lastCommand[0] == 'P') {
                 printf("TO DO!\n");
-                break; //replace
-            } else if (lastCommand[0] == 'P') {
-                printf("TO DO!\n");
-            } else if (lastCommand[0] == 'Q') {
-                printf("TO DO!\n");
-            } else {
+            }  else {
                 result = 1;
                 resultMessage = "The chosen command does not exist in the STARTUP phase!";
             }
         } else {
-            if (lastCommand[0] == 'L' && lastCommand[1] == 'D') {
+            if (lastCommand[0] == 'Q') {
+                printf("TO DO!\n");
+            }
+            else if (lastCommand[0] == 'L' ) {
                 result = L(lastCommand, C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4,
                             &resultMessage);
-            } else if (lastCommand[0] == 'S' && lastCommand[1] == 'D') {
+            }
+            else if (lastCommand[0] == 'S') {
                 result = S(lastCommand, C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4,
                             &resultMessage);
             } else {
                 //Game moves
                 printf("TO DO!\n");
             }
+        }
+        if (lastCommand[0] == 'Q' && lastCommand[1] == 'Q') {
+            printf("Thank you for playing!\n");
+            QQ(cardDeck, C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4);
         }
 
         if (lastCommand[0] != 0) {
@@ -243,6 +247,22 @@ int SW(node* cardDeck, char **resultMessage) {
         *resultMessage = "Error! No deck of cards are loaded.";
         return -1;
     }
+}
+
+void QQ(node* cardDeck, node* C1, node* C2, node* C3, node* C4, node* C5, node* C6, node* C7, node* foundation1, node* foundation2, node* foundation3, node* foundation4){
+    unloadCards(cardDeck);
+    unloadCards(C1);
+    unloadCards(C2);
+    unloadCards(C3);
+    unloadCards(C4);
+    unloadCards(C5);
+    unloadCards(C6);
+    unloadCards(C7);
+    unloadCards(foundation1);
+    unloadCards(foundation2);
+    unloadCards(foundation3);
+    unloadCards(foundation4);
+    exit(0);
 }
 
 void unloadCards(node* cards) {
