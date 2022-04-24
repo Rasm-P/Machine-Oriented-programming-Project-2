@@ -27,6 +27,7 @@ int L(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, node
 int S(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, node *C6, node *C7, node *foundation1, node *foundation2, node *foundation3, node *foundation4, char **resultMessage);
 void insertBlocks(char suitStr[], char faceStr[], node* C1, node* C2, node* C3, node* C4, node* C5, node* C6, node* C7);
 void shuffleCardsRandom(node* source, node* dist);
+void splitDeck(node* source, node* dist, int midValue);
 
 int main() {
     node* cardDeck = malloc(sizeof(node));
@@ -629,4 +630,17 @@ void shuffleCardsRandom(node* source, node* dist) {
 
 
 }
+
+void splitDeck(node* source, node* dist, int midValue) {
+    node* firstNode = malloc(sizeof(node));
+    node* secondNode = malloc(sizeof(node));
+    int counter = 0;
+
+
+    node* sourceCurr = source;
+    sourceCurr = sourceCurr -> next;
+
+}
+
+
 
