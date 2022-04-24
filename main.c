@@ -21,7 +21,7 @@ int SD(char lastCommand[], node *cardDeck, char **resultMessage);
 int SW(node* cardDeck, char **resultMessage);
 void QQ(node* cardDeck, node* C1, node* C2, node* C3, node* C4, node* C5, node* C6, node* C7, node* foundation1, node* foundation2, node* foundation3, node* foundation4);
 void Q(int* STARTUP);
-void P(int* STARTUP, node* cardDeck, node* C1, node* C2, node* C3, node* C4, node* C5, node* C6, node* C7, node* foundation1, node* foundation2, node* foundation3, node* foundation4);
+int P(int* STARTUP, node* cardDeck, node* C1, node* C2, node* C3, node* C4, node* C5, node* C6, node* C7, node* foundation1, node* foundation2, node* foundation3, node* foundation4, char **resultMessage);
 void unloadCards(node* cards);
 void insertElement(node** root, char suit, char face, int hidden);
 void insertCardDeck(node* cardDeck);
@@ -77,14 +77,14 @@ int main() {
             } else if (lastCommand[0] == 'S' && lastCommand[1] == 'D') {
                 result = SD(lastCommand, cardDeck, &resultMessage);
             }  else if (lastCommand[0] == 'P') {
-                P(STARTUP, cardDeck, C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4);
+                result = P(&STARTUP, cardDeck, C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4, &resultMessage);
             }  else {
                 result = 1;
                 resultMessage = "The chosen command does not exist in the STARTUP phase!";
             }
         } else {
             if (lastCommand[0] == 'Q') {
-                Q(STARTUP);
+                Q(&STARTUP);
             }
             else if (lastCommand[0] == 'L' ) {
                 result = L(lastCommand, C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4,
@@ -268,82 +268,97 @@ void QQ(node* cardDeck, node* C1, node* C2, node* C3, node* C4, node* C5, node* 
     exit(0);
 }
 void Q(int* STARTUP){
-    STARTUP = 1;
+    *STARTUP = 1;
 }
 
-void P(int* STARTUP, node* cardDeck, node* C1, node* C2, node* C3, node* C4, node* C5, node* C6, node* C7, node* foundation1, node* foundation2, node* foundation3, node* foundation4){
-    STARTUP = 0;
-    unloadCards(C1 -> next);
-    C1 -> next = NULL;
-    unloadCards(C2 -> next);
-    C2 -> next = NULL;
-    unloadCards(C3 -> next);
-    C3 -> next = NULL;
-    unloadCards(C4 -> next);
-    C4 -> next = NULL;
-    unloadCards(C5 -> next);
-    C5 -> next = NULL;
-    unloadCards(C6 -> next);
-    C6 -> next = NULL;
-    unloadCards(C7 -> next);
-    C7 -> next = NULL;
-    unloadCards(foundation1 -> next);
-    foundation1 -> next = NULL;
-    unloadCards(foundation2 -> next);
-    foundation2 -> next = NULL;
-    unloadCards(foundation3 -> next) ;
-    foundation3 -> next = NULL;
-    unloadCards(foundation4 -> next);
-    foundation4 -> next = NULL;
+int P(int* STARTUP, node* cardDeck, node* C1, node* C2, node* C3, node* C4, node* C5, node* C6, node* C7, node* foundation1, node* foundation2, node* foundation3, node* foundation4, char **resultMessage){
+    if (cardDeck -> next != NULL) {
 
-    int i = 0;
-    cardDeck = cardDeck -> next;
-    node* temp;
-    while(cardDeck != NULL){
-        temp = cardDeck;
-        cardDeck = cardDeck -> next;
-        if(i == 0) {
-            C1->next = temp;
-            C1 -> next -> next = NULL;
-        } else if((i%7 == 1) && i <= 36 ){
-            C2 -> next = temp;
-            C2 = C2 -> next;
-            C2 -> next = NULL;
-        } else if((i%7 == 2) && i <= 44 ){
-            C3 -> next = temp;
-            C3 = C3 -> next;
-            C3 -> next = NULL;
-        } else if((i%7 == 3)&& i <= 52 ){
-            C4 -> next = temp;
-            C4 = C4 -> next;
-            C4 -> next = NULL;
-        } else if((i%7 == 4) && i <= 60 ){
-            C5 -> next = temp;
-            C5 = C5 -> next;
-            C5 -> next = NULL;
-        } else if((i%7 == 5) && i <= 68 ){
-            C6 -> next = temp;
-            C6 = C6 -> next;
-            C6 -> next = NULL;
-        } else if((i%7 == 6) && i <= 76 ){
-            if (i >= 6 && i < 41) {
-                i++;
-            } else if (i == 41) {
-                i = i+2;
-            } else if (i == 48) {
-                i = i+3;
-            } else if (i == 55) {
-                i = i+4;
-            } else if (i == 62) {
-                i = i+5;
-            } else if (i == 69) {
-                i = i+6;
-            }
-            C7 -> next = temp;
-            C7 = C7 -> next;
-            C7 -> next = NULL;
+        node* newDeck = malloc(sizeof(node));
+        newDeck -> next = NULL;
+        node* current = cardDeck -> next;
+        while (current != NULL) {
+            insertElement(&newDeck, current -> suit, current -> face, 1);
+            current = current -> next;
         }
-        i++;
+
+        *STARTUP = 0;
+        unloadCards(C1->next);
+        C1->next = NULL;
+        unloadCards(C2->next);
+        C2->next = NULL;
+        unloadCards(C3->next);
+        C3->next = NULL;
+        unloadCards(C4->next);
+        C4->next = NULL;
+        unloadCards(C5->next);
+        C5->next = NULL;
+        unloadCards(C6->next);
+        C6->next = NULL;
+        unloadCards(C7->next);
+        C7->next = NULL;
+        unloadCards(foundation1->next);
+        foundation1->next = NULL;
+        unloadCards(foundation2->next);
+        foundation2->next = NULL;
+        unloadCards(foundation3->next);
+        foundation3->next = NULL;
+        unloadCards(foundation4->next);
+        foundation4->next = NULL;
+
+        int i = 0;
+        newDeck = newDeck->next;
+        node *temp;
+        while (newDeck != NULL) {
+            temp = newDeck;
+            newDeck = newDeck->next;
+            if (i == 0) {
+                C1->next = temp;
+                C1->next->next = NULL;
+            } else if ((i % 7 == 1) && i <= 36) {
+                C2->next = temp;
+                C2 = C2->next;
+                C2->next = NULL;
+            } else if ((i % 7 == 2) && i <= 44) {
+                C3->next = temp;
+                C3 = C3->next;
+                C3->next = NULL;
+            } else if ((i % 7 == 3) && i <= 52) {
+                C4->next = temp;
+                C4 = C4->next;
+                C4->next = NULL;
+            } else if ((i % 7 == 4) && i <= 60) {
+                C5->next = temp;
+                C5 = C5->next;
+                C5->next = NULL;
+            } else if ((i % 7 == 5) && i <= 68) {
+                C6->next = temp;
+                C6 = C6->next;
+                C6->next = NULL;
+            } else if ((i % 7 == 6) && i <= 76) {
+                if (i >= 6 && i < 41) {
+                    i++;
+                } else if (i == 41) {
+                    i = i + 2;
+                } else if (i == 48) {
+                    i = i + 3;
+                } else if (i == 55) {
+                    i = i + 4;
+                } else if (i == 62) {
+                    i = i + 5;
+                } else if (i == 69) {
+                    i = i + 6;
+                }
+                C7->next = temp;
+                C7 = C7->next;
+                C7->next = NULL;
+            }
+            i++;
+        }
+        return 0;
+    } else {
+        *resultMessage = "Error. No deck has been loaded!";
+        return -1;
     }
 }
 
