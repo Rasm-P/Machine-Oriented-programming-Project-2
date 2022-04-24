@@ -20,6 +20,7 @@ int LD(char lastCommand[], node *cardDeck, char **resultMessage);
 int SD(char lastCommand[], node *cardDeck, char **resultMessage);
 int SW(node* cardDeck, char **resultMessage);
 void QQ(node* cardDeck, node* C1, node* C2, node* C3, node* C4, node* C5, node* C6, node* C7, node* foundation1, node* foundation2, node* foundation3, node* foundation4);
+void Q(int* Startup_bool);
 void unloadCards(node* cards);
 void insertElement(node** root, char suit, char face, int hidden);
 void insertCardDeck(node* cardDeck);
@@ -82,7 +83,7 @@ int main() {
             }
         } else {
             if (lastCommand[0] == 'Q') {
-                printf("TO DO!\n");
+                Q(STARTUP);
             }
             else if (lastCommand[0] == 'L' ) {
                 result = L(lastCommand, C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4,
@@ -263,6 +264,13 @@ void QQ(node* cardDeck, node* C1, node* C2, node* C3, node* C4, node* C5, node* 
     unloadCards(foundation3);
     unloadCards(foundation4);
     exit(0);
+}
+void Q(int* Startup_bool){
+    Startup_bool = 1;
+}
+
+void P(){
+
 }
 
 void unloadCards(node* cards) {
