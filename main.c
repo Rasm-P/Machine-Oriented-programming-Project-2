@@ -21,6 +21,7 @@ int SD(char lastCommand[], node *cardDeck, char **resultMessage);
 int SW(node* cardDeck, char **resultMessage);
 void QQ(node* cardDeck, node* C1, node* C2, node* C3, node* C4, node* C5, node* C6, node* C7, node* foundation1, node* foundation2, node* foundation3, node* foundation4);
 void Q(int* Startup_bool);
+void P(int* Startup_bool, node* cardDeck, node* C1, node* C2, node* C3, node* C4, node* C5, node* C6, node* C7, node* foundation1, node* foundation2, node* foundation3, node* foundation4);
 void unloadCards(node* cards);
 void insertElement(node** root, char suit, char face, int hidden);
 void insertCardDeck(node* cardDeck);
@@ -76,7 +77,7 @@ int main() {
             } else if (lastCommand[0] == 'S' && lastCommand[1] == 'D') {
                 result = SD(lastCommand, cardDeck, &resultMessage);
             }  else if (lastCommand[0] == 'P') {
-                printf("TO DO!\n");
+                P(STARTUP, cardDeck, C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4);
             }  else {
                 result = 1;
                 resultMessage = "The chosen command does not exist in the STARTUP phase!";
@@ -269,20 +270,83 @@ void Q(int* Startup_bool){
     Startup_bool = 1;
 }
 
-void P(){
+void P(int* Startup_bool, node* cardDeck, node* C1, node* C2, node* C3, node* C4, node* C5, node* C6, node* C7, node* foundation1, node* foundation2, node* foundation3, node* foundation4){
+Startup_bool = 0;
+    unloadCards(C1 -> next);
+    C1 -> next = NULL;
+    unloadCards(C2 -> next);
+    C2 -> next = NULL;
+    unloadCards(C3 -> next);
+    C3 -> next = NULL;
+    unloadCards(C4 -> next);
+    C4 -> next = NULL;
+    unloadCards(C5 -> next);
+    C5 -> next = NULL;
+    unloadCards(C6 -> next);
+    C6 -> next = NULL;
+    unloadCards(C7 -> next);
+    C7 -> next = NULL;
+    unloadCards(foundation1 -> next);
+    foundation1 -> next = NULL;
+    unloadCards(foundation2 -> next);
+    foundation2 -> next = NULL;
+    unloadCards(foundation3 -> next) ;
+    foundation3 -> next = NULL;
+    unloadCards(foundation4 -> next);
+    foundation4 -> next = NULL;
 
+    int j = 0;
+    int i = 0;
+    cardDeck = cardDeck -> next;
+    node* temp;
+    while(cardDeck != NULL){
+        temp = cardDeck;
+        cardDeck = cardDeck -> next;
+        if(i == 0) {
+            C1->next = temp;
+            C1 -> next -> next = NULL;
+        } else if((i%7 == 1 || i%6 == 1) && i < 32 ){
+            C2 -> next = temp;
+            C2 = C2 -> next;
+            C2 -> next = NULL;
+        } else if((i%7 == 2 || i%6 == 2) && i < 38 ){
+            C3 -> next = temp;
+            C3 = C3 -> next;
+            C3 -> next = NULL;
+        } else if((i%7 == 3 || i%6 == 3) && i < 43 ){
+            C4 -> next = temp;
+            C4 = C4 -> next;
+            C4 -> next = NULL;
+        } else if((i%7 == 4 || i%6 == 4) && i < 47 ){
+            C5 -> next = temp;
+            C5 = C5 -> next;
+            C5 -> next = NULL;
+        } else if((i%7 == 5 || i%6 == 5) && i < 50 ){
+            C6 -> next = temp;
+            C6 = C6 -> next;
+            C6 -> next = NULL;
+        } else if((i%7 == 6 || i%6 == 6) && i < 52 ){
+            C7 -> next = temp;
+            C7 = C7 -> next;
+            C7 -> next = NULL;
+        }
+
+        i++;
+    }
 }
 
 void unloadCards(node* cards) {
-    node* temp;
-    while(cards -> next != NULL) {
-        temp = cards;
-        cards = cards -> next;
-        temp -> next = NULL;
-        free(temp);
-        temp = NULL;
+    if (cards != NULL) {
+        node *temp;
+        while (cards->next != NULL) {
+            temp = cards;
+            cards = cards->next;
+            temp->next = NULL;
+            free(temp);
+            temp = NULL;
+        }
+        cards = NULL;
     }
-    cards = NULL;
 }
 
 void displayEmptyBrackets(node* cardDeck){
