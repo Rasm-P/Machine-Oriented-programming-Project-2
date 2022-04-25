@@ -632,44 +632,50 @@ void shuffleCardsRandom(node* source, node* dist) {
 }
 
 void splitDeck(node* source, node* dist, int midValue) {
-    node* firstNode = malloc(sizeof(node));
-    node* secondNode = malloc(sizeof(node));
+    node *firstNode = malloc(sizeof(node));
+    node *secondNode = malloc(sizeof(node));
     int counter = 0;
 
 
-    node* sourceCurr = source;
-    sourceCurr = sourceCurr -> next;
+    node *sourceCurr = source;
+    sourceCurr = sourceCurr->next;
     while (sourceCurr != NULL) {
 
         if (counter >= midValue) {
-            insertElement(&secondNode, sourceCurr -> suit, sourceCurr -> face, sourceCurr -> hidden);
+            insertElement(&secondNode, sourceCurr->suit, sourceCurr->face, sourceCurr->hidden);
 
         } else {
 
-            insertElement(&firstNode, sourceCurr -> suit, sourceCurr -> face, sourceCurr -> hidden);
+            insertElement(&firstNode, sourceCurr->suit, sourceCurr->face, sourceCurr->hidden);
 
         }
-        sourceCurr = sourceCurr -> next;
+        sourceCurr = sourceCurr->next;
         counter++;
     }
 
-    firstNode = firstNode -> next;
-    secondNode = secondNode -> next;
+    firstNode = firstNode->next;
+    secondNode = secondNode->next;
 
     while (firstNode != NULL && secondNode != NULL) {
-        insertElement(&dist, secondNode -> suit, secondNode -> face, secondNode -> hidden);
-        insertElement(&dist, firstNode -> suit, firstNode -> face, firstNode -> hidden);
-        firstNode = firstNode -> next;
-        secondNode = secondNode -> next;
+        insertElement(&dist, secondNode->suit, secondNode->face, secondNode->hidden);
+        insertElement(&dist, firstNode->suit, firstNode->face, firstNode->hidden);
+        firstNode = firstNode->next;
+        secondNode = secondNode->next;
 
     }
     if (firstNode != NULL) {
         while (firstNode != NULL) {
-            insertElement(&dist, firstNode -> suit, firstNode -> face, firstNode -> hidden);
-            firstNode = firstNode -> next;
+            insertElement(&dist, firstNode->suit, firstNode->face, firstNode->hidden);
+            firstNode = firstNode->next;
         }
-    }
+    } else if (secondNode != NULL) {
 
+        while (secondNode != NULL) {
+            insertElement(&dist, secondNode->suit, secondNode->face, secondNode->hidden);
+            secondNode = secondNode->next;
+        }
+
+    }
 }
 
 
