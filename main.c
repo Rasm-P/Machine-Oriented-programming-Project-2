@@ -661,6 +661,13 @@ void splitDeck(node* source, node* dist, int midValue) {
         insertElement(&dist, firstNode -> suit, firstNode -> face, firstNode -> hidden);
         firstNode = firstNode -> next;
         secondNode = secondNode -> next;
+
+    }
+    if (firstNode != NULL) {
+        while (firstNode != NULL) {
+            insertElement(&dist, firstNode -> suit, firstNode -> face, firstNode -> hidden);
+            firstNode = firstNode -> next;
+        }
     }
 
 }
