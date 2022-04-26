@@ -19,46 +19,36 @@ int STARTUP = 1;
 int LD(char lastCommand[], node *cardDeck, char **resultMessage);
 int SD(char lastCommand[], node *cardDeck, char **resultMessage);
 int SW(node* cardDeck, char **resultMessage);
-void QQ(node* cardDeck, node* C1, node* C2, node* C3, node* C4, node* C5, node* C6, node* C7, node* foundation1, node* foundation2, node* foundation3, node* foundation4);
+void QQ(node* cardDeck, node* cardColumns[], node* cardFoundations[]);
 void Q(int* STARTUP);
-int P(int* STARTUP, node* cardDeck, node* C1, node* C2, node* C3, node* C4, node* C5, node* C6, node* C7, node* foundation1, node* foundation2, node* foundation3, node* foundation4, char **resultMessage);
+int P(int* STARTUP, node* cardDeck, node* cardColumns[], node* cardFoundations[], char **resultMessage);
 void unloadCards(node* cards);
-void unloadFullCardDeck(node *C1, node *C2, node *C3, node *C4, node *C5, node *C6, node *C7, node *foundation1, node *foundation2, node *foundation3, node *foundation4);
+void unloadFullCardDeck(node* cardColumns[], node* cardFoundations[]);
 void insertElement(node** root, char suit, char face, int hidden);
 void insertCardDeck(node* cardDeck);
-void displayDeck(node* cardDeck, node *C1, node *C2, node *C3, node *C4, node *C5, node *C6, node *C7, node *foundation1, node *foundation2, node *foundation3, node *foundation4, int STARTUP);
-int L(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, node *C6, node *C7, node *foundation1, node *foundation2, node *foundation3, node *foundation4, char **resultMessage);
-int S(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, node *C6, node *C7, node *foundation1, node *foundation2, node *foundation3, node *foundation4, char **resultMessage);
-void insertBlocks(char suitStr[], char faceStr[], node* C1, node* C2, node* C3, node* C4, node* C5, node* C6, node* C7);
+void displayDeck(node* cardDeck, node* cardColumns[], node* cardFoundations[], int STARTUP);
+int L(char lastCommand[], node* cardColumns[], node* cardFoundations[], char **resultMessage);
+int S(char lastCommand[], node* cardColumns[], node* cardFoundations[], char **resultMessage);
+void insertBlocks(char suitStr[], char faceStr[], node* cardColumns[]);
 void shuffleCardsRandom(node* source, node* dist);
 
 int main() {
     node* cardDeck = malloc(sizeof(node));
     cardDeck -> next = NULL;
 
-    node* C1 = malloc(sizeof(node));
-    C1 -> next = NULL;
-    node* C2 = malloc(sizeof(node));
-    C2 -> next = NULL;
-    node* C3 = malloc(sizeof(node));
-    C3 -> next = NULL;
-    node* C4 = malloc(sizeof(node));
-    C4 -> next = NULL;
-    node* C5 = malloc(sizeof(node));
-    C5 -> next = NULL;
-    node* C6 = malloc(sizeof(node));
-    C6 -> next = NULL;
-    node* C7 = malloc(sizeof(node));
-    C7 -> next = NULL;
+    node* cardColumns[7];
+    for (int i = 0; i < 7; i++) {
+        node* column = malloc(sizeof(node));
+        column -> next = NULL;
+        cardColumns[i] = column;
+    }
 
-    node* foundation1 = malloc(sizeof(node));
-    foundation1 -> next = NULL;
-    node* foundation2 = malloc(sizeof(node));
-    foundation2 -> next = NULL;
-    node* foundation3 = malloc(sizeof(node));
-    foundation3 -> next = NULL;
-    node* foundation4 = malloc(sizeof(node));
-    foundation4 -> next = NULL;
+    node* cardFoundations[4];
+    for (int i = 0; i < 4; i++) {
+        node* foundation = malloc(sizeof(node));
+        foundation -> next = NULL;
+        cardFoundations[i] = foundation;
+    }
 
     bool isRunning = true;
     char lastCommand[COMMAND_STRING] = {0};
@@ -78,7 +68,7 @@ int main() {
             } else if (lastCommand[0] == 'S' && lastCommand[1] == 'D') {
                 result = SD(lastCommand, cardDeck, &resultMessage);
             }  else if (lastCommand[0] == 'P') {
-                result = P(&STARTUP, cardDeck, C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4, &resultMessage);
+                result = P(&STARTUP, cardDeck, cardColumns, cardFoundations, &resultMessage);
             }  else {
                 result = 1;
                 resultMessage = "The chosen command does not exist in the STARTUP phase!";
@@ -88,12 +78,10 @@ int main() {
                 Q(&STARTUP);
             }
             else if (lastCommand[0] == 'L' ) {
-                result = L(lastCommand, C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4,
-                            &resultMessage);
+                result = L(lastCommand, cardColumns, cardFoundations,&resultMessage);
             }
             else if (lastCommand[0] == 'S') {
-                result = S(lastCommand, C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4,
-                            &resultMessage);
+                result = S(lastCommand, cardColumns, cardFoundations, &resultMessage);
             } else {
                 //Game moves
                 printf("TO DO!\n");
@@ -101,7 +89,7 @@ int main() {
         }
         if (lastCommand[0] == 'Q' && lastCommand[1] == 'Q') {
             printf("Thank you for playing!\n");
-            QQ(cardDeck, C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4);
+            QQ(cardDeck, cardColumns, cardFoundations);
             break;
         }
 
@@ -113,7 +101,7 @@ int main() {
                 printf("Message: %s\n", resultMessage);
             }
         }
-        displayDeck(cardDeck, C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4, STARTUP);
+        displayDeck(cardDeck, cardColumns, cardFoundations, STARTUP);
         printf("INPUT > :");
         scanf("%s", lastCommand);
     }
@@ -253,9 +241,9 @@ int SW(node* cardDeck, char **resultMessage) {
     }
 }
 
-void QQ(node* cardDeck, node* C1, node* C2, node* C3, node* C4, node* C5, node* C6, node* C7, node* foundation1, node* foundation2, node* foundation3, node* foundation4){
+void QQ(node* cardDeck, node* cardColumns[], node* cardFoundations[]){
     unloadCards(cardDeck);
-    unloadFullCardDeck(C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4);
+    unloadFullCardDeck(cardColumns, cardFoundations);
     exit(0);
 }
 
@@ -263,7 +251,7 @@ void Q(int* STARTUP){
     *STARTUP = 1;
 }
 
-int P(int* STARTUP, node* cardDeck, node* C1, node* C2, node* C3, node* C4, node* C5, node* C6, node* C7, node* foundation1, node* foundation2, node* foundation3, node* foundation4, char **resultMessage){
+int P(int* STARTUP, node* cardDeck, node* cardColumns[7], node* cardFoundations[4], char **resultMessage){
     if (cardDeck -> next != NULL) {
 
         node* newDeck = malloc(sizeof(node));
@@ -275,28 +263,14 @@ int P(int* STARTUP, node* cardDeck, node* C1, node* C2, node* C3, node* C4, node
         }
 
         *STARTUP = 0;
-        unloadCards(C1->next);
-        C1->next = NULL;
-        unloadCards(C2->next);
-        C2->next = NULL;
-        unloadCards(C3->next);
-        C3->next = NULL;
-        unloadCards(C4->next);
-        C4->next = NULL;
-        unloadCards(C5->next);
-        C5->next = NULL;
-        unloadCards(C6->next);
-        C6->next = NULL;
-        unloadCards(C7->next);
-        C7->next = NULL;
-        unloadCards(foundation1->next);
-        foundation1->next = NULL;
-        unloadCards(foundation2->next);
-        foundation2->next = NULL;
-        unloadCards(foundation3->next);
-        foundation3->next = NULL;
-        unloadCards(foundation4->next);
-        foundation4->next = NULL;
+        for (int i = 0; i < 7; i++) {
+            unloadCards(cardColumns[i] ->next);
+            cardColumns[i] -> next = NULL;
+        }
+        for (int i = 0; i < 4; i++) {
+            unloadCards(cardFoundations[i] ->next);
+            cardFoundations[i] -> next = NULL;
+        }
 
         int i = 0;
         newDeck = newDeck->next;
@@ -305,51 +279,51 @@ int P(int* STARTUP, node* cardDeck, node* C1, node* C2, node* C3, node* C4, node
             temp = newDeck;
             newDeck = newDeck->next;
             if (i == 0) {
-                C1->next = temp;
-                C1->next->hidden = 0;
-                C1->next->next = NULL;
+                cardColumns[0]->next = temp;
+                cardColumns[0]->next->hidden = 0;
+                cardColumns[0]->next->next = NULL;
             } else if ((i % 7 == 1) && i <= 36) {
-                C2->next = temp;
-                C2 = C2->next;
+                cardColumns[1]->next = temp;
+                cardColumns[1] = cardColumns[1]->next;
                 if (i>=8) {
-                    C2->hidden=0;
+                    cardColumns[1]->hidden=0;
                 }
-                C2->next = NULL;
+                cardColumns[1]->next = NULL;
             } else if ((i % 7 == 2) && i <= 44) {
-                C3->next = temp;
-                C3 = C3->next;
+                cardColumns[2]->next = temp;
+                cardColumns[2] = cardColumns[2]->next;
                 if (i>=16) {
-                    C3->hidden=0;
+                    cardColumns[2]->hidden=0;
                 }
-                C3->next = NULL;
+                cardColumns[2]->next = NULL;
             } else if ((i % 7 == 3) && i <= 52) {
-                C4->next = temp;
-                C4 = C4->next;
+                cardColumns[3]->next = temp;
+                cardColumns[3] = cardColumns[3]->next;
                 if (i>=24) {
-                    C4->hidden=0;
+                    cardColumns[3]->hidden=0;
                 }
-                C4->next = NULL;
+                cardColumns[3]->next = NULL;
             } else if ((i % 7 == 4) && i <= 60) {
-                C5->next = temp;
-                C5 = C5->next;
+                cardColumns[4]->next = temp;
+                cardColumns[4] = cardColumns[4]->next;
                 if (i>=32) {
-                    C5->hidden=0;
+                    cardColumns[4]->hidden=0;
                 }
-                C5->next = NULL;
+                cardColumns[4]->next = NULL;
             } else if ((i % 7 == 5) && i <= 68) {
-                C6->next = temp;
-                C6 = C6->next;
+                cardColumns[5]->next = temp;
+                cardColumns[5] = cardColumns[5]->next;
                 if (i>=40) {
-                    C6->hidden=0;
+                    cardColumns[5]->hidden=0;
                 }
-                C6->next = NULL;
+                cardColumns[5]->next = NULL;
             } else if ((i % 7 == 6) && i <= 76) {
-                C7->next = temp;
-                C7 = C7->next;
+                cardColumns[6]->next = temp;
+                cardColumns[6] = cardColumns[6]->next;
                 if (i>=48) {
-                    C7->hidden=0;
+                    cardColumns[6]->hidden=0;
                 }
-                C7->next = NULL;
+                cardColumns[6]->next = NULL;
                 if (i >= 6 && i < 41) {
                     i++;
                 } else if (i == 41) {
@@ -387,32 +361,18 @@ void unloadCards(node* cards) {
     }
 }
 
-void unloadFullCardDeck(node *C1, node *C2, node *C3, node *C4, node *C5, node *C6, node *C7, node *foundation1, node *foundation2, node *foundation3, node *foundation4) {
-    unloadCards(C1 -> next);
-    C1 -> next = NULL;
-    unloadCards(C2 -> next);
-    C2 -> next = NULL;
-    unloadCards(C3 -> next);
-    C3 -> next = NULL;
-    unloadCards(C4 -> next);
-    C4 -> next = NULL;
-    unloadCards(C5 -> next);
-    C5 -> next = NULL;
-    unloadCards(C6 -> next);
-    C6 -> next = NULL;
-    unloadCards(C7 -> next);
-    C7 -> next = NULL;
-    unloadCards(foundation1 -> next);
-    foundation1 -> next = NULL;
-    unloadCards(foundation2 -> next);
-    foundation2 -> next = NULL;
-    unloadCards(foundation3 -> next);
-    foundation3 -> next = NULL;
-    unloadCards(foundation4 -> next);
-    foundation4 -> next = NULL;
+void unloadFullCardDeck(node* cardColumns[], node* cardFoundations[]) {
+    for (int i = 0; i < 7; i++) {
+        unloadCards(cardColumns[i] -> next);
+        cardColumns[i] -> next = NULL;
+    }
+    for (int i = 0; i < 4; i++) {
+        unloadCards(cardFoundations[i] -> next);
+        cardFoundations[i] -> next = NULL;
+    }
 }
 
-void displayDeck(node* cardDeck, node *C1, node *C2, node *C3, node *C4, node *C5, node *C6, node *C7, node *foundation1, node *foundation2, node *foundation3, node *foundation4, int STARTUP){
+void displayDeck(node* cardDeck, node* cardColumns[], node* cardFoundations[], int STARTUP){
     printf("\n\n");
     printf("C1\tC2\tC3\tC4\tC5\tC6\tC7\n\n");
 
@@ -431,76 +391,18 @@ void displayDeck(node* cardDeck, node *C1, node *C2, node *C3, node *C4, node *C
         }
     } else if (!STARTUP) {
         int i = 0;
-        while(C1 != NULL || C2 != NULL || C3 != NULL || C4 != NULL || C5 != NULL || C6 != NULL || C7 != NULL) {
-            if (C1 != NULL) {
-                C1 = C1->next;
-            }
-            if (C1 == NULL) {
-                printf("  \t");
-            } else if (C1 -> hidden == 1) {
-                printf("%c%c\t", '[', ']');
-            } else {
-                printf("%c%c\t",C1 -> suit, C1 -> face);
-            }
-            if (C2 != NULL) {
-                C2 = C2->next;
-            }
-            if (C2 == NULL) {
-                printf("  \t");
-            } else if (C2 -> hidden == 1) {
-                printf("%c%c\t", '[', ']');
-            } else {
-                printf("%c%c\t",C2 -> suit, C2 -> face);
-            }
-            if (C3 != NULL) {
-                C3 = C3->next;
-            }
-            if (C3 == NULL) {
-                printf("  \t");
-            } else if (C3 -> hidden == 1) {
-                printf("%c%c\t", '[', ']');
-            } else {
-                printf("%c%c\t",C3 -> suit, C3 -> face);
-            }
-            if (C4 != NULL) {
-                C4 = C4->next;
-            }
-            if (C4 == NULL) {
-                printf("  \t");
-            } else if (C4 -> hidden == 1) {
-                printf("%c%c\t", '[', ']');
-            } else {
-                printf("%c%c\t",C4 -> suit, C4 -> face);
-            }
-            if (C5 != NULL) {
-                C5 = C5->next;
-            }
-            if (C5 == NULL) {
-                printf("  \t");
-            } else if (C5 -> hidden == 1) {
-                printf("%c%c\t", '[', ']');
-            } else {
-                printf("%c%c\t",C5 -> suit, C5 -> face);
-            }
-            if (C6 != NULL) {
-                C6 = C6->next;
-            }
-            if (C6 == NULL) {
-                printf("  \t");
-            } else if (C6 -> hidden == 1) {
-                printf("%c%c\t", '[', ']');
-            } else {
-                printf("%c%c\t",C6 -> suit, C6 -> face);
-            }
-            if (C7 != NULL) {
-                C7 = C7->next;
-            }
-            if (C7 == NULL) {
-                printf("  \t");
-            } else if (C7 -> hidden == 1) {
-                printf("%c%c\t", '[', ']');
-            } else {
-                printf("%c%c\t",C7 -> suit, C7 -> face);
+        while(cardColumns[0] != NULL || cardColumns[1] != NULL || cardColumns[2] != NULL || cardColumns[3] != NULL || cardColumns[4] != NULL || cardColumns[5] != NULL || cardColumns[6] != NULL) {
+            for (int j = 0; j < 7; j++) {
+                if (cardColumns[j] != NULL) {
+                    cardColumns[j] = cardColumns[j]->next;
+                }
+                if (cardColumns[j] == NULL) {
+                    printf("  \t");
+                } else if (cardColumns[j] -> hidden == 1) {
+                    printf("%c%c\t", '[', ']');
+                } else {
+                    printf("%c%c\t",cardColumns[j] -> suit, cardColumns[j] -> face);
+                }
             }
             i = i+7;
             if ((i - 7) % 14 == 0 && i<=55) {
@@ -537,7 +439,7 @@ void displayDeck(node* cardDeck, node *C1, node *C2, node *C3, node *C4, node *C
     printf("\n\n");
 }
 
-int L(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, node *C6, node *C7, node *foundation1, node *foundation2, node *foundation3, node *foundation4, char **resultMessage) {
+int L(char lastCommand[], node* cardColumns[], node* cardFoundations[], char **resultMessage) {
     if (lastCommand[2] == '<') {
         char optionalParameter[MAX_STRING];
         int j = 0;
@@ -552,7 +454,7 @@ int L(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, node
         FILE *infile;
         infile = fopen(optionalParameter, "r");
         if (infile != NULL) {
-            unloadFullCardDeck(C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4);
+            unloadFullCardDeck(cardColumns, cardFoundations);
             node* controlCardDeck = malloc(sizeof(node));
             controlCardDeck -> next = NULL;
             insertCardDeck(controlCardDeck);
@@ -560,41 +462,41 @@ int L(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, node
             int cardCount = 0;
             char line[5];
             int i = 0;
-            node* current = C1;
+            node* current = cardColumns[0];
             while (fgets(line, sizeof(line), infile)) {
                 lineCount++;
                 if (line[0] == '-') {
                     i++;
                     switch (i) {
                         case 1:
-                            current = C2;
+                            current = cardColumns[1];
                             break;
                         case 2:
-                            current = C3;
+                            current = cardColumns[2];
                             break;
                         case 3:
-                            current = C4;
+                            current = cardColumns[3];
                             break;
                         case 4:
-                            current = C5;
+                            current = cardColumns[4];
                             break;
                         case 5:
-                            current = C6;
+                            current = cardColumns[5];
                             break;
                         case 6:
-                            current = C7;
+                            current = cardColumns[6];
                             break;
                         case 7:
-                            current = foundation1;
+                            current = cardFoundations[0];
                             break;
                         case 8:
-                            current = foundation2;
+                            current = cardFoundations[1];
                             break;
                         case 9:
-                            current = foundation3;
+                            current = cardFoundations[2];
                             break;
                         case 10:
-                            current = foundation4;
+                            current = cardFoundations[3];
                             break;
                     }
                     continue;
@@ -618,7 +520,7 @@ int L(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, node
                             sprintf(*resultMessage, "Error in savefile at line %d! Card: %c%c is a duplicate.", lineCount, current -> suit, current -> face);
                             fclose(infile);
                             unloadCards(controlCardDeck);
-                            unloadFullCardDeck(C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4);
+                            unloadFullCardDeck(cardColumns, cardFoundations);
                             return -1;
                         }
                     }
@@ -628,7 +530,7 @@ int L(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, node
                     sprintf(*resultMessage, "Error in savefile at line %d! Card: %c%c is of illegal format.", lineCount, current -> suit, current -> face);
                     fclose(infile);
                     unloadCards(controlCardDeck);
-                    unloadFullCardDeck(C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4);
+                    unloadFullCardDeck(cardColumns, cardFoundations);
                     return -1;
                 }
             }
@@ -639,7 +541,7 @@ int L(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, node
                     if (currentControl -> hidden == 0) {
                         sprintf(*resultMessage, "Error in savefile! There are not 52 cards as card: %c%c is missing.", currentControl -> suit, currentControl -> face);
                         unloadCards(controlCardDeck);
-                        unloadFullCardDeck(C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4);
+                        unloadFullCardDeck(cardColumns, cardFoundations);
                         return -1;
                     }
                     currentControl = currentControl -> next;
@@ -650,12 +552,12 @@ int L(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, node
             return -1;
         }
     } else {
-        insertBlocks(suitStr, faceStr, C1, C2, C3, C4, C5, C6, C7);
+        insertBlocks(suitStr, faceStr, cardColumns);
     }
     return 0;
 }
 
-int S(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, node *C6, node *C7, node *foundation1, node *foundation2, node *foundation3, node *foundation4, char **resultMessage) {
+int S(char lastCommand[], node* cardColumns[], node* cardFoundations[], char **resultMessage) {
     FILE *outfile;
     if (lastCommand[2] == '<') {
         char optionalParameter[MAX_STRING];
@@ -674,70 +576,23 @@ int S(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, node
     }
     if (outfile != NULL) {
         node* current;
-        current = C1 -> next;
-        while (current != NULL) {
-            fprintf(outfile, "%c%c%d\n",current->suit,current->face,current->hidden);
-            current = current -> next;
+        for (int i = 0; i < 7; i++) {
+            current = cardColumns[i] -> next;
+            while (current != NULL) {
+                fprintf(outfile, "%c%c%d\n",current->suit,current->face,current->hidden);
+                current = current -> next;
+            }
+            fprintf(outfile,"-\n");
         }
-        fprintf(outfile,"-\n");
-        current = C2 -> next;
-        while (current != NULL) {
-            fprintf(outfile, "%c%c%d\n",current->suit,current->face,current->hidden);
-            current = current -> next;
-        }
-        fprintf(outfile,"-\n");
-        current = C3 -> next;
-        while (current != NULL) {
-            fprintf(outfile, "%c%c%d\n",current->suit,current->face,current->hidden);
-            current = current -> next;
-        }
-        fprintf(outfile,"-\n");
-        current = C4 -> next;
-        while (current != NULL) {
-            fprintf(outfile, "%c%c%d\n",current->suit,current->face,current->hidden);
-            current = current -> next;
-        }
-        fprintf(outfile,"-\n");
-        current = C5 -> next;
-        while (current != NULL) {
-            fprintf(outfile, "%c%c%d\n",current->suit,current->face,current->hidden);
-            current = current -> next;
-        }
-        fprintf(outfile,"-\n");
-        current = C6 -> next;
-        while (current != NULL) {
-            fprintf(outfile, "%c%c%d\n",current->suit,current->face,current->hidden);
-            current = current -> next;
-        }
-        fprintf(outfile,"-\n");
-        current = C7 -> next;
-        while (current != NULL) {
-            fprintf(outfile, "%c%c%d\n",current->suit,current->face,current->hidden);
-            current = current -> next;
-        }
-        fprintf(outfile,"-\n");
-        current = foundation1 -> next;
-        while (current != NULL) {
-            fprintf(outfile, "%c%c%d\n",current->suit,current->face,current->hidden);
-            current = current -> next;
-        }
-        fprintf(outfile,"-\n");
-        current = foundation2 -> next;
-        while (current != NULL) {
-            fprintf(outfile, "%c%c%d\n",current->suit,current->face,current->hidden);
-            current = current -> next;
-        }
-        fprintf(outfile,"-\n");
-        current = foundation3 -> next;
-        while (current != NULL) {
-            fprintf(outfile, "%c%c%d\n",current->suit,current->face,current->hidden);
-            current = current -> next;
-        }
-        fprintf(outfile,"-\n");
-        current = foundation4 -> next;
-        while (current != NULL) {
-            fprintf(outfile, "%c%c%d\n",current->suit,current->face,current->hidden);
-            current = current -> next;
+        for (int i = 0; i < 4; i++) {
+            current = cardFoundations[i] -> next;
+            while (current != NULL) {
+                fprintf(outfile, "%c%c%d\n",current->suit,current->face,current->hidden);
+                current = current -> next;
+            }
+            if (i < 3) {
+                fprintf(outfile, "-\n");
+            }
         }
         fflush(outfile);
         fclose(outfile);
@@ -776,69 +631,20 @@ void insertCardDeck(node* cardDeck) {
 
 }
 
-void insertBlocks(char suitStr[], char faceStr[], node* C1, node* C2, node* C3, node* C4, node* C5, node* C6, node* C7) {
-
+void insertBlocks(char suitStr[], char faceStr[], node* cardColumns[]) {
     int k = 51;
     int i = 0;
     int j = 0;
-
     while ( i < 52 ) {
-        insertElement( &C1, suitStr [i % 13], faceStr [j], 0);
-        i++;
+        for (int g = 0; g < 7; g++) {
+            insertElement( &cardColumns[g], suitStr [i % 13], faceStr [j], 0);
+            i++;
 
-        if (i > k) {
-            break;
-        } else if (i % 13 == 0) {
-            j++;
-        }
-        insertElement( &C2, suitStr [ i % 13], faceStr [j], 0);
-        i++;
-
-        if (i > k) {
-            break;
-        } else if (i % 13 == 0) {
-            j++;
-        }
-        insertElement(&C3, suitStr [i % 13], faceStr [j], 0);
-        i++;
-
-        if (i > k) {
-            break;
-
-        } else if (i % 13 == 0) {
-            j++;
-        }
-        insertElement(&C4, suitStr [i % 13], faceStr [j], 0);
-        i++;
-
-        if (i > k )  {
-            break;
-        } else if (i % 13 == 0) {
-            j++;
-        }
-        insertElement(&C5, suitStr [i % 13], faceStr [j], 0);
-        i++;
-
-        if (i > k) {
-            break;
-        } else if (i % 13 == 0) {
-            j++;
-        }
-        insertElement(&C6, suitStr[i % 13], faceStr [j], 0);
-        i++;
-
-        if (i > k) {
-            break;
-        } else if (i % 13 == 0) {
-            j++;
-        }
-        insertElement(&C7, suitStr [i % 13], faceStr [j], 0);
-        i++;
-
-        if (i > k) {
-            break;
-        } else if (i % 13 == 0) {
-            j++;
+            if (i > k) {
+                break;
+            } else if (i % 13 == 0) {
+                j++;
+            }
         }
     }
 }
