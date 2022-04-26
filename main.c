@@ -19,13 +19,18 @@ int STARTUP = 1;
 int LD(char lastCommand[], node *cardDeck, char **resultMessage);
 int SD(char lastCommand[], node *cardDeck, char **resultMessage);
 int SW(node* cardDeck, char **resultMessage);
+void QQ(node* cardDeck, node* C1, node* C2, node* C3, node* C4, node* C5, node* C6, node* C7, node* foundation1, node* foundation2, node* foundation3, node* foundation4);
+void Q(int* STARTUP);
+int P(int* STARTUP, node* cardDeck, node* C1, node* C2, node* C3, node* C4, node* C5, node* C6, node* C7, node* foundation1, node* foundation2, node* foundation3, node* foundation4, char **resultMessage);
 void unloadCards(node* cards);
+void unloadFullCardDeck(node *C1, node *C2, node *C3, node *C4, node *C5, node *C6, node *C7, node *foundation1, node *foundation2, node *foundation3, node *foundation4);
 void insertElement(node** root, char suit, char face, int hidden);
 void insertCardDeck(node* cardDeck);
-void displayEmptyBrackets(node* cardDeck);
+void displayDeck(node* cardDeck, node *C1, node *C2, node *C3, node *C4, node *C5, node *C6, node *C7, node *foundation1, node *foundation2, node *foundation3, node *foundation4, int STARTUP);
 int L(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, node *C6, node *C7, node *foundation1, node *foundation2, node *foundation3, node *foundation4, char **resultMessage);
 int S(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, node *C6, node *C7, node *foundation1, node *foundation2, node *foundation3, node *foundation4, char **resultMessage);
 void insertBlocks(char suitStr[], char faceStr[], node* C1, node* C2, node* C3, node* C4, node* C5, node* C6, node* C7);
+void shuffleCardsRandom(node* source, node* dist);
 
 int main() {
     node* cardDeck = malloc(sizeof(node));
@@ -72,28 +77,32 @@ int main() {
                 printf("TO DO!\n");
             } else if (lastCommand[0] == 'S' && lastCommand[1] == 'D') {
                 result = SD(lastCommand, cardDeck, &resultMessage);
-            } else if (lastCommand[0] == 'Q' && lastCommand[1] == 'Q') {
-                printf("TO DO!\n");
-                break; //replace
-            } else if (lastCommand[0] == 'P') {
-                printf("TO DO!\n");
-            } else if (lastCommand[0] == 'Q') {
-                printf("TO DO!\n");
-            } else {
+            }  else if (lastCommand[0] == 'P') {
+                result = P(&STARTUP, cardDeck, C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4, &resultMessage);
+            }  else {
                 result = 1;
                 resultMessage = "The chosen command does not exist in the STARTUP phase!";
             }
         } else {
-            if (lastCommand[0] == 'L' && lastCommand[1] == 'D') {
+            if (lastCommand[0] == 'Q') {
+                Q(&STARTUP);
+            }
+            else if (lastCommand[0] == 'L' ) {
                 result = L(lastCommand, C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4,
                             &resultMessage);
-            } else if (lastCommand[0] == 'S' && lastCommand[1] == 'D') {
+            }
+            else if (lastCommand[0] == 'S') {
                 result = S(lastCommand, C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4,
                             &resultMessage);
             } else {
                 //Game moves
                 printf("TO DO!\n");
             }
+        }
+        if (lastCommand[0] == 'Q' && lastCommand[1] == 'Q') {
+            printf("Thank you for playing!\n");
+            QQ(cardDeck, C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4);
+            break;
         }
 
         if (lastCommand[0] != 0) {
@@ -104,7 +113,7 @@ int main() {
                 printf("Message: %s\n", resultMessage);
             }
         }
-        displayEmptyBrackets(cardDeck);
+        displayDeck(cardDeck, C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4, STARTUP);
         printf("INPUT > :");
         scanf("%s", lastCommand);
     }
@@ -244,19 +253,166 @@ int SW(node* cardDeck, char **resultMessage) {
     }
 }
 
-void unloadCards(node* cards) {
-    node* temp;
-    while(cards -> next != NULL) {
-        temp = cards;
-        cards = cards -> next;
-        temp -> next = NULL;
-        free(temp);
-        temp = NULL;
-    }
-    cards = NULL;
+void QQ(node* cardDeck, node* C1, node* C2, node* C3, node* C4, node* C5, node* C6, node* C7, node* foundation1, node* foundation2, node* foundation3, node* foundation4){
+    unloadCards(cardDeck);
+    unloadFullCardDeck(C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4);
+    exit(0);
 }
 
-void displayEmptyBrackets(node* cardDeck){
+void Q(int* STARTUP){
+    *STARTUP = 1;
+}
+
+int P(int* STARTUP, node* cardDeck, node* C1, node* C2, node* C3, node* C4, node* C5, node* C6, node* C7, node* foundation1, node* foundation2, node* foundation3, node* foundation4, char **resultMessage){
+    if (cardDeck -> next != NULL) {
+
+        node* newDeck = malloc(sizeof(node));
+        newDeck -> next = NULL;
+        node* current = cardDeck -> next;
+        while (current != NULL) {
+            insertElement(&newDeck, current -> suit, current -> face, 1);
+            current = current -> next;
+        }
+
+        *STARTUP = 0;
+        unloadCards(C1->next);
+        C1->next = NULL;
+        unloadCards(C2->next);
+        C2->next = NULL;
+        unloadCards(C3->next);
+        C3->next = NULL;
+        unloadCards(C4->next);
+        C4->next = NULL;
+        unloadCards(C5->next);
+        C5->next = NULL;
+        unloadCards(C6->next);
+        C6->next = NULL;
+        unloadCards(C7->next);
+        C7->next = NULL;
+        unloadCards(foundation1->next);
+        foundation1->next = NULL;
+        unloadCards(foundation2->next);
+        foundation2->next = NULL;
+        unloadCards(foundation3->next);
+        foundation3->next = NULL;
+        unloadCards(foundation4->next);
+        foundation4->next = NULL;
+
+        int i = 0;
+        newDeck = newDeck->next;
+        node *temp;
+        while (newDeck != NULL) {
+            temp = newDeck;
+            newDeck = newDeck->next;
+            if (i == 0) {
+                C1->next = temp;
+                C1->next->hidden = 0;
+                C1->next->next = NULL;
+            } else if ((i % 7 == 1) && i <= 36) {
+                C2->next = temp;
+                C2 = C2->next;
+                if (i>=8) {
+                    C2->hidden=0;
+                }
+                C2->next = NULL;
+            } else if ((i % 7 == 2) && i <= 44) {
+                C3->next = temp;
+                C3 = C3->next;
+                if (i>=16) {
+                    C3->hidden=0;
+                }
+                C3->next = NULL;
+            } else if ((i % 7 == 3) && i <= 52) {
+                C4->next = temp;
+                C4 = C4->next;
+                if (i>=24) {
+                    C4->hidden=0;
+                }
+                C4->next = NULL;
+            } else if ((i % 7 == 4) && i <= 60) {
+                C5->next = temp;
+                C5 = C5->next;
+                if (i>=32) {
+                    C5->hidden=0;
+                }
+                C5->next = NULL;
+            } else if ((i % 7 == 5) && i <= 68) {
+                C6->next = temp;
+                C6 = C6->next;
+                if (i>=40) {
+                    C6->hidden=0;
+                }
+                C6->next = NULL;
+            } else if ((i % 7 == 6) && i <= 76) {
+                C7->next = temp;
+                C7 = C7->next;
+                if (i>=48) {
+                    C7->hidden=0;
+                }
+                C7->next = NULL;
+                if (i >= 6 && i < 41) {
+                    i++;
+                } else if (i == 41) {
+                    i = i + 2;
+                } else if (i == 48) {
+                    i = i + 3;
+                } else if (i == 55) {
+                    i = i + 4;
+                } else if (i == 62) {
+                    i = i + 5;
+                } else if (i == 69) {
+                    i = i + 6;
+                }
+            }
+            i++;
+        }
+        return 0;
+    } else {
+        *resultMessage = "Error. No deck has been loaded!";
+        return -1;
+    }
+}
+
+void unloadCards(node* cards) {
+    if (cards != NULL) {
+        node *temp;
+        while (cards->next != NULL) {
+            temp = cards;
+            cards = cards->next;
+            temp->next = NULL;
+            free(temp);
+            temp = NULL;
+        }
+        cards = NULL;
+    }
+}
+
+void unloadFullCardDeck(node *C1, node *C2, node *C3, node *C4, node *C5, node *C6, node *C7, node *foundation1, node *foundation2, node *foundation3, node *foundation4) {
+    unloadCards(C1 -> next);
+    C1 -> next = NULL;
+    unloadCards(C2 -> next);
+    C2 -> next = NULL;
+    unloadCards(C3 -> next);
+    C3 -> next = NULL;
+    unloadCards(C4 -> next);
+    C4 -> next = NULL;
+    unloadCards(C5 -> next);
+    C5 -> next = NULL;
+    unloadCards(C6 -> next);
+    C6 -> next = NULL;
+    unloadCards(C7 -> next);
+    C7 -> next = NULL;
+    unloadCards(foundation1 -> next);
+    foundation1 -> next = NULL;
+    unloadCards(foundation2 -> next);
+    foundation2 -> next = NULL;
+    unloadCards(foundation3 -> next);
+    foundation3 -> next = NULL;
+    unloadCards(foundation4 -> next);
+    foundation4 -> next = NULL;
+}
+
+void displayDeck(node* cardDeck, node *C1, node *C2, node *C3, node *C4, node *C5, node *C6, node *C7, node *foundation1, node *foundation2, node *foundation3, node *foundation4, int STARTUP){
     printf("\n\n");
     printf("C1\tC2\tC3\tC4\tC5\tC6\tC7\n\n");
 
@@ -266,6 +422,88 @@ void displayEmptyBrackets(node* cardDeck){
             printf("  \t");
             if ((i - 7) % 14 == 0) {
 
+                printf("\t\t\t%c%c\t%c%d", '[', ']', 'F', num);
+                num++;
+            }
+            if (i % 7 == 0 && i != 0) {
+                printf("\n");
+            }
+        }
+    } else if (!STARTUP) {
+        int i = 0;
+        while(C1 != NULL || C2 != NULL || C3 != NULL || C4 != NULL || C5 != NULL || C6 != NULL || C7 != NULL) {
+            if (C1 != NULL) {
+                C1 = C1->next;
+            }
+            if (C1 == NULL) {
+                printf("  \t");
+            } else if (C1 -> hidden == 1) {
+                printf("%c%c\t", '[', ']');
+            } else {
+                printf("%c%c\t",C1 -> suit, C1 -> face);
+            }
+            if (C2 != NULL) {
+                C2 = C2->next;
+            }
+            if (C2 == NULL) {
+                printf("  \t");
+            } else if (C2 -> hidden == 1) {
+                printf("%c%c\t", '[', ']');
+            } else {
+                printf("%c%c\t",C2 -> suit, C2 -> face);
+            }
+            if (C3 != NULL) {
+                C3 = C3->next;
+            }
+            if (C3 == NULL) {
+                printf("  \t");
+            } else if (C3 -> hidden == 1) {
+                printf("%c%c\t", '[', ']');
+            } else {
+                printf("%c%c\t",C3 -> suit, C3 -> face);
+            }
+            if (C4 != NULL) {
+                C4 = C4->next;
+            }
+            if (C4 == NULL) {
+                printf("  \t");
+            } else if (C4 -> hidden == 1) {
+                printf("%c%c\t", '[', ']');
+            } else {
+                printf("%c%c\t",C4 -> suit, C4 -> face);
+            }
+            if (C5 != NULL) {
+                C5 = C5->next;
+            }
+            if (C5 == NULL) {
+                printf("  \t");
+            } else if (C5 -> hidden == 1) {
+                printf("%c%c\t", '[', ']');
+            } else {
+                printf("%c%c\t",C5 -> suit, C5 -> face);
+            }
+            if (C6 != NULL) {
+                C6 = C6->next;
+            }
+            if (C6 == NULL) {
+                printf("  \t");
+            } else if (C6 -> hidden == 1) {
+                printf("%c%c\t", '[', ']');
+            } else {
+                printf("%c%c\t",C6 -> suit, C6 -> face);
+            }
+            if (C7 != NULL) {
+                C7 = C7->next;
+            }
+            if (C7 == NULL) {
+                printf("  \t");
+            } else if (C7 -> hidden == 1) {
+                printf("%c%c\t", '[', ']');
+            } else {
+                printf("%c%c\t",C7 -> suit, C7 -> face);
+            }
+            i = i+7;
+            if ((i - 7) % 14 == 0 && i<=55) {
                 printf("\t\t\t%c%c\t%c%d", '[', ']', 'F', num);
                 num++;
             }
@@ -314,10 +552,10 @@ int L(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, node
         FILE *infile;
         infile = fopen(optionalParameter, "r");
         if (infile != NULL) {
+            unloadFullCardDeck(C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4);
             node* controlCardDeck = malloc(sizeof(node));
             controlCardDeck -> next = NULL;
             insertCardDeck(controlCardDeck);
-
             int lineCount = 0;
             int cardCount = 0;
             char line[5];
@@ -379,7 +617,8 @@ int L(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, node
                         } else {
                             sprintf(*resultMessage, "Error in savefile at line %d! Card: %c%c is a duplicate.", lineCount, current -> suit, current -> face);
                             fclose(infile);
-                            //ToDO implement unload function to unload c1, c2....
+                            unloadCards(controlCardDeck);
+                            unloadFullCardDeck(C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4);
                             return -1;
                         }
                     }
@@ -388,7 +627,8 @@ int L(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, node
                 if (currentControl -> next == NULL && currentControl -> suit != current -> suit && currentControl -> face != current -> face) {
                     sprintf(*resultMessage, "Error in savefile at line %d! Card: %c%c is of illegal format.", lineCount, current -> suit, current -> face);
                     fclose(infile);
-                    //ToDO implement unload function to unload c1, c2....
+                    unloadCards(controlCardDeck);
+                    unloadFullCardDeck(C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4);
                     return -1;
                 }
             }
@@ -398,7 +638,8 @@ int L(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, node
                 while (currentControl -> next != NULL) {
                     if (currentControl -> hidden == 0) {
                         sprintf(*resultMessage, "Error in savefile! There are not 52 cards as card: %c%c is missing.", currentControl -> suit, currentControl -> face);
-                        //ToDO implement unload function to unload c1, c2....
+                        unloadCards(controlCardDeck);
+                        unloadFullCardDeck(C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4);
                         return -1;
                     }
                     currentControl = currentControl -> next;
@@ -601,3 +842,31 @@ void insertBlocks(char suitStr[], char faceStr[], node* C1, node* C2, node* C3, 
         }
     }
 }
+
+void shuffleCardsRandom(node* source, node* dist) {
+
+    char suit[52];
+    char face[52];
+    char hidden[52];
+
+    node* current = source;
+    current = current -> next;
+
+    int counter = 0;
+
+    while (current != NULL) {
+        suit[counter] = current -> suit;
+        face[counter] = current -> face;
+        hidden[counter] = current -> hidden;
+
+        counter++;
+        current = current -> next;
+    }
+
+    for (int i = 0; i < 52; ++i) {
+        insertElement( &dist, suit[i], face[i], hidden[i]);
+    }
+
+
+}
+
