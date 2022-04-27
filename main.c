@@ -62,7 +62,7 @@ int main() {
 
     bool isRunning = true;
     char lastCommand[COMMAND_STRING] = {0};
-    int result;
+    int result = 0;
     char *resultMessage = (char*) malloc(sizeof(char) * MAX_STRING);
 
     while (isRunning) {
@@ -113,11 +113,13 @@ int main() {
                 printf("Message: %s\n", resultMessage);
             }
         }
-        displayDeck(cardDeck, C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4, STARTUP);
+        if (lastCommand[0] != 'S' && lastCommand[1] != 'W') {
+            displayDeck(cardDeck, C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4,
+                        STARTUP);
+        }
         printf("INPUT > :");
         scanf("%s", lastCommand);
     }
-    return 0;
 }
 
 int LD(char lastCommand[], node *cardDeck, char **resultMessage) {
@@ -242,10 +244,25 @@ int SD(char lastCommand[], node *cardDeck, char **resultMessage) {
 
 int SW(node* cardDeck, char **resultMessage) {
     if (cardDeck -> next != NULL) {
+        printf("\n\n");
+        printf("C1\tC2\tC3\tC4\tC5\tC6\tC7\n\n");
+        int num = 1;
+        int i = 1;
+        cardDeck = cardDeck -> next;
         while (cardDeck != NULL) {
-            cardDeck->hidden = 0;
-            cardDeck = cardDeck->next;
+            printf("%c%c\t",cardDeck -> suit, cardDeck -> face);
+            if ((i - 7) % 14 == 0) {
+
+                printf("\t\t\t%c%c\t%c%d", '[', ']', 'F', num);
+                num++;
+            }
+            if (i % 7 == 0 && i != 0) {
+                printf("\n");
+            }
+            i++;
+            cardDeck = cardDeck -> next;
         }
+        printf("\n\n");
         return 0;
     } else {
         *resultMessage = "Error! No deck of cards are loaded.";
@@ -555,12 +572,7 @@ void displayDeck(node* cardDeck, node *C1, node *C2, node *C3, node *C4, node *C
         int i = 1;
         cardDeck = cardDeck -> next;
         while (cardDeck != NULL) {
-            if (cardDeck -> hidden == 1) {
-                printf("%c%c\t", '[', ']');
-            } else {
-                printf("%c%c\t",cardDeck -> suit, cardDeck -> face);
-            }
-
+            printf("%c%c\t", '[', ']');
             if ((i - 7) % 14 == 0) {
 
                 printf("\t\t\t%c%c\t%c%d", '[', ']', 'F', num);
@@ -573,7 +585,6 @@ void displayDeck(node* cardDeck, node *C1, node *C2, node *C3, node *C4, node *C
             cardDeck = cardDeck -> next;
         }
     }
-
     printf("\n\n");
 }
 
