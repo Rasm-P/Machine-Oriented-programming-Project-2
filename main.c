@@ -504,7 +504,47 @@ void displayDeck(node* cardDeck, node *C1, node *C2, node *C3, node *C4, node *C
             }
             i = i+7;
             if ((i - 7) % 14 == 0 && i<=55) {
-                printf("\t\t\t%c%c\t%c%d", '[', ']', 'F', num);
+                if (num == 1) {
+                    if (foundation1->next == NULL) {
+                        printf("\t\t\t%c%c\t%c%d", '[', ']', 'F', num);
+                    } else {
+                        node *last = foundation1->next;
+                        while (last != NULL) {
+                            last = last -> next;
+                        }
+                        printf("%c%c\t",last -> suit, last -> face);
+                    }
+                } else if (num == 2) {
+                    if (foundation2->next == NULL) {
+                        printf("\t\t\t%c%c\t%c%d", '[', ']', 'F', num);
+                    } else {
+                        node *last = foundation2->next;
+                        while (last != NULL) {
+                            last = last -> next;
+                        }
+                        printf("%c%c\t",last -> suit, last -> face);
+                    }
+                } if (num == 3) {
+                    if (foundation3->next == NULL) {
+                        printf("\t\t\t%c%c\t%c%d", '[', ']', 'F', num);
+                    } else {
+                        node *last = foundation3->next;
+                        while (last != NULL) {
+                            last = last -> next;
+                        }
+                        printf("%c%c\t",last -> suit, last -> face);
+                    }
+                } if (num == 4) {
+                    if (foundation4->next == NULL) {
+                        printf("\t\t\t%c%c\t%c%d", '[', ']', 'F', num);
+                    } else {
+                        node *last = foundation4->next;
+                        while (last != NULL) {
+                            last = last -> next;
+                        }
+                        printf("%c%c\t",last -> suit, last -> face);
+                    }
+                }
                 num++;
             }
             if (i % 7 == 0 && i != 0) {
