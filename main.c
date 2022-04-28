@@ -688,7 +688,13 @@ void splitDeck(node* source, node* dist, int midValue) {
 }
 
 void print_list(node* head) {
-
+    node* current = head;
+    int count = 0;
+    while (current != NULL) {
+        printf("%c%c%c\n", current -> suit, current -> face, current -> hidden);
+        current = current -> next;
+        count ++;
+    }
 }
 
 
