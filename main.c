@@ -1,6 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
+#include <string.h>
+
 #define COMMAND_STRING 30
 #define MAX_STRING 120
 
@@ -27,6 +29,7 @@ int L(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, node
 int S(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, node *C6, node *C7, node *foundation1, node *foundation2, node *foundation3, node *foundation4, char **resultMessage);
 void insertBlocks(char suitStr[], char faceStr[], node* C1, node* C2, node* C3, node* C4, node* C5, node* C6, node* C7);
 void shuffleCardsRandom(node* source, node* dist);
+void print_list(node* head);
 void splitDeck(node* source, node* dist, int midValue);
 
 int main() {
@@ -60,6 +63,7 @@ int main() {
     bool isRunning = true;
     char lastCommand[COMMAND_STRING] = {0};
     int result;
+    char si[] = "SI";
     char *resultMessage = (char*) malloc(sizeof(char) * MAX_STRING);
 
     while (isRunning) {
@@ -68,8 +72,11 @@ int main() {
                 result = LD(lastCommand, cardDeck, &resultMessage);
             } else if (lastCommand[0] == 'S' && lastCommand[1] == 'W') {
                 result = SW(cardDeck, &resultMessage);
-            } else if (lastCommand[0] == 'S' && lastCommand[1] == 'L') {
-                printf("TO DO!\n");
+            } else if (strcmp(lastCommand, si) == 0) {
+                int randomNum = rand() % 51;
+                printf("%d\n", randomNum);
+                splitDeck(cardDeck, shuffleCardsRandom, randomNum);
+                isRunning = true;
             } else if (lastCommand[0] == 'S' && lastCommand[1] == 'R') {
                 printf("TO DO!\n");
             } else if (lastCommand[0] == 'S' && lastCommand[1] == 'D') {
@@ -92,7 +99,7 @@ int main() {
             } else if (lastCommand[0] == 'S' && lastCommand[1] == 'D') {
                 result = S(lastCommand, C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4,
                             &resultMessage);
-            } else {
+            }else {
                 //Game moves
                 printf("TO DO!\n");
             }
@@ -628,6 +635,8 @@ void shuffleCardsRandom(node* source, node* dist) {
         insertElement( &dist, suit[i], face[i], hidden[i]);
     }
 
+    print_list(dist);
+
 
 }
 
@@ -676,6 +685,10 @@ void splitDeck(node* source, node* dist, int midValue) {
         }
 
     }
+}
+
+void print_list(node* head) {
+
 }
 
 
