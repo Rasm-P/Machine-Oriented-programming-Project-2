@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include "header.h"
 
 
 void unloadCards(node* cards) {

@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include "header.h"
 
 
 int L(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, node *C6, node *C7, node *foundation1, node *foundation2, node *foundation3, node *foundation4, char **resultMessage) {

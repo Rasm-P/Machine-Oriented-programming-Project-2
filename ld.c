@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include "header.h"
 
 
 int LD(char lastCommand[], node *cardDeck, char **resultMessage) {

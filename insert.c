@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include "header.h"
 
 
 char suitStr [13] = { 'A', '2', '3', '4', '5', '6',

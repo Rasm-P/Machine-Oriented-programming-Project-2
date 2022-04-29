@@ -1,43 +1,11 @@
-#define COMMAND_STRING 30
-#define MAX_STRING 120
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
-#include <string.h>
 #include <time.h>
-#include "node.c"
-#include "unload.c"
-#include "insert.c"
-#include "sd.c"
-#include "sw.c"
-#include "ld.c"
-#include "qq.c"
-#include "q.c"
-#include "p.c"
-#include "l.c"
-#include "s.c"
-#include "display.c"
+#include "header.h"
 
 
 int STARTUP = 1;
-
-int SD(char lastCommand[], node *cardDeck, char **resultMessage);
-int SW(node* cardDeck, char **resultMessage);
-int LD(char lastCommand[], node *cardDeck, char **resultMessage);
-void QQ(node* cardDeck, node* C1, node* C2, node* C3, node* C4, node* C5, node* C6, node* C7, node* foundation1, node* foundation2, node* foundation3, node* foundation4);
-void Q(int* STARTUP);
-int P(int* STARTUP, node* cardDeck, node* C1, node* C2, node* C3, node* C4, node* C5, node* C6, node* C7, node* foundation1, node* foundation2, node* foundation3, node* foundation4, char **resultMessage);
-void unloadCards(node* cards);
-void unloadFullCardDeck(node *C1, node *C2, node *C3, node *C4, node *C5, node *C6, node *C7, node *foundation1, node *foundation2, node *foundation3, node *foundation4);
-void insertElement(node** root, char suit, char face, int hidden);
-void insertCardDeck(node* cardDeck);
-void displayDeck(node* cardDeck, node *C1, node *C2, node *C3, node *C4, node *C5, node *C6, node *C7, node *foundation1, node *foundation2, node *foundation3, node *foundation4, int STARTUP);
-int L(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, node *C6, node *C7, node *foundation1, node *foundation2, node *foundation3, node *foundation4, char **resultMessage);
-int S(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, node *C6, node *C7, node *foundation1, node *foundation2, node *foundation3, node *foundation4, char **resultMessage);
-void insertBlocks(char suitStr[], char faceStr[], node* C1, node* C2, node* C3, node* C4, node* C5, node* C6, node* C7);
-void shuffleCardsRandom(node* source, node* dist);
-void print_list(node* head);
-int splitDeck(char lastCommand[], node* source, char **resultMessage);
 
 int main() {
     node* cardDeck = malloc(sizeof(node));
@@ -131,11 +99,25 @@ int main() {
 
 void shuffleCardsRandom(node* source, node* dist) {
 
+    node* newPile = malloc(sizeof(node));
+
+    int i = 1;
+    //node*
+    node* current = source -> next;
+    while(current != NULL) {
+        if (i == 1) {
+            newPile -> next = current;
+        }
+        current = current -> next;
+
+    }
+
+
     char suit[52];
     char face[52];
     char hidden[52];
 
-    node* current = source;
+    //node* current = source;
     current = current -> next;
 
     int counter = 0;
@@ -223,7 +205,9 @@ int splitDeck(char lastCommand[], node* source, char **resultMessage) {
                 pileCurrent -> next = NULL;
             }
         }
-        source = thirdPile;
+        free(thirdPile);
+        free(firstNode);
+        free(secondNode);
         return 0;
     } else {
         *resultMessage = "Error! You cannot choose a number larger than 52.";

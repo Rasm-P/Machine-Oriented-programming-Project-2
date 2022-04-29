@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include "header.h"
 
 
 int SW(node* cardDeck, char **resultMessage) {
