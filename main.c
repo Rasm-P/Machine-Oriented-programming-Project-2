@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
+#include <time.h>
 
 #define COMMAND_STRING 30
 #define MAX_STRING 120
@@ -30,7 +31,7 @@ int S(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, node
 void insertBlocks(char suitStr[], char faceStr[], node* C1, node* C2, node* C3, node* C4, node* C5, node* C6, node* C7);
 void shuffleCardsRandom(node* source, node* dist);
 void print_list(node* head);
-void splitDeck(node* source, node* dist, int midValue);
+int splitDeck(char lastCommand[], node* source, char **resultMessage);
 
 int main() {
     node* cardDeck = malloc(sizeof(node));
@@ -72,11 +73,8 @@ int main() {
                 result = LD(lastCommand, cardDeck, &resultMessage);
             } else if (lastCommand[0] == 'S' && lastCommand[1] == 'W') {
                 result = SW(cardDeck, &resultMessage);
-            } else if (strcmp(lastCommand, si) == 0) {
-                int randomNum = rand() % 51;
-                printf("%d\n", randomNum);
-                splitDeck(cardDeck, shuffleCardsRandom, randomNum);
-                isRunning = true;
+            } else if (lastCommand[0] == 'S' && lastCommand[1] == 'I') {
+                result = splitDeck(lastCommand, cardDeck, &resultMessage);
             } else if (lastCommand[0] == 'S' && lastCommand[1] == 'R') {
                 printf("TO DO!\n");
             } else if (lastCommand[0] == 'S' && lastCommand[1] == 'D') {
@@ -640,50 +638,76 @@ void shuffleCardsRandom(node* source, node* dist) {
 
 }
 
-void splitDeck(node* source, node* dist, int midValue) {
-    node *firstNode = malloc(sizeof(node));
-    node *secondNode = malloc(sizeof(node));
-    int counter = 0;
-
-
-    node *sourceCurr = source;
-    sourceCurr = sourceCurr->next;
-    while (sourceCurr != NULL) {
-
-        if (counter >= midValue) {
-            insertElement(&secondNode, sourceCurr->suit, sourceCurr->face, sourceCurr->hidden);
-
-        } else {
-
-            insertElement(&firstNode, sourceCurr->suit, sourceCurr->face, sourceCurr->hidden);
-
+int splitDeck(char lastCommand[], node* source, char **resultMessage) {
+    int midValue;
+    if (lastCommand[2] == '<') {
+        char optionalParameter[MAX_STRING];
+        int j = 0;
+        for (int i = 3; i < MAX_STRING; i++) {
+            if (lastCommand[i] == '>') {
+                break;
+            }
+            optionalParameter[j] = lastCommand[i];
+            j++;
         }
-        sourceCurr = sourceCurr->next;
-        counter++;
+        optionalParameter[j] = '\0';
+        midValue = atoi(optionalParameter);
+    } else {
+        srand(time(NULL));
+        midValue = rand() % 51;
     }
 
-    firstNode = firstNode->next;
-    secondNode = secondNode->next;
+    if (midValue < 52) {
+        node* thirdPile = malloc(sizeof(node));
+        node* firstNode = malloc(sizeof(node));
+        node* secondNode = malloc(sizeof(node));
 
-    while (firstNode != NULL && secondNode != NULL) {
-        insertElement(&dist, secondNode->suit, secondNode->face, secondNode->hidden);
-        insertElement(&dist, firstNode->suit, firstNode->face, firstNode->hidden);
+        int i = 0;
+        node* current = source -> next;
+        firstNode -> next = current;
+        while (current != NULL && i <= midValue) {
+            current = current -> next;
+            i++;
+        }
+        node* temp = current;
+        secondNode -> next = current ->next;
+        temp ->next = NULL;
+
         firstNode = firstNode->next;
         secondNode = secondNode->next;
 
-    }
-    if (firstNode != NULL) {
-        while (firstNode != NULL) {
-            insertElement(&dist, firstNode->suit, firstNode->face, firstNode->hidden);
+        node* pileCurrent = thirdPile;
+        while (firstNode != NULL && secondNode != NULL) {
+            pileCurrent->next = firstNode;
             firstNode = firstNode->next;
-        }
-    } else if (secondNode != NULL) {
+            pileCurrent = pileCurrent -> next;
+            pileCurrent -> next = NULL;
 
-        while (secondNode != NULL) {
-            insertElement(&dist, secondNode->suit, secondNode->face, secondNode->hidden);
+            pileCurrent->next = secondNode;
             secondNode = secondNode->next;
+            pileCurrent = pileCurrent -> next;
+            pileCurrent -> next = NULL;
         }
-
+        if (firstNode != NULL) {
+            while (firstNode != NULL) {
+                pileCurrent->next = firstNode;
+                firstNode = firstNode->next;
+                pileCurrent = pileCurrent -> next;
+                pileCurrent -> next = NULL;
+            }
+        } else if (secondNode != NULL) {
+            while (secondNode != NULL) {
+                pileCurrent->next = secondNode;
+                secondNode = secondNode->next;
+                pileCurrent = pileCurrent -> next;
+                pileCurrent -> next = NULL;
+            }
+        }
+        source = thirdPile;
+        return 0;
+    } else {
+        *resultMessage = "Error! You cannot choose a number larger than 52.";
+        return 1;
     }
 }
 
