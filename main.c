@@ -51,7 +51,7 @@ int main() {
             } else if (lastCommand[0] == 'S' && lastCommand[1] == 'I') {
                 result = splitDeck(lastCommand, cardDeck, &resultMessage);
             } else if (lastCommand[0] == 'S' && lastCommand[1] == 'R') {
-                printf("TO DO!\n");
+                shuffleCardsRandom(cardDeck);
             } else if (lastCommand[0] == 'S' && lastCommand[1] == 'D') {
                 result = SD(lastCommand, cardDeck, &resultMessage);
             }  else if (lastCommand[0] == 'P') {
@@ -82,6 +82,11 @@ int main() {
             break;
         }
 
+        if (lastCommand[0] != 'S' || lastCommand[1] != 'W') {
+            displayDeck(cardDeck, C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4,
+                        STARTUP);
+        }
+
         if (lastCommand[0] != 0) {
             printf("LAST command: %s\n", lastCommand);
             if (result == 0) {
@@ -90,31 +95,46 @@ int main() {
                 printf("Message: %s\n", resultMessage);
             }
         }
-        if (lastCommand[0] != 'S' && lastCommand[1] != 'W') {
-            displayDeck(cardDeck, C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4,
-                        STARTUP);
-        }
         printf("INPUT > :");
         scanf("%s", lastCommand);
     }
 }
 
-void shuffleCardsRandom(node* source, node* dist) {
-
+void shuffleCardsRandom(node* source) {
     node* newPile = malloc(sizeof(node));
-
     int i = 1;
-    //node*
-    node* current = source -> next;
+    int random;
+    node* current = source;
     while(current != NULL) {
+        current = source -> next;
+        source -> next = current -> next;
+        current -> next = NULL;
         if (i == 1) {
             newPile -> next = current;
+        } else {
+            node* temp = newPile;
+            int j = 1;
+            random = (rand() % i)+1;
+            while(j < random) {
+                temp = temp -> next;
+                j++;
+            }
+            if (temp -> next == NULL) {
+                temp -> next = current;
+            } else {
+                node* newPileTemp = temp;
+                temp = temp -> next;
+                newPileTemp ->next = current;
+                newPileTemp ->next ->next = temp;
+            }
         }
-        current = current -> next;
-
+        current = source -> next;
+        i++;
     }
+    source -> next = newPile -> next;
+    free(newPile);
 
-
+/*
     char suit[52];
     char face[52];
     char hidden[52];
@@ -139,7 +159,7 @@ void shuffleCardsRandom(node* source, node* dist) {
 
     print_list(dist);
 
-
+*/
 }
 
 int splitDeck(char lastCommand[], node* source, char **resultMessage) {
@@ -158,7 +178,7 @@ int splitDeck(char lastCommand[], node* source, char **resultMessage) {
         midValue = atoi(optionalParameter);
     } else {
         srand(time(NULL));
-        midValue = rand() % 51;
+        midValue = (rand() % 51)+1;
     }
 
     if (midValue < 52) {
@@ -221,7 +241,7 @@ void print_list(node* head) {
     node* current = head;
     int count = 0;
     while (current != NULL) {
-        printf("%c%c%c\n", current -> suit, current -> face, current -> hidden);
+        printf("%c%c\n", current -> suit, current -> face);
         current = current -> next;
         count ++;
     }
