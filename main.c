@@ -114,6 +114,7 @@ void shuffleCardsRandom(node* source) {
         } else {
             node* temp = newPile;
             int j = 1;
+            srand(time(NULL));
             random = (rand() % i)+1;
             while(j < random) {
                 temp = temp -> next;
@@ -133,33 +134,6 @@ void shuffleCardsRandom(node* source) {
     }
     source -> next = newPile -> next;
     free(newPile);
-
-/*
-    char suit[52];
-    char face[52];
-    char hidden[52];
-
-    //node* current = source;
-    current = current -> next;
-
-    int counter = 0;
-
-    while (current != NULL) {
-        suit[counter] = current -> suit;
-        face[counter] = current -> face;
-        hidden[counter] = current -> hidden;
-
-        counter++;
-        current = current -> next;
-    }
-
-    for (int i = 0; i < 52; ++i) {
-        insertElement( &dist, suit[i], face[i], hidden[i]);
-    }
-
-    print_list(dist);
-
-*/
 }
 
 int splitDeck(char lastCommand[], node* source, char **resultMessage) {
