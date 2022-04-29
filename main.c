@@ -1,10 +1,12 @@
+#include "header.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
 #include <time.h>
-#include "header.h"
 
-
+char suitStr[13] = { 'A', '2', '3', '4', '5', '6',
+                      '7', '8', '9', 'T', 'J', 'Q', 'K'};
+char faceStr[4] = {'C', 'D', 'H', 'S'};
 int STARTUP = 1;
 
 int main() {

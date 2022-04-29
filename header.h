@@ -1,16 +1,5 @@
 #ifndef _INC_HEADER
 #define _INC_HEADER
-#include "display.c"
-#include "insert.c"
-#include "l.c"
-#include "ld.c"
-#include "p.c"
-#include "q.c"
-#include "qq.c"
-#include "s.c"
-#include "sd.c"
-#include "sw.c"
-#include "unload.c"
 
 
 #define COMMAND_STRING 30

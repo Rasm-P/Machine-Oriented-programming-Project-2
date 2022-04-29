@@ -1,10 +1,9 @@
-#include <stdlib.h>
 #include "header.h"
+#include <stdlib.h>
 
 
-char suitStr [13] = { 'A', '2', '3', '4', '5', '6',
-                      '7', '8', '9', 'T', 'J', 'Q', 'K'};
-char faceStr [4] = {'C', 'D', 'H', 'S'};
+extern char suitStr[13];
+extern char faceStr[4];
 
 void insertElement(node** root, char suit, char face, int hidden) {
 

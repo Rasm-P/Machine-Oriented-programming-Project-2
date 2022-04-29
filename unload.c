@@ -1,5 +1,5 @@
-#include <stdlib.h>
 #include "header.h"
+#include <stdlib.h>
 
 
 void unloadCards(node* cards) {
