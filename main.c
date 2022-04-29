@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
-#include <time.h>
+
 
 char suitStr[13] = { 'A', '2', '3', '4', '5', '6',
                       '7', '8', '9', 'T', 'J', 'Q', 'K'};
@@ -49,9 +49,9 @@ int main() {
             } else if (lastCommand[0] == 'S' && lastCommand[1] == 'W') {
                 result = SW(cardDeck, &resultMessage);
             } else if (lastCommand[0] == 'S' && lastCommand[1] == 'I') {
-                result = splitDeck(lastCommand, cardDeck, &resultMessage);
+                result = SI(lastCommand, cardDeck, &resultMessage);
             } else if (lastCommand[0] == 'S' && lastCommand[1] == 'R') {
-                shuffleCardsRandom(cardDeck);
+                SR(cardDeck);
             } else if (lastCommand[0] == 'S' && lastCommand[1] == 'D') {
                 result = SD(lastCommand, cardDeck, &resultMessage);
             }  else if (lastCommand[0] == 'P') {
@@ -97,117 +97,6 @@ int main() {
         }
         printf("INPUT > :");
         scanf("%s", lastCommand);
-    }
-}
-
-void shuffleCardsRandom(node* source) {
-    node* newPile = malloc(sizeof(node));
-    int i = 1;
-    int random;
-    node* current = source;
-    while(current != NULL) {
-        current = source -> next;
-        source -> next = current -> next;
-        current -> next = NULL;
-        if (i == 1) {
-            newPile -> next = current;
-        } else {
-            node* temp = newPile;
-            int j = 1;
-            srand(time(NULL));
-            random = (rand() % i)+1;
-            while(j < random) {
-                temp = temp -> next;
-                j++;
-            }
-            if (temp -> next == NULL) {
-                temp -> next = current;
-            } else {
-                node* newPileTemp = temp;
-                temp = temp -> next;
-                newPileTemp ->next = current;
-                newPileTemp ->next ->next = temp;
-            }
-        }
-        current = source -> next;
-        i++;
-    }
-    source -> next = newPile -> next;
-    free(newPile);
-}
-
-int splitDeck(char lastCommand[], node* source, char **resultMessage) {
-    int midValue;
-    if (lastCommand[2] == '<') {
-        char optionalParameter[MAX_STRING];
-        int j = 0;
-        for (int i = 3; i < MAX_STRING; i++) {
-            if (lastCommand[i] == '>') {
-                break;
-            }
-            optionalParameter[j] = lastCommand[i];
-            j++;
-        }
-        optionalParameter[j] = '\0';
-        midValue = atoi(optionalParameter);
-    } else {
-        srand(time(NULL));
-        midValue = (rand() % 51)+1;
-    }
-
-    if (midValue < 52) {
-        node* thirdPile = malloc(sizeof(node));
-        node* firstNode = malloc(sizeof(node));
-        node* secondNode = malloc(sizeof(node));
-
-        int i = 0;
-        node* current = source -> next;
-        firstNode -> next = current;
-        while (current != NULL && i <= midValue) {
-            current = current -> next;
-            i++;
-        }
-        node* temp = current;
-        secondNode -> next = current ->next;
-        temp ->next = NULL;
-
-        firstNode = firstNode->next;
-        secondNode = secondNode->next;
-
-        node* pileCurrent = thirdPile;
-        while (firstNode != NULL && secondNode != NULL) {
-            pileCurrent->next = firstNode;
-            firstNode = firstNode->next;
-            pileCurrent = pileCurrent -> next;
-            pileCurrent -> next = NULL;
-
-            pileCurrent->next = secondNode;
-            secondNode = secondNode->next;
-            pileCurrent = pileCurrent -> next;
-            pileCurrent -> next = NULL;
-        }
-        if (firstNode != NULL) {
-            while (firstNode != NULL) {
-                pileCurrent->next = firstNode;
-                firstNode = firstNode->next;
-                pileCurrent = pileCurrent -> next;
-                pileCurrent -> next = NULL;
-            }
-        } else if (secondNode != NULL) {
-            while (secondNode != NULL) {
-                pileCurrent->next = secondNode;
-                secondNode = secondNode->next;
-                pileCurrent = pileCurrent -> next;
-                pileCurrent -> next = NULL;
-            }
-        }
-        free(thirdPile);
-        free(firstNode);
-        free(secondNode);
-        return 0;
-    } else {
-        *resultMessage = "Error! You cannot choose a number larger than 52.";
-        return 1;
     }
 }
 
