@@ -119,7 +119,8 @@ int L(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, node
             return -1;
         }
     } else {
-        insertBlocks(suitStr, faceStr, C1, C2, C3, C4, C5, C6, C7);
+        *resultMessage = "Error. No filename was given!";
+        return -1;
     }
     return 0;
 }
