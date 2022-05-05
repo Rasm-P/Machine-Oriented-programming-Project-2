@@ -73,7 +73,7 @@ int SI(char lastCommand[], node* source, char **resultMessage) {
         free(secondNode);
         return 0;
     } else {
-        *resultMessage = "Error! You cannot choose a number larger than 52.";
+        *resultMessage = "Error! You cannot choose a number larger than or equal to 52.";
         return 1;
     }
 }
