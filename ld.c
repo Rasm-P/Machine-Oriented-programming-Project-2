@@ -35,8 +35,8 @@ int LD(char lastCommand[], node *cardDeck, char **resultMessage) {
                 current -> next = malloc(sizeof(node));
                 current = current -> next;
                 current -> next = NULL;
-                current -> suit = line[0];
-                current -> face = line[1];
+                current -> face = line[0];
+                current -> suit = line[1];
                 current -> hidden = 1;
 
                 node* currentControl = controlCardDeck;
@@ -46,7 +46,7 @@ int LD(char lastCommand[], node *cardDeck, char **resultMessage) {
                             currentControl -> hidden = 0;
                             break;
                         } else {
-                            sprintf(*resultMessage, "Error in savefile at line %d! Card: %c%c is a duplicate.", lineCount, current -> suit, current -> face);
+                            sprintf(*resultMessage, "Error in savefile at line %d! Card: %c%c is a duplicate.", lineCount, current -> face, current -> suit);
                             fclose(infile);
                             unloadCards(controlCardDeck);
                             unloadCards(cardDeck -> next);
@@ -57,7 +57,7 @@ int LD(char lastCommand[], node *cardDeck, char **resultMessage) {
                     currentControl = currentControl -> next;
                 }
                 if (currentControl -> next == NULL && currentControl -> suit != current -> suit && currentControl -> face != current -> face) {
-                    sprintf(*resultMessage, "Error in savefile at line %d! Card: %c%c is of illegal format.", lineCount, current -> suit, current -> face);
+                    sprintf(*resultMessage, "Error in savefile at line %d! Card: %c%c is of illegal format.", lineCount, current -> face, current -> suit);
                     fclose(infile);
                     unloadCards(controlCardDeck);
                     unloadCards(cardDeck -> next);
@@ -70,7 +70,7 @@ int LD(char lastCommand[], node *cardDeck, char **resultMessage) {
                 node* currentControl = controlCardDeck;
                 while (currentControl -> next != NULL) {
                     if (currentControl -> hidden == 1) {
-                        sprintf(*resultMessage, "Error in savefile! There are not 52 cards as card: %c%c is missing.", currentControl -> suit, currentControl -> face);
+                        sprintf(*resultMessage, "Error in savefile! There are not 52 cards as card: %c%c is missing.", currentControl -> face, currentControl -> suit);
                         unloadCards(controlCardDeck);
                         if (cardDeck -> next != NULL) {
                             unloadCards(cardDeck->next);

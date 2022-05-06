@@ -4,9 +4,9 @@
 #include <stdbool.h>
 
 
-char suitStr[13] = { 'A', '2', '3', '4', '5', '6',
-                      '7', '8', '9', 'T', 'J', 'Q', 'K'};
-char faceStr[4] = {'C', 'D', 'H', 'S'};
+char faceStr[13] = {'A', '2', '3', '4', '5', '6',
+                    '7', '8', '9', 'T', 'J', 'Q', 'K'};
+char suitStr[4] = {'C', 'D', 'H', 'S'};
 int STARTUP = 1;
 
 int main() {
@@ -44,17 +44,17 @@ int main() {
 
     while (isRunning) {
         if (STARTUP) {
-            if (lastCommand[0] == 'L' && lastCommand[1] == 'D' && lastCommand[2] == '\0') {
+            if (lastCommand[0] == 'L' && lastCommand[1] == 'D') {
                 result = LD(lastCommand, cardDeck, &resultMessage);
-            } else if (lastCommand[0] == 'S' && lastCommand[1] == 'W' && lastCommand[2] == '\0') {
+            } else if (lastCommand[0] == 'S' && lastCommand[1] == 'W') {
                 result = SW(cardDeck, &resultMessage);
-            } else if (lastCommand[0] == 'S' && lastCommand[1] == 'I' && lastCommand[2] == '\0') {
+            } else if (lastCommand[0] == 'S' && lastCommand[1] == 'I') {
                 result = SI(lastCommand, cardDeck, &resultMessage);
-            } else if (lastCommand[0] == 'S' && lastCommand[1] == 'R' && lastCommand[2] == '\0') {
+            } else if (lastCommand[0] == 'S' && lastCommand[1] == 'R') {
                 SR(cardDeck);
-            } else if (lastCommand[0] == 'S' && lastCommand[1] == 'D' && lastCommand[2] == '\0') {
+            } else if (lastCommand[0] == 'S' && lastCommand[1] == 'D') {
                 result = SD(lastCommand, cardDeck, &resultMessage);
-            }  else if (lastCommand[0] == 'P' && lastCommand[1] == '\0') {
+            }  else if (lastCommand[0] == 'P') {
                 result = P(&STARTUP, cardDeck, C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4, &resultMessage);
             }  else {
                 result = 1;
@@ -64,11 +64,11 @@ int main() {
             if (lastCommand[0] == 'Q') {
                 Q(&STARTUP);
             }
-            else if (lastCommand[0] == 'L' && lastCommand[1] == '\0') {
+            else if (lastCommand[0] == 'L') {
                 result = L(lastCommand, C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4,
                             &resultMessage);
             }
-            else if (lastCommand[0] == 'S' && lastCommand[1] == '\0') {
+            else if (lastCommand[0] == 'S') {
                 result = S(lastCommand, C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4,
                             &resultMessage);
             } else {
@@ -76,13 +76,13 @@ int main() {
                                    &resultMessage);
             }
         }
-        if (lastCommand[0] == 'Q' && lastCommand[1] == 'Q' && lastCommand[2] == '\0') {
+        if (lastCommand[0] == 'Q' && lastCommand[1] == 'Q') {
             printf("Thank you for playing!\n");
             QQ(cardDeck, C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4);
             break;
         }
 
-        if (!STARTUP || (lastCommand[0] != 'S' && lastCommand[1] != 'W')) {
+        if (!STARTUP || (lastCommand[0] != 'S' || lastCommand[1] != 'W')) {
             displayDeck(cardDeck, C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4,
                         STARTUP);
         }
@@ -103,7 +103,7 @@ void print_list(node* head) {
     node* current = head;
     int count = 0;
     while (current != NULL) {
-        printf("%c%c\n", current -> suit, current -> face);
+        printf("%c%c\n", current -> face, current -> suit);
         current = current -> next;
         count ++;
     }

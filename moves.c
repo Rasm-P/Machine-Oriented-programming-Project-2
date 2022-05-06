@@ -42,7 +42,7 @@ int GameMoves(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *
         toNode -> next = fromNode;
         return 0;
     } else {
-        *resultMessage = "Error. Could not find the cards given in the command!";
+        *resultMessage = "Error. One of the given cards or columns are not valid or might be empty!";
         return -1;
     }
 }
@@ -87,7 +87,7 @@ void findCard(node** cardPtr, node** previousPtr, char command[], node *C1, node
             case 1:
                 current = C1;
                 while (current -> next != NULL) {
-                    if (current -> suit == command[3] && current -> face == command[4]) {
+                    if (current -> face == command[3] && current -> suit == command[4]) {
                         break;
                     }
                     previous = current;
@@ -97,7 +97,7 @@ void findCard(node** cardPtr, node** previousPtr, char command[], node *C1, node
             case 2:
                 current = C2;
                 while (current -> next != NULL) {
-                    if (current -> suit == command[3] && current -> face == command[4]) {
+                    if (current -> face == command[3] && current -> suit == command[4]) {
                         break;
                     }
                     previous = current;
@@ -107,7 +107,7 @@ void findCard(node** cardPtr, node** previousPtr, char command[], node *C1, node
             case 3:
                 current = C3;
                 while (current -> next != NULL) {
-                    if (current -> suit == command[3] && current -> face == command[4]) {
+                    if (current -> face == command[3] && current -> suit == command[4]) {
                         break;
                     }
                     previous = current;
@@ -117,7 +117,7 @@ void findCard(node** cardPtr, node** previousPtr, char command[], node *C1, node
             case 4:
                 current = C4;
                 while (current -> next != NULL) {
-                    if (current -> suit == command[3] && current -> face == command[4]) {
+                    if (current -> face == command[3] && current -> suit == command[4]) {
                         break;
                     }
                     previous = current;
@@ -127,7 +127,7 @@ void findCard(node** cardPtr, node** previousPtr, char command[], node *C1, node
             case 5:
                 current = C5;
                 while (current -> next != NULL) {
-                    if (current -> suit == command[3] && current -> face == command[4]) {
+                    if (current -> face == command[3] && current -> suit == command[4]) {
                         break;
                     }
                     previous = current;
@@ -137,7 +137,7 @@ void findCard(node** cardPtr, node** previousPtr, char command[], node *C1, node
             case 6:
                 current = C6;
                 while (current -> next != NULL) {
-                    if (current -> suit == command[3] && current -> face == command[4]) {
+                    if (current -> face == command[3] && current -> suit == command[4]) {
                         break;
                     }
                     previous = current;
@@ -147,7 +147,7 @@ void findCard(node** cardPtr, node** previousPtr, char command[], node *C1, node
             case 7:
                 current = C7;
                 while (current -> next != NULL) {
-                    if (current -> suit == command[3] && current -> face == command[4]) {
+                    if (current -> face == command[3] && current -> suit == command[4]) {
                         break;
                     }
                     previous = current;
@@ -155,7 +155,7 @@ void findCard(node** cardPtr, node** previousPtr, char command[], node *C1, node
                 }
                 break;
         }
-        if (current -> next == NULL && (current -> suit != command[3] || current -> face != command[4])) {
+        if (current -> next == NULL && (current -> face != command[3] || current -> suit != command[4])) {
             previous = NULL;
             current = NULL;
         }
@@ -204,7 +204,7 @@ void findCard(node** cardPtr, node** previousPtr, char command[], node *C1, node
                 }
                 break;
             case 7:
-                current = C6;
+                current = C7;
                 while (current -> next != NULL) {
                     previous = current;
                     current = current -> next;
@@ -215,3 +215,7 @@ void findCard(node** cardPtr, node** previousPtr, char command[], node *C1, node
     *cardPtr = current;
     *previousPtr = previous;
 }
+
+//int validateMoves(node* fromNode, node* toNode) {
+//    if ((int)(fromNode -> face) - '0' > )
+//}

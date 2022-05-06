@@ -24,67 +24,67 @@ int S(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, node
         node* current;
         current = C1 -> next;
         while (current != NULL) {
-            fprintf(outfile, "%c%c%d\n",current->suit,current->face,current->hidden);
+            fprintf(outfile, "%c%c%d\n", current->face, current->suit, current->hidden);
             current = current -> next;
         }
         fprintf(outfile,"-\n");
         current = C2 -> next;
         while (current != NULL) {
-            fprintf(outfile, "%c%c%d\n",current->suit,current->face,current->hidden);
+            fprintf(outfile, "%c%c%d\n", current->face, current->suit, current->hidden);
             current = current -> next;
         }
         fprintf(outfile,"-\n");
         current = C3 -> next;
         while (current != NULL) {
-            fprintf(outfile, "%c%c%d\n",current->suit,current->face,current->hidden);
+            fprintf(outfile, "%c%c%d\n", current->face, current->suit, current->hidden);
             current = current -> next;
         }
         fprintf(outfile,"-\n");
         current = C4 -> next;
         while (current != NULL) {
-            fprintf(outfile, "%c%c%d\n",current->suit,current->face,current->hidden);
+            fprintf(outfile, "%c%c%d\n", current->face, current->suit, current->hidden);
             current = current -> next;
         }
         fprintf(outfile,"-\n");
         current = C5 -> next;
         while (current != NULL) {
-            fprintf(outfile, "%c%c%d\n",current->suit,current->face,current->hidden);
+            fprintf(outfile, "%c%c%d\n", current->face, current->suit, current->hidden);
             current = current -> next;
         }
         fprintf(outfile,"-\n");
         current = C6 -> next;
         while (current != NULL) {
-            fprintf(outfile, "%c%c%d\n",current->suit,current->face,current->hidden);
+            fprintf(outfile, "%c%c%d\n", current->face, current->suit, current->hidden);
             current = current -> next;
         }
         fprintf(outfile,"-\n");
         current = C7 -> next;
         while (current != NULL) {
-            fprintf(outfile, "%c%c%d\n",current->suit,current->face,current->hidden);
+            fprintf(outfile, "%c%c%d\n", current->face, current->suit, current->hidden);
             current = current -> next;
         }
         fprintf(outfile,"-\n");
         current = foundation1 -> next;
         while (current != NULL) {
-            fprintf(outfile, "%c%c%d\n",current->suit,current->face,current->hidden);
+            fprintf(outfile, "%c%c%d\n", current->face, current->suit, current->hidden);
             current = current -> next;
         }
         fprintf(outfile,"-\n");
         current = foundation2 -> next;
         while (current != NULL) {
-            fprintf(outfile, "%c%c%d\n",current->suit,current->face,current->hidden);
+            fprintf(outfile, "%c%c%d\n", current->face, current->suit, current->hidden);
             current = current -> next;
         }
         fprintf(outfile,"-\n");
         current = foundation3 -> next;
         while (current != NULL) {
-            fprintf(outfile, "%c%c%d\n",current->suit,current->face,current->hidden);
+            fprintf(outfile, "%c%c%d\n", current->face, current->suit, current->hidden);
             current = current -> next;
         }
         fprintf(outfile,"-\n");
         current = foundation4 -> next;
         while (current != NULL) {
-            fprintf(outfile, "%c%c%d\n",current->suit,current->face,current->hidden);
+            fprintf(outfile, "%c%c%d\n", current->face, current->suit, current->hidden);
             current = current -> next;
         }
         fflush(outfile);

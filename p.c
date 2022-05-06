@@ -9,7 +9,7 @@ int P(int* STARTUP, node* cardDeck, node* C1, node* C2, node* C3, node* C4, node
         newDeck -> next = NULL;
         node* current = cardDeck -> next;
         while (current != NULL) {
-            insertElement(&newDeck, current -> suit, current -> face, 1);
+            insertElement(&newDeck, current -> face, current -> suit, 1);
             current = current -> next;
         }
 
