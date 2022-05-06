@@ -27,11 +27,11 @@ int L(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, node
 int S(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, node *C6, node *C7, node *foundation1, node *foundation2, node *foundation3, node *foundation4, char **resultMessage);
 void insertBlocks(char faceStr[], char suitStr[], node* C1, node* C2, node* C3, node* C4, node* C5, node* C6, node* C7);
 void SR(node* source);
-void print_list(node* head);
 int SI(char lastCommand[], node* source, char **resultMessage);
 int GameMoves(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, node *C6, node *C7, node *foundation1, node *foundation2, node *foundation3, node *foundation4, char **resultMessage);
 void findCard(node** cardPtr, node** previousPtr, char command[], node *C1, node *C2, node *C3, node *C4, node *C5, node *C6, node *C7, node *foundation1, node *foundation2, node *foundation3, node *foundation4);
 int validateMove(char toCommand[], node* fromNode, node* toNode, char** resultMessage);
 int getValue(node* card);
+int isGameWon(node* C1,node* C2,node* C3,node* C4,node* C5,node* C6,node* C7);
 
 #endif

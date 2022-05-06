@@ -79,6 +79,10 @@ int main() {
                 result = GameMoves(lastCommand, C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4,
                                    &resultMessage);
             }
+            if (isGameWon(C1, C2, C3, C4, C5, C6, C7)) {
+                printf("You have won the game!");
+                QQ(cardDeck, C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4);
+            }
         }
         if (lastCommand[0] == 'Q' && lastCommand[1] == 'Q') {
             printf("Thank you for playing!\n");
@@ -104,12 +108,10 @@ int main() {
     }
 }
 
-void print_list(node* head) {
-    node* current = head;
-    int count = 0;
-    while (current != NULL) {
-        printf("%c%c\n", current -> face, current -> suit);
-        current = current -> next;
-        count ++;
+int isGameWon(node* C1,node* C2,node* C3,node* C4,node* C5,node* C6,node* C7) {
+    if (C1 -> next == NULL && C2 -> next == NULL && C3 -> next == NULL && C4 -> next == NULL && C5 -> next == NULL && C6 -> next == NULL && C7 -> next == NULL) {
+        return 1;
+    } else {
+        return 0;
     }
 }
