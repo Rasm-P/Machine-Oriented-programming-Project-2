@@ -1,32 +1,33 @@
 #include "header.h"
 #include <stdlib.h>
+#include <string.h>
 
 
 int GameMoves(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, node *C6, node *C7, node *foundation1, node *foundation2, node *foundation3, node *foundation4, char **resultMessage) {
-    char fromCommand[5];
+    char fromCommand[6];
     char toCommand[3];
 
     int fromCommandCount = 0;
     int toCommandCount = 0;
     int isFrom = 0;
-    for (int i = 1; i < 13; i++) {
-        if (lastCommand[i] == '>' && isFrom == 0) {
+    for (int i = 0; i < strlen(lastCommand); i++) {
+        if (lastCommand[i] == '-' && isFrom == 0) {
             isFrom = 1;
-            i += 3;
+            i += 2;
         }
-        if (lastCommand[i] != '<' && lastCommand[i] != '>') {
-            switch (isFrom) {
-                case 0:
-                    fromCommand[fromCommandCount] = lastCommand[i];
-                    fromCommandCount++;
-                    break;
-                case 1:
-                    toCommand[toCommandCount] = lastCommand[i];
-                    toCommandCount++;
-                    break;
-            }
+        switch (isFrom) {
+            case 0:
+                fromCommand[fromCommandCount] = lastCommand[i];
+                fromCommandCount++;
+                break;
+            case 1:
+                toCommand[toCommandCount] = lastCommand[i];
+                toCommandCount++;
+                break;
         }
     }
+    fromCommand[5] = '\0';
+    toCommand[2] = '\0';
 
     node* fromNode;
     node* fromPrevious;
@@ -53,28 +54,28 @@ void findCard(node** cardPtr, node** previousPtr, char command[], node *C1, node
     if (command[0] == 'F') {
         switch(column) {
             case 1:
-                current = foundation1 -> next;
+                current = foundation1;
                 while (current -> next != NULL) {
                     previous = current;
                     current = current -> next;
                 }
                 break;
             case 2:
-                current = foundation2 -> next;
+                current = foundation2;
                 while (current -> next != NULL) {
                     previous = current;
                     current = current -> next;
                 }
                 break;
             case 3:
-                current = foundation3 -> next;
+                current = foundation3;
                 while (current -> next != NULL) {
                     previous = current;
                     current = current -> next;
                 }
                 break;
             case 4:
-                current = foundation4 -> next;
+                current = foundation4;
                 while (current -> next != NULL) {
                     previous = current;
                     current = current -> next;
@@ -84,7 +85,7 @@ void findCard(node** cardPtr, node** previousPtr, char command[], node *C1, node
     } else if (command[2] == ':') {
         switch(column) {
             case 1:
-                current = C1 -> next;
+                current = C1;
                 while (current -> next != NULL) {
                     if (current -> suit == command[3] && current -> face == command[4]) {
                         break;
@@ -94,7 +95,7 @@ void findCard(node** cardPtr, node** previousPtr, char command[], node *C1, node
                 }
                 break;
             case 2:
-                current = C2 -> next;
+                current = C2;
                 while (current -> next != NULL) {
                     if (current -> suit == command[3] && current -> face == command[4]) {
                         break;
@@ -104,7 +105,7 @@ void findCard(node** cardPtr, node** previousPtr, char command[], node *C1, node
                 }
                 break;
             case 3:
-                current = C3 -> next;
+                current = C3;
                 while (current -> next != NULL) {
                     if (current -> suit == command[3] && current -> face == command[4]) {
                         break;
@@ -114,7 +115,7 @@ void findCard(node** cardPtr, node** previousPtr, char command[], node *C1, node
                 }
                 break;
             case 4:
-                current = C4 -> next;
+                current = C4;
                 while (current -> next != NULL) {
                     if (current -> suit == command[3] && current -> face == command[4]) {
                         break;
@@ -124,7 +125,7 @@ void findCard(node** cardPtr, node** previousPtr, char command[], node *C1, node
                 }
                 break;
             case 5:
-                current = C5 -> next;
+                current = C5;
                 while (current -> next != NULL) {
                     if (current -> suit == command[3] && current -> face == command[4]) {
                         break;
@@ -134,7 +135,7 @@ void findCard(node** cardPtr, node** previousPtr, char command[], node *C1, node
                 }
                 break;
             case 6:
-                current = C6 -> next;
+                current = C6;
                 while (current -> next != NULL) {
                     if (current -> suit == command[3] && current -> face == command[4]) {
                         break;
@@ -144,7 +145,7 @@ void findCard(node** cardPtr, node** previousPtr, char command[], node *C1, node
                 }
                 break;
             case 7:
-                current = C7 -> next;
+                current = C7;
                 while (current -> next != NULL) {
                     if (current -> suit == command[3] && current -> face == command[4]) {
                         break;
@@ -161,49 +162,49 @@ void findCard(node** cardPtr, node** previousPtr, char command[], node *C1, node
     } else {
         switch(column) {
             case 1:
-                current = C1 -> next;
+                current = C1;
                 while (current -> next != NULL) {
                     previous = current;
                     current = current -> next;
                 }
                 break;
             case 2:
-                current = C2 -> next;
+                current = C2;
                 while (current -> next != NULL) {
                     previous = current;
                     current = current -> next;
                 }
                 break;
             case 3:
-                current = C3 -> next;
+                current = C3;
                 while (current -> next != NULL) {
                     previous = current;
                     current = current -> next;
                 }
                 break;
             case 4:
-                current = C4 -> next;
+                current = C4;
                 while (current -> next != NULL) {
                     previous = current;
                     current = current -> next;
                 }
                 break;
             case 5:
-                current = C5 -> next;
+                current = C5;
                 while (current -> next != NULL) {
                     previous = current;
                     current = current -> next;
                 }
                 break;
             case 6:
-                current = C6 -> next;
+                current = C6;
                 while (current -> next != NULL) {
                     previous = current;
                     current = current -> next;
                 }
                 break;
             case 7:
-                current = C6 -> next;
+                current = C6;
                 while (current -> next != NULL) {
                     previous = current;
                     current = current -> next;

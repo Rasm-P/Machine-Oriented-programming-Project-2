@@ -44,17 +44,17 @@ int main() {
 
     while (isRunning) {
         if (STARTUP) {
-            if (lastCommand[0] == 'L' && lastCommand[1] == 'D') {
+            if (lastCommand[0] == 'L' && lastCommand[1] == 'D' && lastCommand[2] == '\0') {
                 result = LD(lastCommand, cardDeck, &resultMessage);
-            } else if (lastCommand[0] == 'S' && lastCommand[1] == 'W') {
+            } else if (lastCommand[0] == 'S' && lastCommand[1] == 'W' && lastCommand[2] == '\0') {
                 result = SW(cardDeck, &resultMessage);
-            } else if (lastCommand[0] == 'S' && lastCommand[1] == 'I') {
+            } else if (lastCommand[0] == 'S' && lastCommand[1] == 'I' && lastCommand[2] == '\0') {
                 result = SI(lastCommand, cardDeck, &resultMessage);
-            } else if (lastCommand[0] == 'S' && lastCommand[1] == 'R') {
+            } else if (lastCommand[0] == 'S' && lastCommand[1] == 'R' && lastCommand[2] == '\0') {
                 SR(cardDeck);
-            } else if (lastCommand[0] == 'S' && lastCommand[1] == 'D') {
+            } else if (lastCommand[0] == 'S' && lastCommand[1] == 'D' && lastCommand[2] == '\0') {
                 result = SD(lastCommand, cardDeck, &resultMessage);
-            }  else if (lastCommand[0] == 'P') {
+            }  else if (lastCommand[0] == 'P' && lastCommand[1] == '\0') {
                 result = P(&STARTUP, cardDeck, C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4, &resultMessage);
             }  else {
                 result = 1;
@@ -64,29 +64,28 @@ int main() {
             if (lastCommand[0] == 'Q') {
                 Q(&STARTUP);
             }
-            else if (lastCommand[0] == 'L' ) {
+            else if (lastCommand[0] == 'L' && lastCommand[1] == '\0') {
                 result = L(lastCommand, C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4,
                             &resultMessage);
             }
-            else if (lastCommand[0] == 'S') {
+            else if (lastCommand[0] == 'S' && lastCommand[1] == '\0') {
                 result = S(lastCommand, C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4,
                             &resultMessage);
-            }else if (lastCommand[0] == '<') {
+            } else {
                 result = GameMoves(lastCommand, C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4,
                                    &resultMessage);
             }
         }
-        if (lastCommand[0] == 'Q' && lastCommand[1] == 'Q') {
+        if (lastCommand[0] == 'Q' && lastCommand[1] == 'Q' && lastCommand[2] == '\0') {
             printf("Thank you for playing!\n");
             QQ(cardDeck, C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4);
             break;
         }
 
-        if (lastCommand[0] != 'S' || lastCommand[1] != 'W') {
+        if (!STARTUP || (lastCommand[0] != 'S' && lastCommand[1] != 'W')) {
             displayDeck(cardDeck, C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4,
                         STARTUP);
         }
-
         if (lastCommand[0] != 0) {
             printf("LAST command: %s\n", lastCommand);
             if (result == 0) {
