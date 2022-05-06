@@ -100,40 +100,40 @@ void displayDeck(node* cardDeck, node *C1, node *C2, node *C3, node *C4, node *C
                         printf("\t\t\t%c%c\t%c%d", '[', ']', 'F', num);
                     } else {
                         node *last = foundation1->next;
-                        while (last != NULL) {
+                        while (last -> next != NULL) {
                             last = last -> next;
                         }
-                        printf("%c%c\t", last -> face, last -> suit);
+                        printf("\t\t\t%c%c\t%c%d", last -> face, last -> suit, 'F', num);
                     }
                 } else if (num == 2) {
                     if (foundation2->next == NULL) {
                         printf("\t\t\t%c%c\t%c%d", '[', ']', 'F', num);
                     } else {
                         node *last = foundation2->next;
-                        while (last != NULL) {
+                        while (last -> next != NULL) {
                             last = last -> next;
                         }
-                        printf("%c%c\t", last -> face, last -> suit);
+                        printf("\t\t\t%c%c\t%c%d", last -> face, last -> suit, 'F', num);
                     }
                 } if (num == 3) {
                     if (foundation3->next == NULL) {
                         printf("\t\t\t%c%c\t%c%d", '[', ']', 'F', num);
                     } else {
                         node *last = foundation3->next;
-                        while (last != NULL) {
+                        while (last -> next != NULL) {
                             last = last -> next;
                         }
-                        printf("%c%c\t", last -> face, last -> suit);
+                        printf("\t\t\t%c%c\t%c%d", last -> face, last -> suit, 'F', num);
                     }
                 } if (num == 4) {
                     if (foundation4->next == NULL) {
                         printf("\t\t\t%c%c\t%c%d", '[', ']', 'F', num);
                     } else {
                         node *last = foundation4->next;
-                        while (last != NULL) {
+                        while (last -> next != NULL) {
                             last = last -> next;
                         }
-                        printf("%c%c\t", last -> face, last -> suit);
+                        printf("\t\t\t%c%c\t%c%d", last -> face, last -> suit, 'F', num);
                     }
                 }
                 num++;

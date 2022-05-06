@@ -36,13 +36,25 @@ int GameMoves(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *
     node* toPrevious;
     findCard(&toNode,&toPrevious,toCommand,C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4);
     if (fromNode != NULL && toNode != NULL) {
+        if (validateMove(toCommand, fromNode, toNode, resultMessage) != 0) {
+            memset(fromCommand, 0, sizeof fromCommand);
+            memset(toCommand, 0, sizeof toCommand);
+            return -1;
+        }
         if (fromPrevious != NULL) {
             fromPrevious -> next = NULL;
+            if (fromPrevious -> hidden == 1) {
+                fromPrevious -> hidden = 0;
+            }
         }
         toNode -> next = fromNode;
+        memset(fromCommand, 0, sizeof fromCommand);
+        memset(toCommand, 0, sizeof toCommand);
         return 0;
     } else {
         *resultMessage = "Error. One of the given cards or columns are not valid or might be empty!";
+        memset(fromCommand, 0, sizeof fromCommand);
+        memset(toCommand, 0, sizeof toCommand);
         return -1;
     }
 }
@@ -216,6 +228,68 @@ void findCard(node** cardPtr, node** previousPtr, char command[], node *C1, node
     *previousPtr = previous;
 }
 
-//int validateMoves(node* fromNode, node* toNode) {
-//    if ((int)(fromNode -> face) - '0' > )
-//}
+int validateMove(char toCommand[], node* fromNode, node* toNode, char** resultMessage) {
+    if ((getValue(fromNode)+1 != getValue(toNode)) && toCommand[0] != 'F') {
+        *resultMessage = "Error. You can only move a card to a column if the card on the bottom of that column is 1 higher than the card you want to move!";
+        return -1;
+    } else if ((fromNode -> suit == toNode -> suit) && toCommand[0] != 'F') {
+        *resultMessage = "Error. You cannot move a card to a column if the card on the bottom of that column is of the same suit!";
+        return -1;
+    } else if (fromNode -> next != NULL && toCommand[0] == 'F') {
+        *resultMessage = "Error. If you want to put a card on a foundation, then that card should come from the bottom of a column!";
+        return -1;
+    } else if ((getValue(toNode)+1 != getValue(fromNode)) && getValue(toNode) != 0 && toCommand[0] == 'F') {
+        *resultMessage = "Error. A card can only be placed on a foundation if the existing card on top of the foundation is 1 smaller than the card you want to place!";
+        return -1;
+    } else if ((fromNode -> suit != toNode -> suit && toCommand[0]) == 'F') {
+        *resultMessage = "Error. A card can only be placed on a foundation if the existing card on top of the foundation if it is of the same suit";
+        return -1;
+    }
+    return 0;
+}
+
+int getValue(node* card) {
+    int value = 0;
+    switch (card -> face) {
+        case 'A':
+            value = 1;
+            break;
+        case '2':
+            value = 2;
+            break;
+        case '3':
+            value = 3;
+            break;
+        case '4':
+            value = 4;
+            break;
+        case '5':
+            value = 5;
+            break;
+        case '6':
+            value = 6;
+            break;
+        case '7':
+            value = 7;
+            break;
+        case '8':
+            value = 8;
+            break;
+        case '9':
+            value = 9;
+            break;
+        case 'T':
+            value = 10;
+            break;
+        case 'J':
+            value = 11;
+            break;
+        case 'Q':
+            value = 12;
+            break;
+        case 'K':
+            value = 13;
+            break;
+    }
+    return value;
+}

@@ -31,6 +31,7 @@ void print_list(node* head);
 int SI(char lastCommand[], node* source, char **resultMessage);
 int GameMoves(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, node *C6, node *C7, node *foundation1, node *foundation2, node *foundation3, node *foundation4, char **resultMessage);
 void findCard(node** cardPtr, node** previousPtr, char command[], node *C1, node *C2, node *C3, node *C4, node *C5, node *C6, node *C7, node *foundation1, node *foundation2, node *foundation3, node *foundation4);
-int validateMoves(node* fromNode, node* toNode);
+int validateMove(char toCommand[], node* fromNode, node* toNode, char** resultMessage);
+int getValue(node* card);
 
 #endif

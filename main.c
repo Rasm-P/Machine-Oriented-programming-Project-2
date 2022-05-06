@@ -30,12 +30,16 @@ int main() {
 
     node* foundation1 = malloc(sizeof(node));
     foundation1 -> next = NULL;
+    foundation1 -> suit = suitStr[0];
     node* foundation2 = malloc(sizeof(node));
     foundation2 -> next = NULL;
+    foundation2 -> suit = suitStr[1];
     node* foundation3 = malloc(sizeof(node));
     foundation3 -> next = NULL;
+    foundation3 -> suit = suitStr[2];
     node* foundation4 = malloc(sizeof(node));
     foundation4 -> next = NULL;
+    foundation4 -> suit = suitStr[3];
 
     bool isRunning = true;
     char lastCommand[COMMAND_STRING] = {0};
