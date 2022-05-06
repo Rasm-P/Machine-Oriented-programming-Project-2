@@ -92,6 +92,7 @@ int main() {
                 printf("Message: OK\n");
             } else {
                 printf("Message: %s\n", resultMessage);
+                result = 0;
             }
         }
         printf("INPUT > :");

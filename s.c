@@ -5,10 +5,10 @@
 
 int S(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, node *C6, node *C7, node *foundation1, node *foundation2, node *foundation3, node *foundation4, char **resultMessage) {
     FILE *outfile;
-    if (lastCommand[2] == '<') {
+    if (lastCommand[1] == '<') {
         char optionalParameter[MAX_STRING];
         int j = 0;
-        for (int i = 3; i < MAX_STRING; i++) {
+        for (int i = 2; i < MAX_STRING; i++) {
             if (lastCommand[i] == '>') {
                 break;
             }

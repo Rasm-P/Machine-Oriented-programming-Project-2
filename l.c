@@ -7,10 +7,10 @@ extern char faceStr[13];
 extern char suitStr[4];
 
 int L(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, node *C6, node *C7, node *foundation1, node *foundation2, node *foundation3, node *foundation4, char **resultMessage) {
-    if (lastCommand[2] == '<') {
+    if (lastCommand[1] == '<') {
         char optionalParameter[MAX_STRING];
         int j = 0;
-        for (int i = 3; i < MAX_STRING; i++) {
+        for (int i = 2; i < MAX_STRING; i++) {
             if (lastCommand[i] == '>') {
                 break;
             }
@@ -25,6 +25,7 @@ int L(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, node
             node* controlCardDeck = malloc(sizeof(node));
             controlCardDeck -> next = NULL;
             insertCardDeck(controlCardDeck);
+
             int lineCount = 0;
             int cardCount = 0;
             char line[5];
@@ -73,15 +74,15 @@ int L(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, node
                 current -> next = malloc(sizeof(node));
                 current = current -> next;
                 current -> next = NULL;
-                current -> suit = line[0];
-                current -> face = line[1];
+                current -> face = line[0];
+                current -> suit = line[1];
                 current -> hidden = line[2]-'0';
 
                 node* currentControl = controlCardDeck;
                 while (currentControl -> next != NULL) {
                     if (currentControl -> suit == current -> suit && currentControl -> face == current -> face) {
-                        if (currentControl -> hidden == 0) {
-                            currentControl -> hidden = 1;
+                        if (currentControl -> hidden == 1) {
+                            currentControl -> hidden = 0;
                             break;
                         } else {
                             sprintf(*resultMessage, "Error in savefile at line %d! Card: %c%c is a duplicate.", lineCount, current -> face, current -> suit);
