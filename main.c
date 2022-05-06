@@ -71,9 +71,9 @@ int main() {
             else if (lastCommand[0] == 'S') {
                 result = S(lastCommand, C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4,
                             &resultMessage);
-            }else {
-                //Game moves
-                printf("TO DO!\n");
+            }else if (lastCommand[0] == '<') {
+                result = GameMoves(lastCommand, C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4,
+                                   &resultMessage);
             }
         }
         if (lastCommand[0] == 'Q' && lastCommand[1] == 'Q') {

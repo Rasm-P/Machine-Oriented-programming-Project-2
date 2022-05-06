@@ -29,5 +29,6 @@ void insertBlocks(char suitStr[], char faceStr[], node* C1, node* C2, node* C3, 
 void SR(node* source);
 void print_list(node* head);
 int SI(char lastCommand[], node* source, char **resultMessage);
+int GameMoves(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, node *C6, node *C7, node *foundation1, node *foundation2, node *foundation3, node *foundation4, char **resultMessage);
 
 #endif
