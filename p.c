@@ -1,42 +1,26 @@
 #include "header.h"
 #include <stdlib.h>
 
-
+// Deals a card deck into columns and unloads the previously held card nodes in C1 to C7 and foundation1 to 4
 int P(int* STARTUP, node* cardDeck, node* C1, node* C2, node* C3, node* C4, node* C5, node* C6, node* C7, node* foundation1, node* foundation2, node* foundation3, node* foundation4, char **resultMessage){
-    if (cardDeck -> next != NULL) {
 
+    // If card deck is not empty
+    if (cardDeck -> next != NULL) {
         node* newDeck = malloc(sizeof(node));
         newDeck -> next = NULL;
         node* current = cardDeck -> next;
         while (current != NULL) {
-            insertElement(&newDeck, current -> suit, current -> face, 1);
+            insertElement(&newDeck, current -> face, current -> suit, 1);
             current = current -> next;
         }
 
+        // Sets to play phase
         *STARTUP = 0;
-        unloadCards(C1->next);
-        C1->next = NULL;
-        unloadCards(C2->next);
-        C2->next = NULL;
-        unloadCards(C3->next);
-        C3->next = NULL;
-        unloadCards(C4->next);
-        C4->next = NULL;
-        unloadCards(C5->next);
-        C5->next = NULL;
-        unloadCards(C6->next);
-        C6->next = NULL;
-        unloadCards(C7->next);
-        C7->next = NULL;
-        unloadCards(foundation1->next);
-        foundation1->next = NULL;
-        unloadCards(foundation2->next);
-        foundation2->next = NULL;
-        unloadCards(foundation3->next);
-        foundation3->next = NULL;
-        unloadCards(foundation4->next);
-        foundation4->next = NULL;
 
+        // Unloads the previously held card nodes in C1 to C7 and foundation1 to 4
+        unloadFullCardDeck(C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4);
+
+        // Deals a card node into the correct column using and incrementor i and modulus 7. Also keeps tract of cards as a 7x11 grid to ensure the correct number of cards is dealt
         int i = 0;
         newDeck = newDeck->next;
         node *temp;
@@ -105,9 +89,11 @@ int P(int* STARTUP, node* cardDeck, node* C1, node* C2, node* C3, node* C4, node
             }
             i++;
         }
-        return 0;
-    } else {
+        return 1;
+    }
+    // Card deck is empty
+    else {
         *resultMessage = "Error. No deck has been loaded!";
-        return -1;
+        return 0;
     }
 }
