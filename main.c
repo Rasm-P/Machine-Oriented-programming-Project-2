@@ -1,7 +1,6 @@
 #include "header.h"
 #include <stdlib.h>
 #include <stdio.h>
-#include <stdbool.h>
 
 
 char faceStr[13] = {'A', '2', '3', '4', '5', '6',
@@ -41,7 +40,7 @@ int main() {
     foundation4 -> next = NULL;
     foundation4 -> suit = suitStr[3];
 
-    bool isRunning = true;
+    int isRunning = 1;
     char lastCommand[COMMAND_STRING] = {0};
     int result = 1;
     char *resultMessage = (char*) malloc(sizeof(char) * MAX_STRING);
