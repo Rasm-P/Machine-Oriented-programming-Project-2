@@ -9,6 +9,8 @@ char suitStr[4] = {'C', 'D', 'H', 'S'};
 int STARTUP = 1;
 
 int main() {
+
+    // Card header nodes are created for the cardDeck pile as well as each of the columns and foundations
     node* cardDeck = malloc(sizeof(node));
     cardDeck -> next = NULL;
 
@@ -45,7 +47,10 @@ int main() {
     int result = 1;
     char *resultMessage = (char*) malloc(sizeof(char) * MAX_STRING);
 
+    // Game loop cycle
     while (isRunning) {
+
+        // Startup phase
         if (STARTUP) {
             if (lastCommand[0] == 'L' && lastCommand[1] == 'D') {
                 result = LD(lastCommand, cardDeck, &resultMessage);
@@ -57,13 +62,19 @@ int main() {
                 SR(cardDeck);
             } else if (lastCommand[0] == 'S' && lastCommand[1] == 'D') {
                 result = SD(lastCommand, cardDeck, &resultMessage);
-            }  else if (lastCommand[0] == 'P') {
+            } else if (lastCommand[0] == 'P') {
                 result = P(&STARTUP, cardDeck, C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4, &resultMessage);
-            }  else {
+            } else if (lastCommand[0] == 'Q' && lastCommand[1] == 'Q') {
+                printf("Thank you for playing!\n");
+                QQ(cardDeck, C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4);
+                break;
+            } else {
                 result = 0;
                 resultMessage = "The chosen command does not exist in the STARTUP phase!";
             }
-        } else {
+        }
+        // Play phase
+        else {
             if (lastCommand[0] == 'Q') {
                 Q(&STARTUP);
             }
@@ -78,21 +89,21 @@ int main() {
                 result = GameMoves(lastCommand, C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4,
                                    &resultMessage);
             }
+
+            // Checks if game is won
             if (isGameWon(C1, C2, C3, C4, C5, C6, C7)) {
                 printf("You have won the game!");
                 QQ(cardDeck, C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4);
             }
         }
-        if (lastCommand[0] == 'Q' && lastCommand[1] == 'Q') {
-            printf("Thank you for playing!\n");
-            QQ(cardDeck, C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4);
-            break;
-        }
 
+        // If SW is called, then displayDeck should not be run
         if (!STARTUP || (lastCommand[0] != 'S' || lastCommand[1] != 'W')) {
             displayDeck(cardDeck, C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4,
                         STARTUP);
         }
+
+        //Prints out last command and message OK or possible error message
         if (lastCommand[0] != 0) {
             printf("LAST command: %s\n", lastCommand);
             if (result) {
@@ -102,11 +113,14 @@ int main() {
                 result = 1;
             }
         }
+
+        // User input prompt
         printf("INPUT > :");
         scanf("%s", lastCommand);
     }
 }
 
+// Function that checks if the player has won
 int isGameWon(node* C1,node* C2,node* C3,node* C4,node* C5,node* C6,node* C7) {
     if (C1 -> next == NULL && C2 -> next == NULL && C3 -> next == NULL && C4 -> next == NULL && C5 -> next == NULL && C6 -> next == NULL && C7 -> next == NULL) {
         return 1;

@@ -2,11 +2,12 @@
 #include <stdlib.h>
 #include <string.h>
 
-
+// Makes a game move given a valid command
 int GameMoves(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, node *C6, node *C7, node *foundation1, node *foundation2, node *foundation3, node *foundation4, char **resultMessage) {
+
+    // Splits lastCommand into fromCommand and toCommand
     char fromCommand[6];
     char toCommand[3];
-
     int fromCommandCount = 0;
     int toCommandCount = 0;
     int isFrom = 0;
@@ -29,40 +30,58 @@ int GameMoves(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *
     fromCommand[5] = '\0';
     toCommand[2] = '\0';
 
+    // Finds the from and to nodes as well as the nodes that are previous to them, if they exists
     node* fromNode;
     node* fromPrevious;
     findCard(&fromNode,&fromPrevious,fromCommand,C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4);
     node* toNode;
     node* toPrevious;
     findCard(&toNode,&toPrevious,toCommand,C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4);
+
+    // If the node we want to move and the node we want to move it to exist
     if (fromNode != NULL && toNode != NULL) {
+
+        // Check if the game move is invalid
         if (!validateMove(toCommand, fromNode, toNode, resultMessage)) {
             memset(fromCommand, 0, sizeof fromCommand);
             memset(toCommand, 0, sizeof toCommand);
             return 0;
         }
+
+        // If the node previous to the fromNode is not NULL, previous next should be NULL
         if (fromPrevious != NULL) {
             fromPrevious -> next = NULL;
+
+            // If previous node is hidden, it should be revealed
             if (fromPrevious -> hidden == 1) {
                 fromPrevious -> hidden = 0;
             }
         }
+
+        // The destination toNode next is set to fromNode
         toNode -> next = fromNode;
         memset(fromCommand, 0, sizeof fromCommand);
         memset(toCommand, 0, sizeof toCommand);
         return 1;
-    } else {
-        *resultMessage = "Error. One of the given cards or columns are not valid or might be empty!";
+    }
+    // One of the nodes in the command does not exist or the column/foundation is empty
+    else {
+        *resultMessage = "Error. One of the nodes in the command does not exist or the column/foundation is empty!";
         memset(fromCommand, 0, sizeof fromCommand);
         memset(toCommand, 0, sizeof toCommand);
         return 0;
     }
 }
 
+// Finds a card node in a particular column for foundation given a command
 void findCard(node** cardPtr, node** previousPtr, char command[], node *C1, node *C2, node *C3, node *C4, node *C5, node *C6, node *C7, node *foundation1, node *foundation2, node *foundation3, node *foundation4) {
     node* previous = NULL;
     node* current = NULL;
+
+    // Casts and converts the second character of command to an integer, indicating a certain column for foundation
     int column = ((int)command[1])-'0';
+
+    // If the first character of command is 'F', then the top node of a particular foundation is found
     if (command[0] == 'F') {
         switch(column) {
             case 1:
@@ -94,7 +113,9 @@ void findCard(node** cardPtr, node** previousPtr, char command[], node *C1, node
                 }
                 break;
         }
-    } else if (command[2] == ':') {
+    }
+    // If the third character of command is ':', then a particular column is looped through until the correct node is found
+    else if (command[2] == ':') {
         switch(column) {
             case 1:
                 current = C1;
@@ -171,7 +192,9 @@ void findCard(node** cardPtr, node** previousPtr, char command[], node *C1, node
             previous = NULL;
             current = NULL;
         }
-    } else {
+    }
+    // The top node of a particular column is found
+    else {
         switch(column) {
             case 1:
                 current = C1;
@@ -228,6 +251,7 @@ void findCard(node** cardPtr, node** previousPtr, char command[], node *C1, node
     *previousPtr = previous;
 }
 
+// Validates a game move on basis of the ruleset given for the project
 int validateMove(char toCommand[], node* fromNode, node* toNode, char** resultMessage) {
     if ((getValue(fromNode)+1 != getValue(toNode)) && toCommand[0] != 'F') {
         *resultMessage = "Error. You can only move a card to a column if the card on the bottom of that column is 1 higher than the card you want to move!";
