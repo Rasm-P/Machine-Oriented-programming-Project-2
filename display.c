@@ -4,6 +4,8 @@
 
 // Displays a deck of card nodes
 void displayDeck(node* cardDeck, node *C1, node *C2, node *C3, node *C4, node *C5, node *C6, node *C7, node *foundation1, node *foundation2, node *foundation3, node *foundation4, int STARTUP){
+
+    // Prints out column names
     printf("\n\n");
     printf("C1\tC2\tC3\tC4\tC5\tC6\tC7\n\n");
     int num = 1;
@@ -22,7 +24,7 @@ void displayDeck(node* cardDeck, node *C1, node *C2, node *C3, node *C4, node *C
             }
         }
     }
-    // Prints out C1 to C7 and foundation1 to 4 when in play phase
+    // Prints out card nodes from C1 to C7 and foundation1 to 4 when in play phase. If hidden == 1 for a card node, then only the brackets [] are printed
     else if (!STARTUP) {
         int i = 0;
         while(C1 != NULL || C2 != NULL || C3 != NULL || C4 != NULL || C5 != NULL || C6 != NULL || C7 != NULL) {

@@ -1,7 +1,7 @@
 #include "header.h"
 #include <stdlib.h>
 
-
+// Frees a linked list of card nodes
 void unloadCards(node* cards) {
     if (cards != NULL) {
         node *temp;
@@ -16,6 +16,7 @@ void unloadCards(node* cards) {
     }
 }
 
+// Frees card nodes in linked lists C1 to C7 and foundation1 to 4
 void unloadFullCardDeck(node *C1, node *C2, node *C3, node *C4, node *C5, node *C6, node *C7, node *foundation1, node *foundation2, node *foundation3, node *foundation4) {
     unloadCards(C1 -> next);
     C1 -> next = NULL;
