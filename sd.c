@@ -30,7 +30,7 @@ int SD(char lastCommand[], node *cardDeck, char **resultMessage) {
         fclose(outfile);
     } else {
         *resultMessage = "Something went wrong with the save file!";
-        return -1;
+        return 0;
     }
-    return 0;
+    return 1;
 }

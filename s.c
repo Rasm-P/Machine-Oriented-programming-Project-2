@@ -91,7 +91,7 @@ int S(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, node
         fclose(outfile);
     } else {
         *resultMessage = "Something went wrong with the save file!";
-        return -1;
+        return 0;
     }
-    return 0;
+    return 1;
 }

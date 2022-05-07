@@ -89,7 +89,7 @@ int L(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, node
                             fclose(infile);
                             unloadCards(controlCardDeck);
                             unloadFullCardDeck(C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4);
-                            return -1;
+                            return 0;
                         }
                     }
                     currentControl = currentControl -> next;
@@ -99,7 +99,7 @@ int L(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, node
                     fclose(infile);
                     unloadCards(controlCardDeck);
                     unloadFullCardDeck(C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4);
-                    return -1;
+                    return 0;
                 }
             }
             fclose(infile);
@@ -110,18 +110,18 @@ int L(char lastCommand[], node *C1, node *C2, node *C3, node *C4, node *C5, node
                         sprintf(*resultMessage, "Error in savefile! There are not 52 cards as card: %c%c is missing.", currentControl -> face, currentControl -> suit);
                         unloadCards(controlCardDeck);
                         unloadFullCardDeck(C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4);
-                        return -1;
+                        return 0;
                     }
                     currentControl = currentControl -> next;
                 }
             }
         } else {
             *resultMessage = "Error. File does not exist!";
-            return -1;
+            return 0;
         }
     } else {
         *resultMessage = "Error. No filename was given!";
-        return -1;
+        return 0;
     }
-    return 0;
+    return 1;
 }

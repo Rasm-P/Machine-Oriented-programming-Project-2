@@ -24,9 +24,9 @@ int SW(node* cardDeck, char **resultMessage) {
             cardDeck = cardDeck -> next;
         }
         printf("\n\n");
-        return 0;
+        return 1;
     } else {
         *resultMessage = "Error! No deck of cards are loaded.";
-        return -1;
+        return 0;
     }
 }

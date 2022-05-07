@@ -71,9 +71,9 @@ int SI(char lastCommand[], node* source, char **resultMessage) {
         free(thirdPile);
         free(firstNode);
         free(secondNode);
-        return 0;
+        return 1;
     } else {
         *resultMessage = "Error! You cannot choose a number larger than or equal to 52.";
-        return 1;
+        return 0;
     }
 }

@@ -43,7 +43,7 @@ int main() {
 
     bool isRunning = true;
     char lastCommand[COMMAND_STRING] = {0};
-    int result = 0;
+    int result = 1;
     char *resultMessage = (char*) malloc(sizeof(char) * MAX_STRING);
 
     while (isRunning) {
@@ -61,7 +61,7 @@ int main() {
             }  else if (lastCommand[0] == 'P') {
                 result = P(&STARTUP, cardDeck, C1, C2, C3, C4, C5, C6, C7, foundation1, foundation2, foundation3, foundation4, &resultMessage);
             }  else {
-                result = 1;
+                result = 0;
                 resultMessage = "The chosen command does not exist in the STARTUP phase!";
             }
         } else {
@@ -96,11 +96,11 @@ int main() {
         }
         if (lastCommand[0] != 0) {
             printf("LAST command: %s\n", lastCommand);
-            if (result == 0) {
+            if (result) {
                 printf("Message: OK\n");
             } else {
                 printf("Message: %s\n", resultMessage);
-                result = 0;
+                result = 1;
             }
         }
         printf("INPUT > :");

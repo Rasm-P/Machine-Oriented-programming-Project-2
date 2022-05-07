@@ -51,7 +51,7 @@ int LD(char lastCommand[], node *cardDeck, char **resultMessage) {
                             unloadCards(controlCardDeck);
                             unloadCards(cardDeck -> next);
                             cardDeck -> next = NULL;
-                            return -1;
+                            return 0;
                         }
                     }
                     currentControl = currentControl -> next;
@@ -62,7 +62,7 @@ int LD(char lastCommand[], node *cardDeck, char **resultMessage) {
                     unloadCards(controlCardDeck);
                     unloadCards(cardDeck -> next);
                     cardDeck -> next = NULL;
-                    return -1;
+                    return 0;
                 }
             }
             fclose(infile);
@@ -76,17 +76,17 @@ int LD(char lastCommand[], node *cardDeck, char **resultMessage) {
                             unloadCards(cardDeck->next);
                         }
                         cardDeck -> next = NULL;
-                        return -1;
+                        return 0;
                     }
                     currentControl = currentControl -> next;
                 }
             }
         } else {
             *resultMessage = "Error. File does not exist!";
-            return -1;
+            return 0;
         }
     } else {
         insertCardDeck(cardDeck);
     }
-    return 0;
+    return 1;
 }
