@@ -23,14 +23,14 @@ int SD(char lastCommand[], node *cardDeck, char **resultMessage) {
     if (outfile != NULL) {
         node* current = cardDeck -> next;
         while (current != NULL) {
-            fprintf(outfile, "%c%c\n",current->suit,current->face);
+            fprintf(outfile, "%c%c\n", current->face, current->suit);
             current = current -> next;
         }
         fflush(outfile);
         fclose(outfile);
     } else {
         *resultMessage = "Something went wrong with the save file!";
-        return -1;
+        return 0;
     }
-    return 0;
+    return 1;
 }

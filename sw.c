@@ -11,7 +11,7 @@ int SW(node* cardDeck, char **resultMessage) {
         int i = 1;
         cardDeck = cardDeck -> next;
         while (cardDeck != NULL) {
-            printf("%c%c\t",cardDeck -> suit, cardDeck -> face);
+            printf("%c%c\t", cardDeck -> face, cardDeck -> suit);
             if ((i - 7) % 14 == 0) {
 
                 printf("\t\t\t%c%c\t%c%d", '[', ']', 'F', num);
@@ -24,9 +24,9 @@ int SW(node* cardDeck, char **resultMessage) {
             cardDeck = cardDeck -> next;
         }
         printf("\n\n");
-        return 0;
+        return 1;
     } else {
         *resultMessage = "Error! No deck of cards are loaded.";
-        return -1;
+        return 0;
     }
 }
