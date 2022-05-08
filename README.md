@@ -42,7 +42,7 @@ The P command starts up a game in the PLAY phase, using the current card deck at
 - Q
 Quits the game and returns the player to the STARTUP phase. If a replay of the previous game is desired, one can simply use the command P after initiating the Q command, since the previous card deck still is stored in memory.
 
-- <Game Moves>
+- Game Moves
 There are two general moves in the game, <from> and <to>, where the format is typically <from> -> <to>. The <from> command moves a card, either from a column or from a foundation. The <to> command is the destination of the card. This can be either at a column or foundation.
 
 Extentions:
